@@ -23,10 +23,10 @@ class Order
         pre_tax += cost
       end
 
-      pre_tax += pre_tax * 0.75
-      total_cost = format("%.2f", pre_tax)
+      pre_tax += pre_tax * 0.075
+      total_cost = format("%.2f", pre_tax).to_f
     else
-      total_cost = format("%.2f", pre_tax)
+      total_cost = 0
     end
 
     return total_cost
