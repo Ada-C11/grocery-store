@@ -25,4 +25,12 @@ class Order
       @products[product_name] = price
     end
   end
+
+  def remove_product(product_name)
+    if @products.key?(product_name)
+      @products = @products.reject { |k, v| k == product_name }
+    else
+      raise ArgumentError, "That product does not exist"
+    end
+  end
 end
