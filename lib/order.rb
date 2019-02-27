@@ -34,7 +34,5 @@ class Order
 
   def add_product(product_name, price)
     @product[product_name] = price
-    #adds product info to product collection
-    #if same name found, raise argument error
   end
 end
