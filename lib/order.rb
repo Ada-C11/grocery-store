@@ -33,6 +33,10 @@ class Order
   end
 
   def add_product(product_name, price)
-    @product[product_name] = price
+    if @products.keys.include? product_name
+      raise ArgumentError, "This item already exists!"
+    else
+      @products[product_name] = price
+    end
   end
 end
