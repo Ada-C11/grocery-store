@@ -30,13 +30,10 @@ class Order
     end
 
     return total_cost
-    #this method calculates total cost
-    #sum up products
-    #add .75% tax
-    #round result to 2 decimal points
   end
 
   def add_product(product_name, price)
+    @product[product_name] = price
     #adds product info to product collection
     #if same name found, raise argument error
   end
