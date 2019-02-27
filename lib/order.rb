@@ -24,4 +24,12 @@ class Order
     end
     @products[product_name] = price
   end
+
+  def remove_product(product_name)
+    if @products.keys.include?(product_name)
+      @products.delete(product_name)
+    else
+      raise ArgumentError, "you cannot remove a product that does not exist"
+    end
+  end
 end
