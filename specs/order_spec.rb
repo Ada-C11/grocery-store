@@ -37,7 +37,7 @@ describe "Order Wave 1" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
-    xit "Accepts all legal statuses" do
+    it "Accepts all legal statuses" do
       valid_statuses = %i[pending paid processing shipped complete]
 
       valid_statuses.each do |fulfillment_status|
@@ -46,12 +46,12 @@ describe "Order Wave 1" do
       end
     end
 
-    xit "Uses pending if no fulfillment_status is supplied" do
+    it "Uses pending if no fulfillment_status is supplied" do
       order = Order.new(1, {}, customer)
       expect(order.fulfillment_status).must_equal :pending
     end
 
-    xit "Raises an ArgumentError for bogus statuses" do
+    it "Raises an ArgumentError for bogus statuses" do
       bogus_statuses = [3, :bogus, "pending", nil]
       bogus_statuses.each do |fulfillment_status|
         expect {
