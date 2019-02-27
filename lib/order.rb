@@ -1,9 +1,10 @@
 class Order
   attr_reader :id
+  attr_accessor :products, :customer, :fulfillment_status
 
-  def initialize(id, products_and_costs, customer, fulfillment_status: :pending)
+  def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
-    @products_and_costs = products_and_costs
+    @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
 
@@ -12,15 +13,15 @@ class Order
     end
   end
 
-  def total(products_and_costs)
-    costs = products_and_costs.values
+  def total
+    costs = @products.values
     total = (costs.sum + costs.sum * 0.075).round(2)
   end
 
   def add_product(product_name, price)
-    if @products_and_costs.keys.include?(product_name)
+    if @products.keys.include?(product_name)
       raise ArgumentError, "product already exists"
     end
-    @products_and_costs[:product_name] = price
+    @products[product_name] = price
   end
 end
