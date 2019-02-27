@@ -1,19 +1,39 @@
+require "customer"
+
 class Order
-  def initialize(id, product_collection, customer_instance, fulfillment_status: pending)
+  attr_reader :id
+  attr_accessor :products, :customer, :fulfillment_status
+
+  def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
-    @product_collection = product_collection
-    @customer_instance = customer_instance
+    @products = products
+    @customer = customer
+
+    fulfillment_options = [:pending, :paid, :processing, :shipped, :complete]
+    unless fulfillment_options.include? fulfillment_status
+      raise ArgumentError, "You entered a bogus status for fulfillment!"
+    end
     @fulfillment_status = fulfillment_status
-    # fulfillment_status = [:pending, :paid, :processing, :shipping, :complete]
-    # argument error raised if got given fulfillment status
   end
 
   def total
+    pre_tax = 0.0
+    if @products != nil
+      @products.each do |name, cost|
+        pre_tax += cost
+      end
+
+      pre_tax += pre_tax * 0.75
+      total_cost = format("%.2f", pre_tax)
+    else
+      total_cost = format("%.2f", pre_tax)
+    end
+
+    return total_cost
     #this method calculates total cost
     #sum up products
     #add .75% tax
     #round result to 2 decimal points
-
   end
 
   def add_product(product_name, price)
