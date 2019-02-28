@@ -40,4 +40,12 @@ class Order
       @products.store(product_name, product_price)
     end
   end
+
+  def remove_product(product_name)
+    unless @products.keys.include?(product_name)
+      raise ArgumentError, "Product not found!"
+    else
+      @products.delete(product_name)
+    end
+  end
 end
