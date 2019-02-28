@@ -7,6 +7,7 @@ class Order
     attr_reader :id, :fulfillment_status, :products, :customer
 
 
+
     def initialize(id, products, customer, fulfillment_status = :pending)
        @id = id
        @products = products
@@ -34,9 +35,26 @@ class Order
         end
     end
 
+
+    def self.all
+        orders = []
+        CSV.read("data/orders.csv", headers: false).each do |line|
+            products = line[1].split(";")
+            product_hash = {}
+            products.each do |product|
+                product = product.split(":")
+                product_hash[product[0]] = product[1].to_f
+            end
+            new_order = Order.new(line[0].to_f, product_hash, Customer.find(line[2].to_i), line[3].to_sym)
+            orders.push(new_order)
+        end
+        return orders
+    end
+    
+    def self.find(id)
+        orders = self.all
+        found_order = (orders.select{|order| id == order.id})[0]
+        return found_order
+    end
+
 end
-
-
-test = Order.new(12, {}, "customer", :shipped)
-
-puts test.fulfillment_status
