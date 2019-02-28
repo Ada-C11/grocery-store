@@ -17,8 +17,13 @@ class Order
     end
   end
 
-  def total
-    
+  def total sum
+    pre_tax = 0
+    sum.each do |key, value|
+     pre_tax += value
+    end
+    total = (pre_tax * 0.075) + pre_tax
+    return total.round(2) 
   end
 
   def add_product #(has two parameters)
@@ -26,4 +31,3 @@ class Order
   end
 
 end
-
