@@ -28,7 +28,7 @@ class Order
 
   def add_product name, price
     if @products.has_key? name
-      raise ArgumentError, "This product already exists"
+      raise ArgumentError, "Cannot duplicate extant product"
     else
     @products[name] = price
     end
