@@ -12,8 +12,8 @@ class Customer
 
   def self.all
     customers_all = []
-    CSV.open("../data/customers.csv", "r").each do |line|
-      id = line[0]
+    CSV.open("data/customers.csv", "r").each do |line|
+      id = line[0].to_i
       email = line[1]
       address = {
         street: line[3],
@@ -24,5 +24,12 @@ class Customer
       customers_all << self.new(id, email, address)
     end
     return customers_all
+  end
+
+  def self.find(id)
+    customers = self.all
+    return customers.find(ifnone = nil) do |customer|
+             customer.id == id
+           end
   end
 end

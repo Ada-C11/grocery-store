@@ -1,4 +1,4 @@
-
+require "csv"
 
 class Order
   attr_reader :id
@@ -21,12 +21,20 @@ class Order
     return total_cost.round(2)
   end
 
-  # An add_product method which will take in two parameters, product name
-  # and price, and add the data to the product collection
-  # If a product with the same name has already been added to the order, an ArgumentError should be raised
-
   def add_product(name, price)
     raise ArgumentError.new("#{name}\'s name is in use. ") if products[name]
     products[name] = price
+  end
+
+  def self.all
+    orders_all = []
+    CSV.open("data/orders.csv", "r").each do |line|
+      id = line[0]
+      products = line[1]
+      customer = Customer.find(line[2])
+      fulfillment_status = line[3]
+      orders_all << self.new(id, products, customer, fulfillment_status)
+    end
+    orders_all
   end
 end
