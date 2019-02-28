@@ -37,17 +37,17 @@ class Customer
       address[:state] = line[4]
       address[:zip] = line[5]
 
-      all_customers << Customer.new(line[0], line[1], address)
+      all_customers << Customer.new(line[0].to_i, line[1], address)
     end
     return all_customers
   end
 
   # returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
-  def self.find(id)
-    Customer.all.each do |customer|
-      if customer.id == id
-        return customer
-      end
-    end
-  end
+  # def self.find(id)
+  #   Customer.all.each do |customer|
+  #     if customer.id == id
+  #       return customer
+  #     end
+  #   end
+  # end
 end
