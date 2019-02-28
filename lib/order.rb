@@ -26,8 +26,12 @@ class Order
     return total.round(2) 
   end
 
-  def add_product #(has two parameters)
-    # if a product with the same name has been added, it raises and exception
+  def add_product name, price
+    if @products.has_key? name
+      raise ArgumentError, "This product already exists"
+    else
+    @products[name] = price
+    end
+    return @products
   end
-
 end
