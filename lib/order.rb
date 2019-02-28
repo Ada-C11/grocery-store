@@ -36,4 +36,16 @@ class Order
       raise ArgumentError, "Product #{name} was not found"
     end
   end
+
+  def self.all
+    orders_csv = CSV.read("data/orders.csv", headers: true)
+    all_orders = []
+    orders_csv.each do |row|
+      order = Order.new(row[0].to_i, row[1], row[2].to_i, row[3].to_sym)
+      all_orders << order
+    end
+    return all_orders
+  end
 end
+
+orders = Order.all
