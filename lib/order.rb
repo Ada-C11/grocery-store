@@ -1,4 +1,7 @@
+require 'csv'
+require_relative 'customer.rb'
 require 'pry'
+
 class Order 
   attr_reader :id
   attr_accessor :products, :fulfillment_status, :customer
@@ -35,9 +38,30 @@ class Order
       @products.delete(product_name)
     end
   end
-end
-products = { "banana" => 1.99, "cracker" => 3.00 }
 
-new_order = Order.new(1337, products, 'newcustomer', :pending)
-new_order.remove_product("banana")
-puts products
+  def self.all
+    all_orders = []
+    CSV.read("data/orders.csv").each do |orders_from_csv|
+      # products = # parse here
+      # orders_from_csv[1].split
+      order = Order.new(orders_from_csv[0].to_i, products, Customer.find(orders_from_csv[2].to_i), orders_from_csv[3])
+      all_orders << order
+    end
+    return all_orders
+  end
+
+  def self.find
+    all_orders = Order.all
+    order = all_orders.find{|order| order.od == id}
+    # raise ArgumentError.new("Order id doesn't exist.") if order.nil? 
+    return order
+  end
+end
+
+# puts Order.all
+# binding.pry
+# products = { "banana" => 1.99, "cracker" => 3.00 }
+
+# new_order = Order.new(1337, products, 'newcustomer', :pending)
+# new_order.remove_product("banana")
+# puts products
