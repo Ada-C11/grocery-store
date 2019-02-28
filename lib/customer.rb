@@ -8,6 +8,7 @@ class Customer
     @address = address
   end
 
+  # collects data into a customer
   def customer_info
     customer = { id: @id, email: @email, address: @address }
     return customer
