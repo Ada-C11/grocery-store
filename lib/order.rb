@@ -31,6 +31,11 @@ class Order
   end
 
   def add_product(product_name, price)
+    if @products.keys.include?(product_name)
+      raise ArgumentError, "A product with this name has already been added to the order!"
+    end
+
+    @products[product_name] = price
   end
 
   # id (number)
