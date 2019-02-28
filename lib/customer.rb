@@ -1,3 +1,7 @@
+require 'csv'
+require 'awesome_print'
+
+CUSTOMER_FILEPATH = '../data/customers.csv'
 # WAVE 1
 
 # Customer
@@ -18,4 +22,16 @@ class Customer
     @email = email
     @address = address 
   end
-end
+
+  # Wave 2
+  def self.all
+    customers = []
+    CSV.open(CUSTOMER_FILEPATH, 'r').each do |customer|
+      customers.push(customer)
+    end
+    return customers
+  end
+
+end # class Customer end
+
+puts self.all
