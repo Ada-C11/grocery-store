@@ -7,4 +7,10 @@ class Order
     @customer = customer
     @fulfillment_status = fulfillment_status
   end
+
+  def total
+    subtotal = @products.values.sum
+    total = (subtotal * 1.075).round(2)
+    return total
+  end
 end
