@@ -1,11 +1,14 @@
-# In addition, Order should have:
+require_relative "customer"
 
-# A total method which will calculate the total cost of the order by:
-# Summing up the products
-# Adding a 7.5% tax
-# Rounding the result to two decimal places
-# An add_product method which will take in two parameters, product name and price, and add the data to the product collection
-# If a product with the same name has already been added to the order, an ArgumentError should be raised
+def string_to_hash(string)
+  hash = {}
+  array_of_kvpairs = string.split(";")
+  array_of_kvpairs.each do |pair|
+    pair_array = pair.split(":")
+    hash[pair_array[0]] = pair_array[1].to_f
+  end
+  return hash
+end
 
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
@@ -31,7 +34,24 @@ class Order
     end
     @products[product_name] = price
   end
-end
 
-order = Order.new("123", {}, "customer")
-puts order
+  def self.all
+    @array_of_orders = []
+    CSV.open("data/orders.csv", headers: true).each do |order|
+      order_hash = order.to_hash
+      id = order_hash["id"].to_i
+      products = string_to_hash(order_hash["products"])
+      customer = Customer.find(order_hash["customer"].to_i)
+      status = order_hash["status"].to_sym
+      @array_of_orders.push(self.new(id, products, customer, status))
+    end
+    return @array_of_orders
+  end
+
+  def self.find(id)
+    found_order = self.all.find do |order|
+      order.id == id
+    end
+    return found_order
+  end
+end
