@@ -17,9 +17,9 @@ class Order
     end
   end
 
-  def total sum
+  def total
     pre_tax = 0
-    sum.each do |key, value|
+    @products.each do |key, value|
      pre_tax += value
     end
     total = (pre_tax * 0.075) + pre_tax
