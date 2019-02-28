@@ -42,9 +42,18 @@ class Order
   def self.all
     all_orders = []
     CSV.read("data/orders.csv").each do |orders_from_csv|
-      # products = # parse here
-      # orders_from_csv[1].split
-      order = Order.new(orders_from_csv[0].to_i, products, Customer.find(orders_from_csv[2].to_i), orders_from_csv[3])
+      id = orders_from_csv[0].to_i
+      products = {}
+      products_array = orders_from_csv[1].split(';')
+      products_array.each do |prod|
+        product = prod.split(':')
+        products[product[0]] = product[1].to_f.round(2)
+      end
+
+      customer = Customer.find(orders_from_csv[2].to_i)
+      fulfillment_status = orders_from_csv[3].to_sym
+      
+      order = Order.new(id, products, customer , fulfillment_status)
       all_orders << order
     end
     return all_orders
