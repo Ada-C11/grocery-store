@@ -65,4 +65,12 @@ class Order
     # raise ArgumentError.new("Order id doesn't exist.") if order.nil? 
     return order
   end
+
+  def self.find_by_customer(id)
+    all_orders = Order.all
+    customer_orders = all_orders.find_all{|order| order.customer.id == id}
+    raise ArgumentError.new("There is no order for a customer with ID: #{id}") if customer_orders.empty?
+    return customer_orders
+  end
 end
+

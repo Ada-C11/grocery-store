@@ -210,4 +210,18 @@ describe "Order Wave 2" do
       expect(Order.find(45556)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Can find all the orders for a customer" do
+      customer_orders = Order.find_by_customer(18)
+
+      expect(customer_orders.length).must_equal 3
+    end
+
+    it "Raise an error if a customer ID doesn't exist" do
+      expect{
+        Order.find_by_customer(23336)
+      }.must_raise ArgumentError
+    end
+  end
 end
