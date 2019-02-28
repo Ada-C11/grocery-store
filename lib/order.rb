@@ -27,15 +27,23 @@ class Order
     raise ArgumentError if @products.include?(product_name)
     @products[product_name] = price
   end
-end
 
-# address = {
-#   street: "123 Main",
-#   city: "Seattle",
-#   state: "WA",
-#   zip: "98101",
-# }
-# customer = Customer.new(123, "a@a.co", address)
-# id = 1337
-# fulfillment_status = :shipped
-# order = Order.new(id, {}, customer, fulfillment_status)
+  def self.make_product_hash(csv_string)
+    product_hash = {}
+    csv_string.split(";").each do |item|
+      product = item.split(":")
+      product_hash[product[0]] = product[1].to_f
+    end
+    return product_hash
+  end
+
+  def self.all
+    orders_array = []
+    CSV.read("data/orders.csv").each do |row|
+      product_hash = Order.make_product_hash(row[1])
+      new_order = Order.new(row[0].to_i, product_hash, Customer.find(row[2].to_i), row[3].to_sym)
+      orders_array << new_order
+    end
+    return orders_array
+  end
+end
