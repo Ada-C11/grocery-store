@@ -1,3 +1,5 @@
+require "pry"
+
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
@@ -14,13 +16,22 @@ class Order
   end
 
   # return result with two decimal places
-  # def total(products)
-  #   total = products.map do |product, price|
-  #     price
-  #   end
+  def total
+    total = @products.map do |product, price|
+      price
+    end
 
-  #   return "\$%0.2f" % [total.sum * 1.074]
-  # end
+    return (total.sum * 1.074).round(2)
+  end
+
+  # add product
+  def add_product(name, value)
+    @products = {
+      name: value,
+    }
+
+    return @products
+  end
 
   # optional
   def remove_product(product_name)
