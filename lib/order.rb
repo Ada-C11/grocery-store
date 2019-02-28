@@ -6,7 +6,7 @@ class Order
   attr_reader :id
   attr_accessor :products, :fulfillment_status, :customer
   def initialize(id, products, customer, fulfillment_status = :pending)
-    @id =id 
+    @id = id 
     @products = products
     @customer = customer 
     @fulfillment_status = fulfillment_status 
@@ -59,18 +59,10 @@ class Order
     return all_orders
   end
 
-  def self.find
+  def self.find(id)
     all_orders = Order.all
-    order = all_orders.find{|order| order.od == id}
+    order = all_orders.find{|order| order.id == id}
     # raise ArgumentError.new("Order id doesn't exist.") if order.nil? 
     return order
   end
 end
-
-# puts Order.all
-# binding.pry
-# products = { "banana" => 1.99, "cracker" => 3.00 }
-
-# new_order = Order.new(1337, products, 'newcustomer', :pending)
-# new_order.remove_product("banana")
-# puts products
