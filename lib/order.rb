@@ -25,4 +25,8 @@ class Order
   def add_product(product_name, price)
     @products.key?(product_name) ? (raise ArgumentError, "This product is already in the collection.") : @products.store(product_name, price)
   end
+
+  def remove_product(product_name)
+    @products.key?(product_name) ? @products.delete(product_name) : (raise ArgumentError, "This product is already in the collection.")
+  end
 end
