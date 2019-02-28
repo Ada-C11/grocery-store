@@ -1,24 +1,47 @@
-require_relative 'lib/customer'
+require_relative 'customer'
 require 'Rake'
+require 'awesome_print'
 
 class Order
-  attr_accessor = :products
+  attr_reader :order_id
+  attr_accessor :products, :fulfillment_status
 
   def initialize order_id
-    @order_id = order_id.to_i
+    @order_id = order_id
+    @products = {}
   end
 
   def products(given_hash) 
     @products = given_hash
   end
 
-  def customer
-    #an instance of customer, the person who placed the order
+  def customer=(customer_info)
+    @customer = customer_info
   end
   
-  def fulfillment_status(pending: "Pending", :paid, :processing, :shipped, :complete)
-    #will determine the status of shipment
-    # raise an exception if status doesnt match one of the above
+  def fulfillment_status(status = :pending)
+    if status == nil || status.class == Integer
+      raise ArgumentError, "This is an invalid status"
+    end
+
+    case status
+    when :pending
+      @fulfillment_status = "Pending"
+    when :paid
+      @fulfillment_status = :paid
+    when :processing
+      @fulfillment_status = :processing
+    when :shipped
+      @fulfillment_status = :shipped
+    when :complete
+      @fulfillment_status = :complete
+    when ""
+      raise ArgumentError, "This is an invalid status"
+    end
+    if status == nil
+    raise ArgumentError, "This is an invalid status"
+    end
+    return status
   end
 
   def total
@@ -27,10 +50,13 @@ class Order
     # rounds the result to two decimal places
   end
 
-  def add_product(#has two parameters)
+  def add_product #(has two parameters)
     # if a product with the same name has been added, it raises and exception
   end
+
 end
 
-Tatiana = Order.new(003, "Tatiana")
-puts Tatiana.products
+
+tatiana = Order.new(1003)
+puts tatiana.order_id
+puts tatiana.fulfillment_status(:complete)

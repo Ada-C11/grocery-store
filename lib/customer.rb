@@ -12,10 +12,10 @@ class Customer
 end
 
 #making sure Customer class works as expected
-Tatiana = Customer.new(1001)
+tatiana = Customer.new(1001)
 
-Tatiana.email = "tat@g.com"
+tatiana.email = "tat@g.com"
 
-Tatiana.delivery_address = { address: "404 Kendon St, Seattle WA 98110" }
+tatiana.delivery_address = { address: "404 Kendon St, Seattle WA 98110" }
 
-puts Tatiana.delivery_address
+# puts tatiana.delivery_address
