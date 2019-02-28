@@ -34,4 +34,15 @@ class Order
     end
     return @products
   end
+
+  # optional remove a product from a hash
+  def remove_product name
+    if @products.has_key?(name)
+      @products.delete(name)
+    else
+      raise ArgumentError, "Item does not exist"
+    end
+    return @products
+  end
 end
+
