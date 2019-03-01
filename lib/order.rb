@@ -50,7 +50,7 @@ class Order
     order_array = []
 
     CSV.read("data/orders.csv").each do |row|
-      id = Customer.find(row[0].to_i)
+      id = row[0].to_i
 
       products = {}
       # iterate to split by ; and :
@@ -60,25 +60,16 @@ class Order
         products[each_product[0]] = each_product[1].to_f
       end
 
-      customer = row[2].to_i
-      fulfillment_status = row[3]
+      customer = Customer.find(row[2].to_i)
+      fulfillment_status = row[3].to_sym
 
       order = Order.new(id, products, customer, fulfillment_status)
       order_array << order
     end
+
+    return order_array
   end
 
-  #   return customer_array
-  # end
-
-  # # returns Customer instance that matches passed id parameter
-  # def self.find(customer_id)
-  #   Customer.all.each do |customer|
-  #     if customer.id == customer_id
-  #       return customer
-  #     end
-  #   end
-
-  #   return nil
-  # end
+  def self.find(id)
+  end
 end
