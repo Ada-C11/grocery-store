@@ -29,11 +29,5 @@ class Customer
   def self.find(id)
     all_customer_info = Customer.all
     return id > all_customer_info.length ? nil : all_customer_info[id - 1]
-    # if id > all_customer_info.length
-    #   return nil
-    # else
-    #   return all_customer_info[id - 1]
-    #   #  return id == all_customer_info[id - 1].id ? all_customer_info[id - 1] : nil
-    # end
   end
 end

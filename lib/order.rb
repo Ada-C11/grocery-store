@@ -29,4 +29,28 @@ class Order
   def remove_product(product_name)
     @products.key?(product_name) ? @products.delete(product_name) : (raise ArgumentError, "This product is already in the collection.")
   end
+
+  def self.all
+    orders_array = []
+    CSV.open("data/orders.csv", "r").each do |order|
+      product_hash = {}
+      id = order[0].to_i
+      product_array = order[1].split(";")
+      product_array.each do |product|
+        key_value = product.split(":")
+        product_hash[key_value[0]] = key_value[1].to_f
+      end
+      products = product_hash
+      customer = Customer.find(order[2].to_i)
+      fulfillment_status = order[3].to_sym
+      order_instance = Order.new(id, products, customer, fulfillment_status)
+      orders_array << order_instance
+    end
+    return orders_array
+  end
+
+  def self.find(id)
+    all_customer_info = Customer.all
+    return id > all_customer_info.length ? nil : all_customer_info[id - 1]
+  end
 end
