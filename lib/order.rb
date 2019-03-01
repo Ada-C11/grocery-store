@@ -55,7 +55,7 @@ class Order
         @products.store(p[0], p[1].to_f)
       end
 
-      @customer = order[2].to_i
+      @customer = Customer.find(order[2].to_i)
       @fulfillment_status = :"#{order[3]}"
       order = Order.new(@id, @products, @customer, @fulfillment_status)
       orders << order
@@ -63,5 +63,13 @@ class Order
     return orders
   end
 
+  def Order.find(id)
+    (Order.all).find {|order| order.id == id}
+  end
+
+  def Order.find_by_customer(customer_id) 
+    (Order.all).find_all { |order| order.customer.id == customer_id }
+  end
 
 end
+
