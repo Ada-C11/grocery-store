@@ -19,8 +19,18 @@ class Order
         @products.each_value do |value|
           total += value
         end
-        total += (total * 0.075) #7.5% tax
+        # accounting for tax
+        total += (total * 0.075) 
         return total.round(2)
     end
+
+    def add_product(item, price)
+        if @products.has_key?(item)
+          return raise ArgumentError, "You are trying to enter an item that already exists."
+        else
+          new_item = {item => price}
+          @products = @products.merge(new_item)
+        end
+      end
 
 end
