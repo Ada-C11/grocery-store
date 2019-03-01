@@ -1,4 +1,3 @@
-# require_relative "../data/customers.csv"
 require "csv"
 
 class Customer
@@ -32,7 +31,6 @@ class Customer
       customer_object = Customer.new(id, email, address)
       customer_data << customer_object
     end
-    # p customer_data[0]
     return customer_data
   end
 
@@ -53,18 +51,18 @@ class Customer
   end
 end
 
-Customer.new(123, "a@a.co", {
-  street: "123 Main",
-  city: "Seattle",
-  state: "WA",
-  zip: "98101",
-})
+# Customer.new(123, "a@a.co", {
+#   street: "123 Main",
+#   city: "Seattle",
+#   state: "WA",
+#   zip: "98101",
+# })
 
-Customer.new(521, "a@a.co", {
-  street: "123 Estornino Lane",
-  city: "Seattle",
-  state: "CA",
-  zip: "92021",
-})
+# Customer.new(521, "a@a.co", {
+#   street: "123 Estornino Lane",
+#   city: "Seattle",
+#   state: "CA",
+#   zip: "92021",
+# })
 
-Customer.save("data/test.csv")
+# Customer.save("data/test.csv")

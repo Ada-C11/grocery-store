@@ -201,16 +201,32 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      first = Order.all.first
+      first = Order.find(1)
       expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      first = Order.all.last
-      expect(first.id).must_equal 100
+      last = Order.find(100)
+      expect(last.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do
+      expect(Order.find(53145)).must_be_nil
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    it "Can find the first order's customer id from the CSV" do
+      first = Order.find_by_customer(1)
+      expect(first[0].customer.id).must_equal 1
+    end
+
+    it "Can find the last order's customer id from the CSV" do
+      last = Order.find_by_customer(35)
+      expect(last[0].customer.id).must_equal 35
+    end
+
+    it "Returns nil for a customer id that doesn't exist in an order" do
       expect(Order.find_by_customer(53145)).must_be_nil
     end
   end

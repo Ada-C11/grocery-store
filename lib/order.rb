@@ -50,10 +50,6 @@ class Order
     CSV.open("data/orders.csv", "r").each do |line|
       id = line[0].to_i
       products_str = line[1]
-      #   products_string_parse = products_string.scan(/(\w+):([s^;]+)/)
-      #   p products_string
-      #   p products_string_parse
-      #   products = Hash[products_string_parse]
       products_str_split = products_str.split(";")
       products = {}
       products_str_split.each do |product|
@@ -70,7 +66,12 @@ class Order
     end
     return order_data
   end
-
+  def self.find(order_ID)
+    # returns an instance of Order where the value of the id field in the
+    # CSV matches the passed parameter
+    order_match = self.all.detect { |order| order.id == order_ID }
+    return order_match
+  end
   def self.find_by_customer(customer_id)
     order_exist_check = self.all.detect { |order| order.customer.id == customer_id }
     if order_exist_check == nil
@@ -80,14 +81,13 @@ class Order
       return order_match
     end
   end
-
 end
 
-product_collection = {"banana" => 1.99, "cracker" => 3.00}
-address = {:building_num => "369", :street_name => "Estornino Lane", :apt_num => "", :city => "El Cajon", :state => "CA", :zipcode => "92021"}
-customer = Customer.new(1, "cylopez@uw.edu", address)
-order = Order.new(1, product_collection, customer)
-p order.remove_product("banana")
+# product_collection = {"banana" => 1.99, "cracker" => 3.00}
+# address = {:building_num => "369", :street_name => "Estornino Lane", :apt_num => "", :city => "El Cajon", :state => "CA", :zipcode => "92021"}
+# customer = Customer.new(1, "cylopez@uw.edu", address)
+# order = Order.new(1, product_collection, customer)
+# p order.remove_product("banana")
 # puts order.total
 # puts order.add_product("orange", 1.0)
 # p order.id
