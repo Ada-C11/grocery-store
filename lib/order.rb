@@ -45,7 +45,7 @@ class Order
   #   return @products
   # end
 
-  def hashify(string)
+  def self.hashify(string)
     arr_sep = ";"
     key_sep = ":"
   
@@ -54,7 +54,7 @@ class Order
     
     new_array.each do |elem|
         key_value = elem.split(key_sep)
-        hash[key_value[0]] = key_value[1]
+        hash[key_value[0]] = key_value[1].to_f
     end
     return hash
   end
@@ -64,15 +64,7 @@ class Order
     all_orders = []
     CSV.open("data/orders.csv", "r").each do |line|
       id = line[0].to_i
-
-      produc_array = line[1].split(';')
-      product_hash = {}
-      product_array.each do |elem|
-        key_value = elem.split(':')
-        product_hash[key_value[0]] = key_value[1].to_f
-      end
-
-      products = product_hash
+      products = Order.hashify(line[1])
       customer_id = Customer.find(line[2].to_i)
       fulfillment_status = line[3].to_sym
       instance_of_order = Order.new(id, products, customer_id, fulfillment_status)
@@ -80,22 +72,10 @@ class Order
     end
     return all_orders
   end
+
+  def self.find(search_id)
+    Order.all.find do |product_order|
+      product_order.id == search_id
+    end
+  end
 end
-
-# #  I know my helper method works but it's not working in my self.all method
-# string = "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
-# def convert_hash(string)
-#   arr_sep = ";"
-#   key_sep = ":"
-  
-#   new_array = string.split(arr_sep)
-#   hash = {}
-    
-#   new_array.each do |elem|
-#       key_value = elem.split(key_sep)
-#       hash[key_value[0]] = key_value[1]
-#   end
-#   return hash
-# end
-
-# ap convert_hash(string)
