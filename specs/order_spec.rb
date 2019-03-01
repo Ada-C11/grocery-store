@@ -145,8 +145,9 @@ describe "Order Wave 2" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
-    xit "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+    it "Returns accurate information about the last order" do
+      last = Order.all.last
+      expect(last.id).must_equal 100
     end
   end
 
