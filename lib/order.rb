@@ -50,7 +50,8 @@ class Order
     order_array = []
 
     CSV.read("data/orders.csv").each do |row|
-      id = row[0].to_i
+      id = Customer.find(row[0].to_i)
+
       products = {}
       # iterate to split by ; and :
       # store most nested array into products hash
