@@ -42,13 +42,11 @@ class Order
   end
 
   def remove_product(product_name)
-    #iterate through @products to check for product_name
     if @products.keys.include? product_name
       @products.delete(product_name)
     else
       raise ArgumentError, "This item does not exist!"
     end
-    #if product_name doesn't exist, raise ArgumentError
   end
 
   def self.all
@@ -61,12 +59,14 @@ class Order
         item_info[3].to_sym
       )
 
-      order_instance.products = order_instance.products.split(";")
+      order_instance.products = order_instance.products.split(";").map do |product|
+        product.split(":")
+      end
       product_hash = {}
-      order_instance.products.each_with_index do |product, index|
-        product = product.split(":")
+      order_instance.products.each do |product|
         product_hash["#{product[0]}"] = product[1].to_f
       end
+
       order_instance.products = product_hash
       all_orders << order_instance
     end
@@ -82,5 +82,19 @@ class Order
       end
     end
     return nil
+  end
+
+  def self.find_by_customer
+    all_order_info = Order.all
+    return all_order_info
+
+    all_order_info.each do |order|
+      customer_order = []
+      if order.customer == customer_id
+        customer_order << order.products
+      end
+    end
+    return customer_order
+    #return list of order instances associated with that id
   end
 end
