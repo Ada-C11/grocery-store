@@ -12,8 +12,8 @@ class Customer
 
   def Customer.all
     customers = []
-    csv = CSV.read('data/customers.csv')
-    csv.map do |customer| 
+    csv_customers = CSV.read('data/customers.csv')
+    csv_customers.map do |customer| 
       @id = customer[0].to_i
       @email = customer[1]
       @address = {}

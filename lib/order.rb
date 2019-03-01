@@ -1,3 +1,5 @@
+require 'csv'
+
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
@@ -26,11 +28,40 @@ class Order
     if @products.include?(name)
       raise ArgumentError, "Item already added."
     end
-
     @products.store(name, price)
-# If a product with the same name has already been added 
-# to the order, an ArgumentError should be raised
-
   end
+
+  # def product_string_to_hash(string)
+  #   products = {}
+  #   array = string.split(';')
+  #   array.each do |p|
+  #     p = p.split(':')
+  #     products.store(p[0], p[1].to_f)
+  #   end
+  #   return products
+  # end
+
+  def Order.all
+    orders = []
+    csv_orders = CSV.read('data/orders.csv', headers: true, return_headers: true)
+    csv_orders.map do |order|
+
+      @id = order[0].to_i
+      #@products = product_string_to_hash(order[1])
+      @products = {}
+      array = order[1].split(';')
+      array.each do |p|
+        p = p.split(':')
+        @products.store(p[0], p[1].to_f)
+      end
+
+      @customer = order[2].to_i
+      @fulfillment_status = :"#{order[3]}"
+      order = Order.new(@id, @products, @customer, @fulfillment_status)
+      orders << order
+    end
+    return orders
+  end
+
 
 end
