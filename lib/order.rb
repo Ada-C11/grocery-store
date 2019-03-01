@@ -11,7 +11,7 @@ class Order
     @fulfillment_status = fulfillment_status
 
     unless [:pending, :paid, :processing, :shipped, :complete].include?(@fulfillment_status)
-      raise ArgumentError, "no bogus statuses allowed"
+      raise ArgumentError, "No bogus statuses allowed!"
     end
   end
 
@@ -26,19 +26,51 @@ class Order
 
   # add product
   def add_product(name, value)
-    @products = {
-      name: value,
-    }
+    if @products.has_key?(name)
+      raise ArgumentError, "This product is already added."
+    end
+
+    @products[name] = value
 
     return @products
   end
 
   # optional
   def remove_product(product_name)
-    unless @products.keys?(product_name)
+    unless @products.has_key?(product_name)
       raise ArgumentError, "No product with that name was found."
     end
 
     @products.delete(product_name)
+
+    return @products
   end
+
+  def self.all
+    order_array = []
+
+    CSV.read("data/orders.csv").each do |row|
+      id = row[0].to_i
+      products = row[1].to_h
+      customer = row[2].to_i
+      fulfillment_status = row[3]
+
+      order = Order.new(id, products, customer, fulfillment_status)
+      order_array << order
+    end
+  end
+
+  #   return customer_array
+  # end
+
+  # # returns Customer instance that matches passed id parameter
+  # def self.find(customer_id)
+  #   Customer.all.each do |customer|
+  #     if customer.id == customer_id
+  #       return customer
+  #     end
+  #   end
+
+  #   return nil
+  # end
 end
