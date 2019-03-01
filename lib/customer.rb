@@ -2,17 +2,15 @@
 require 'csv'
 
 class Customer
-  # add writer for email and address, add reader for id
   attr_accessor :email, :address
   attr_reader :id
-  # initialize class with id, email and address as instance variables
+
   def initialize(id, email, address)
     @id = id
     @email = email
     @address = address
   end
 
-  # create self method
   def self.all
     # iterate over each row of the csv
     customers = CSV.open('data/customers.csv','r').map do |field|
