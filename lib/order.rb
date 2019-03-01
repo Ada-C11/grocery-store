@@ -49,6 +49,17 @@ class Order
     end
   end
 
+  def self.separate_products(product_list)
+    products = {}
+    item_and_price = product_list.split(";")
+    item_and_price.each do |item|
+      temp_array = item.split(":")
+      products.store(temp_array.first, temp_array.last.to_f)
+    end
+
+    return products
+  end
+
   def self.all
     orders = []
     file = CSV.open("data/orders.csv", "r")
@@ -56,13 +67,7 @@ class Order
     file.each do |line|
       order_id = line[0].to_i
 
-      products = {}
-      item_and_price = line[1].split(";")
-      item_and_price.each do |item|
-        temp_array = item.split(":")
-        products.store(temp_array.first, temp_array.last.to_f)
-      end
-
+      products = self.separate_products(line[1])
       customer_id = line[2].to_i
       customer = Customer.find(customer_id)
 
@@ -80,5 +85,12 @@ class Order
       # Returns an instance of Order when the value of the id field
       # matches the passed parameter
     end
+  end
+
+  # Optional
+  def find_by_customer(customer_id)
+    # Return a LIST of Order instances where the
+    # value of the customer's id matches the passed parameter
+
   end
 end
