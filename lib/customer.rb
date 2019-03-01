@@ -16,12 +16,12 @@ class Customer
 
     all_customers = []
 
-    customer_csv.each do |array|
-      customer = Customer.new(array[0].to_i, array[1], {
-        street: array[2],
-        city: array[3],
-        state: array[4],
-        zip: array[5],
+    customer_csv.each do |row|
+      customer = Customer.new(row["customer_id"].to_i, row["email"], {
+        street: row["address1"],
+        city: row["city"],
+        state: row["state"],
+        zip: row["zip"],
       })
 
       all_customers << customer
@@ -45,3 +45,5 @@ class Customer
     end
   end
 end
+
+# Customer.find(9)

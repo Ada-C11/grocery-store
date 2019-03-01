@@ -1,3 +1,5 @@
+require_relative "customer.rb"
+
 class Order
   def initialize(id, products, customer, fulfillment_status = "")
     @products = products
@@ -41,11 +43,43 @@ class Order
     orders_csv = CSV.read("data/orders.csv", headers: true)
     all_orders = []
     orders_csv.each do |row|
-      order = Order.new(row[0].to_i, row[1], row[2].to_i, row[3].to_sym)
+      array_of_products = row[1].split(";")
+      hash_of_products = (array_of_products.map { |string| string.split(":") }).to_h
+      hash_of_products.transform_values! { |v| v.to_f }
+
+      order = Order.new(row[0].to_i, hash_of_products, Customer.find(row[2].to_i), row[3].to_sym)
       all_orders << order
     end
     return all_orders
   end
+
+  def self.find(id)
+    orders = Order.all
+    check = true
+    orders.each do |o|
+      if o.id == id
+        return o
+      else
+        check = false
+      end
+    end
+    if check == false
+      return nil
+    end
+  end
+
+  def self.save(filename)
+    orders = Order.all
+    CSV.open(filename, "w") do |file|
+      header_row = ["id", "products", "customer", "status"]
+      file << header_row
+      orders.each do |o|
+        products_string = o.products.map { |k, v| "#{k}:#{v}" }.join(";")
+        new_line = ["#{o.id}", "#{products_string}", "#{o.customer.id}", "#{o.fulfillment_status}"]
+        file << new_line
+      end
+    end
+  end
 end
 
-orders = Order.all
+Order.save("new_orders.csv")
