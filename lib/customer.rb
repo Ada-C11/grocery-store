@@ -29,13 +29,11 @@ class Customer
   end
 
   def self.find(id)
-    customer_array = Customer.all
-    customer_array.each do |customer|
+    Customer.all.each do |customer|
       if customer.id == id
         return customer
-      else
-        return nil
       end
     end
+    return nil
   end
 end
