@@ -1,4 +1,5 @@
 require_relative "customer"
+require "pry"
 
 class Order
   def initialize(id, products, customer, fulfillment_status = :pending)
@@ -82,9 +83,17 @@ class Order
   end
 
   # Optional
-  def find_by_customer(customer_id)
-    # Return a LIST of Order instances where the
-    # value of the customer's id matches the passed parameter
-
+  def self.find_by_customer(customer_id)
+    orders_by_customer = []
+    Order.all.find_all do |order|
+      if order.customer.id == customer_id
+        orders_by_customer << order
+      end
+    end
+    if orders_by_customer.length == 0
+      return nil
+    else
+      return orders_by_customer
+    end
   end
 end
