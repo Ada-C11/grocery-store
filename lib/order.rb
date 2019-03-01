@@ -1,35 +1,35 @@
+
 class Order
   attr_accessor :products, :customer, :fulfillment_status
+  attr_reader :id
 
-  def initialize(id, products, customer, fulfillment_status)
-    @ID = id
+  def initialize(id, products, customer, fulfillment_status = :pending)
+    # def initialize(id, products, customer, fulfillment_status: :pending)
+    @id = id
     @products = products #hash
     @customer = customer
     @fulfillment_status = fulfillment_status
-  end
-
-  def id # I have to have this reader because the helper doesn't work
-    return @ID
-  end
-
-  def fulfillment
-    case fulfillment_status
-    when :pending
-    when :paid
-    when :processing
-    when :shipped
-    when :complete
+    until [:pending, :paid, :processing, :shipped, :complete].include?(fulfillment_status)
+      raise ArgumentError, "Invalid fulfillment status"
     end
   end
 
-  #   def total
-  #     # sum up products
-  #     # Add 7.5% tax
-  #     # round totals to two decimal places
-  #   end
+  def total
+    if products.length > 0
+      sum = products.values.reduce(:+)
+      tax = sum * 0.075
+      total = sum + tax
+      return total.round(2)
+    else
+      return 0
+    end
+  end
 
-  #   def add_product(product_name, price)
-  #     # add data to product collection
-  #     #if product_name already exist raise an ArgumentError
-  #   end
+  def add_product(product_name, price)
+    if products.include?(product_name)
+      raise ArgumentError, "Product already exists"
+    else
+      products.merge!({product_name => price})
+    end
+  end
 end
