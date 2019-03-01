@@ -28,12 +28,10 @@ class Customer
     return customer_array
   end
 
+  # use super cook find enumerable method to return customer if customer.id == id, method returns nil if not.
   def self.find(id)
-    Customer.all.each do |customer|
-      if customer.id == id
-        return customer
-      end
+    Customer.all.find do |customer|
+      customer.id == id
     end
-    return nil
   end
 end
