@@ -19,4 +19,12 @@ class Order
     total = (subtotal * 1.075).round(2)
     return total
   end
+
+  def add_product(name, price)
+    if @products.has_key?(name)
+      raise ArgumentError, "This product is already present."
+    else
+      @products[name] = price
+    end
+  end
 end
