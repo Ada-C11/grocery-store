@@ -31,7 +31,7 @@ class Order
     orders_all = []
     CSV.open("data/orders.csv", "r").each do |line|
       id = line[0].to_i
-      products = self.helper_csv_hash(line[1])
+      products = helper_csv_hash(line[1])
       customer = Customer.find(line[2].to_i)
       fulfillment_status = line[3].to_sym
       orders_all << self.new(id, products, customer, fulfillment_status)
