@@ -82,18 +82,3 @@ class Order
     end
   end
 end
-
-# product_collection = {"banana" => 1.99, "cracker" => 3.00}
-# address = {:building_num => "369", :street_name => "Estornino Lane", :apt_num => "", :city => "El Cajon", :state => "CA", :zipcode => "92021"}
-# customer = Customer.new(1, "cylopez@uw.edu", address)
-# order = Order.new(1, product_collection, customer)
-# p order.remove_product("banana")
-# puts order.total
-# puts order.add_product("orange", 1.0)
-# p order.id
-# p order.products
-# p order.customer.id
-# p order.fulfillment_status
-# p Order.all.last
-
-# p Order.find_by_customer(1)
