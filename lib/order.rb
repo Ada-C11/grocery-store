@@ -41,17 +41,18 @@ class Order
     order_array = []
 
     CSV.open("data/orders.csv", "r").each do |line|
-      order_array << Order.new(line[0].to_i, Order.parse_helper(line[1]), Customer.find(line[2].to_i), line[3].to_sym)
+      new_order = Order.new(line[0].to_i, Order.parse_helper(line[1]), Customer.find(line[2].to_i), line[3].to_sym)
+      order_array << new_order
     end
     return order_array
   end
 
-  #   def self.find(id)
-  #     Order.all.each do |order|
-  #         if order.id == id
-  #           return order
-  #         end
-  #       end
-  #       return nil
-  #   end
+  def self.find(id)
+    Order.all.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
+  end
 end
