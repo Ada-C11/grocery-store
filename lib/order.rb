@@ -10,11 +10,11 @@ class Order
     fs_types = %i[pending paid processing shipped complete]
     raise ArgumentError, 'Wrong status' if fs_types.exclude? @fulfillment_status
   end
+  
   def total(products)
-    # - Summing up the products
-    # - Adding a 7.5% tax
-    # - Rounding the result to two decimal places
+    (products.values.sum * 1.075).round(2)
   end
+  
   def add_product(name, price)
     # add the data to the product collection
     # raise ArgumentError if there is already a product with the same name
