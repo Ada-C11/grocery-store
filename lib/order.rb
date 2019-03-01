@@ -13,6 +13,21 @@ class Order
     end
   end
 
+  def self.all
+    orders_array = []
+    CSV.open("data/orders.csv", "r").each do |line|
+      pairs = line[1].split(";")
+      hash = {}
+      pairs.each do |i|
+        pair = i.split(":")
+        hash[pair[0]] = pair[1].to_f
+      end
+      orders_array << Order.new(line[0].to_i, hash, Customer.find(line[2].to_i), line[3].to_sym)
+    end
+
+    return orders_array
+  end
+
   def total
     costs = @products.values
     total = (costs.sum + costs.sum * 0.075).round(2)
