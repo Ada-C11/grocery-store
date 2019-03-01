@@ -1,4 +1,3 @@
-# require "customer"
 require "csv"
 
 class Order
@@ -76,6 +75,14 @@ class Order
   end
 
   def self.find(id)
+    all_order_info = Order.all
+
+    all_order_info.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
   end
 end
 
