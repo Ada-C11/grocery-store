@@ -17,11 +17,11 @@ class Customer
     all_customers = []
 
     customer_csv.each do |row|
-      customer = Customer.new(row[0].to_i, row[1], {
-        street: row[2],
-        city: row[3],
-        state: row[4],
-        zip: row[5],
+      customer = Customer.new(row["customer_id"].to_i, row["email"], {
+        street: row["address1"],
+        city: row["city"],
+        state: row["state"],
+        zip: row["zip"],
       })
 
       all_customers << customer
@@ -48,7 +48,7 @@ class Customer
   def self.save(filename)
     customers = Customer.all
     CSV.open(filename, "w") do |file|
-      header_row = ["id", "email", "address1", "city", "state", "zip"]
+      header_row = ["customer_d", "email", "address1", "city", "state", "zip"]
       file << header_row
       customers.each do |c|
         new_line = ["#{c.id}", "#{c.email}", "#{c.address[:street]}", "#{c.address[:city]}", "#{c.address[:state]}", "#{c.address[:zip]}"]
@@ -57,5 +57,3 @@ class Customer
     end
   end
 end
-
-Customer.save("new_customers.csv")

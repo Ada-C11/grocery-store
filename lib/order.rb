@@ -43,11 +43,11 @@ class Order
     orders_csv = CSV.read("data/orders.csv", headers: true)
     all_orders = []
     orders_csv.each do |row|
-      array_of_products = row[1].split(";")
+      array_of_products = row["products"].split(";")
       hash_of_products = (array_of_products.map { |string| string.split(":") }).to_h
       hash_of_products.transform_values! { |v| v.to_f }
 
-      order = Order.new(row[0].to_i, hash_of_products, Customer.find(row[2].to_i), row[3].to_sym)
+      order = Order.new(row["id"].to_i, hash_of_products, Customer.find(row["customer_id"].to_i), row["status"].to_sym)
       all_orders << order
     end
     return all_orders
@@ -81,5 +81,3 @@ class Order
     end
   end
 end
-
-Order.save("new_orders.csv")
