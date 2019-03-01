@@ -27,7 +27,8 @@ class Customer
   end
 
   def self.find(id)
-    all_customer_info = Customer.all
-    return id > all_customer_info.length ? nil : all_customer_info[id - 1]
+    Customer.all.find do |customer|
+      customer.id == id
+    end
   end
 end

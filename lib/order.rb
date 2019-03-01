@@ -55,7 +55,8 @@ class Order
   end
 
   def self.find(id)
-    all_order_info = Order.all
-    return id > all_order_info.length ? nil : all_order_info[id - 1]
+    Order.all.find do |order|
+      order.id == id
+    end
   end
 end
