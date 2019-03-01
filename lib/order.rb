@@ -70,6 +70,13 @@ class Order
     return order_array
   end
 
-  def self.find(id)
+  def self.find(order_id)
+    Order.all.each do |order|
+      if order.id == order_id
+        return customer
+      end
+    end
+
+    return nil
   end
 end
