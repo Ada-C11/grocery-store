@@ -4,7 +4,7 @@ require 'awesome_print'
 
 class Order
   attr_reader :id
-  attr_accessor :products, :fulfillment_status, :customer, :products
+  attr_accessor :products, :fulfillment_status, :customer, :products, :convert_to_hash
 
   def initialize id, products, customer, fulfillment_status = :pending
     @id = id
@@ -45,13 +45,13 @@ class Order
   #   return @products
   # end
 
-  def convert_to_hash(array)
+  def convert_hash(array)
     arr_sep=';'
     key_sep=':'
     new_array = []
     array.each do |element|
-     newly = element.split(';')
-     new_array << newly
+     new_el = element.split(';')
+     new_array << new_el
     end
     hash = {}
   
@@ -68,12 +68,13 @@ class Order
     all_orders = []
     CSV.open('data/orders.csv', 'r').each do |line|
       id = line[0].to_i
-      products = convert_to_hash(line[1])
+      products = convert_hash(line[1])
       customer_id = line[2].to_i
       fulfillment_status = line[3].to_sym
       instance_of_order = Order.new(id, products, customer_id, fulfillment_status)
       all_orders << instance_of_order
     end
+    return all_orders
   end
 
 end
