@@ -74,6 +74,11 @@ class Order
     return orders
   end
 
-  def self.find(id)
+  def self.find(id_number)
+    Order.all.find do |order|
+      order.id == id_number
+      # Returns an instance of Order when the value of the id field
+      # matches the passed parameter
+    end
   end
 end
