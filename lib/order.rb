@@ -18,7 +18,7 @@ class Order
   end
 
   def total
-    product_total = (@products.values.sum * 1.075).round(2)
+    (@products.values.sum * 1.075).round(2)
   end
 
   def add_product(product_name, price)
@@ -41,14 +41,24 @@ class Order
     order_array = []
 
     CSV.read("data/orders.csv", "r").each do |order_line|
-      instance_order = Order.new(id, products, customer, fulfillment_status)
       id = order_line[0].to_i
-      products = order_line[1]
-      customer = order_line[2].to_i
-      fulfillment_status = order_line[3]
+      products = {}
+      order_line[1].split(";").each do |split_product|
+        product_price_array = split_product.split(":")
+        products[product_price_array[0]] = product_price_array[1].to_f
+      end
+      customer = Customer.find(order_line[2].to_i)
+      fulfillment_status = order_line[3].to_sym
+      instance_order = Order.new(id, products, customer, fulfillment_status)
       order_array << instance_order
     end
     return order_array
-    # returns a collection of Order instances, representing all of the Orders described in the CSV file
+  end
+
+  # Use find enumerable method to return customer if order.id == id, else returns nil.
+  def self.find(id)
+    Order.all.find do |order|
+      order.id == id
+    end
   end
 end
