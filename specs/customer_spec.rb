@@ -1,8 +1,8 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
+require "minitest/autorun"
+require "minitest/reporters"
+require "minitest/skip_dsl"
 
-require_relative '../lib/customer'
+require_relative "../lib/customer"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -13,7 +13,7 @@ describe "Customer Wave 1" do
     street: "123 Main",
     city: "Seattle",
     state: "WA",
-    zip: "98101"
+    zip: "98101",
   }.freeze
 
   describe "#initialize" do
@@ -35,7 +35,7 @@ end
 # TODO: remove the 'x' in front of this block when you start wave 2
 describe "Customer Wave 2" do
   describe "Customer.all" do
-    it "Returns an array of all customers" do
+    xit "Returns an array of all customers" do
       customers = Customer.all
 
       expect(customers.length).must_equal 35
@@ -44,33 +44,33 @@ describe "Customer Wave 2" do
       end
     end
 
-    it "Returns accurate information about the first customer" do
+    xit "Returns accurate information about the first customer" do
       first = Customer.all.first
       expect(first.id).must_equal 1
     end
 
-    it "Returns accurate information about the last customer" do
+    xit "Returns accurate information about the last customer" do
       last = Customer.all.last
       expect(last.id).must_equal 35
     end
   end
 
   describe "Customer.find" do
-    it "Can find the first customer from the CSV" do
+    xit "Can find the first customer from the CSV" do
       first = Customer.find(1)
 
       expect(first).must_be_kind_of Customer
       expect(first.id).must_equal 1
     end
 
-    it "Can find the last customer from the CSV" do
+    xit "Can find the last customer from the CSV" do
       last = Customer.find(35)
 
       expect(last).must_be_kind_of Customer
       expect(last.id).must_equal 35
     end
 
-    it "Returns nil for a customer that doesn't exist" do
+    xit "Returns nil for a customer that doesn't exist" do
       expect(Customer.find(53145)).must_be_nil
     end
   end
