@@ -3,8 +3,14 @@ require "csv"
 require_relative "../lib/customer.rb"
 
 class Order
+  include Comparable
+
   attr_reader :id
   attr_accessor :customer, :fulfillment_status, :products
+
+  def <=>(other)
+    self.id <=> other.id
+  end
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     valid_status = [:pending, :paid, :processing, :shipped, :complete]
@@ -70,7 +76,7 @@ class Order
 
   # Returns an Order object with matching ID. If no matches are found, returns nil.
   def self.find(id)
-    return (self.all).find { |order| order.id == id }
+    return (self.all).bsearch { |order| id <=> order.id }
   end
 
   # Returns an array of all Orders objects where customer ID is equal to the number given.

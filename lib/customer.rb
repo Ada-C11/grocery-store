@@ -1,8 +1,14 @@
 require "csv"
 
 class Customer
+  include Comparable
+
   attr_reader :id
   attr_accessor :email, :address
+
+  def <=>(other)
+    self.id <=> other.id
+  end
 
   def initialize(id, email, address)
     @id = id
@@ -27,7 +33,7 @@ class Customer
 
   # Returns a Customer object with matching ID. If no matches are found, returns nil.
   def self.find(id)
-    return (self.all).find { |customer| customer.id == id }
+    return (self.all).bsearch { |customer| id <=> customer.id }
   end
 
   # creates a file identical to the original csv at the specified filepath
