@@ -1,3 +1,5 @@
+require_relative "customer.rb"
+
 class Order
   attr_reader :id, :customer
   attr_accessor :products, :fulfillment_status
@@ -32,5 +34,37 @@ class Order
     else
       raise ArgumentError, "That product does not exist"
     end
+  end
+
+  def self.all
+    orders = []
+    CSV.read("data/orders.csv").each do |order|
+      id = order[0].to_i
+      products = Order.product_hash(order[1])
+      customer = Customer.find(order[2].to_i)
+      status = order[3].to_sym
+      orders << Order.new(id, products, customer, status)
+    end
+    return orders
+  end
+
+  def self.product_hash(product_list)
+    products = {}
+    split_products = product_list.split(";")
+    split_products.each do |product|
+      product_split = product.split(":")
+      products[product_split[0]] = product_split[1].to_f
+    end
+    return products
+  end
+
+  def self.find(id)
+    orders = Order.all
+    orders.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
   end
 end
