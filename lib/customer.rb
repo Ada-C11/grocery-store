@@ -14,9 +14,9 @@ class Customer
 
     def self.all
         customer_array = []
-        CSV.read("data/customers.csv", headers: true).each do |line|
-            full_address = "#{line["address1"]}, #{line["city"]},  #{line["zipcode"]}"
-            new_customer = self.new(line["id"].to_i, line["email"], full_address)
+        CSV.read("data/customers.csv").each do |line|
+            full_address = "#{line[2]}, #{line[3]}, #{line[4]} #{line[5]}"
+            new_customer = self.new(line[0].to_i, line[1], full_address)
             customer_array.push(new_customer)
         end
         return customer_array
@@ -28,4 +28,15 @@ class Customer
         return found_customer
     end
 
+    def self.save(filename)
+        customers = self.all
+
+        CSV.open(filename, "w") do |file|
+            customers.each do |customer|
+                file << customer
+            end
+        end
+    end
+
 end
+
