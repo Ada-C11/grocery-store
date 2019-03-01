@@ -1,17 +1,9 @@
 require 'csv'
 require 'awesome_print'
 
-CUSTOMER_FILEPATH = './data/customers.csv'
+CUSTOMER_FILEPATH = 'data/customers.csv'
+
 # WAVE 1
-
-# Customer
-# Create a class called Customer. Each new Customer should include the following attributes:
-
-# ID, a number
-# Email address, a string
-# Delivery address, a hash
-# ID should be readable but not writable; the other two attributes can be both read and written.
-
 class Customer
   attr_reader :id 
   attr_accessor :email, :address
@@ -23,7 +15,7 @@ class Customer
     @address = address
   end
 
-  # Wave 2
+  # WAVE 2
 
   def self.load(filepath)
     customers = Array.new
@@ -48,9 +40,6 @@ class Customer
     return customers_data
   end
   
-# self.find(id) - returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
-  # Customer.find should not parse the CSV file itself. Instead it should invoke Customer.all and search through the results for a customer with a matching ID.
-
   def self.find(id)
     found_customer = nil
     Customer.all.each do |find_customer|
