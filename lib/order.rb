@@ -4,6 +4,11 @@ require_relative 'customer.rb'
 class Order
 	attr_reader :id
 	attr_accessor :products, :fulfillment_status, :customer
+	
+	@@order_id_index = 0
+	@@product_index = 1
+	@@customer_id_index = 2
+	@@fulfillment_status_index = 3
 
 	def initialize(id, products, customer, fulfillment_status = :pending)
 		@id = id
@@ -31,8 +36,12 @@ class Order
 		end
 		@products[name] = price
 	end
-	# need to write test for this
+
 	def remove_product(name)
+		if !@products.has_key?(name)
+			raise ArgumentError.new("The product you want to remove does not exist")
+		end
+
 		@products.delete_if {|product, price|
 			product.casecmp(name) == 0
 		}
@@ -41,16 +50,17 @@ class Order
 	def self.all
 		orders = []
 		CSV.open("/Users/elisepham/Ada/grocery-store/data/orders.csv", 'r').each do |row|
-			temp_array = row[1].split(";")
+			array = row[@@product_index].split /:|;/
 			products = Hash.new
-			temp_array.each do |item|
-				temp = item.split(":")
-				temp.each do |element|
-						products[temp[0]] = temp[1].to_f
-				end
+
+			(0...array.length - 1).step(2) do |i|
+				products[array[i]] = array[i + 1].to_f.round(2)
 			end
-			customer = Customer.find(row[2].to_i)
-			order = Order.new(row[0].to_i, products, customer, row[3].to_sym)
+
+			order = Order.new(
+				row[@@order_id_index].to_i, products,
+				Customer.find(row[@@customer_id_index].to_i), 
+				row[@@fulfillment_status_index].to_sym)
 			orders << order
 		end
 		return orders
@@ -77,18 +87,19 @@ class Order
 		return result
 	end
 		
-	def self.save(file_name, orders)
+	def self.save(file_name)
+		orders = Order.all
 		CSV.open(file_name, "wb") do |csv|
 			orders.each do |order|
 				result = ""
-				order.products.each_pair do |k, v|
-					result += "#{k}:#{v};"
+				order.products.each_pair do |product, price|
+					result += "#{product}:#{price};"
 				end
-        csv << ["#{order.id}","#{result.chomp(";")}","#{order.customer.id}","#{order.fulfillment_status}"]
+				csv << ["#{order.id}","#{result.chomp(";")}",
+					"#{order.customer.id}","#{order.fulfillment_status}"]
       end
     end
 	end
 end
 
-orders = Order.all
-Order.save("../data/orders_wave3.csv", orders)
+# Order.save("../data/orders_wave3.csv", orders)
