@@ -117,7 +117,12 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      orders = Order.all
+      
+      expect(orders.length).must_equal 100
+      orders.each do |o|
+        expect(o).must_be_kind_of Order
+      end
     end
 
     it "Returns accurate information about the first order" do
@@ -141,21 +146,48 @@ describe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 100
+      
+      fulfillment_status = :pending
+      order = Order.all.last
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      last = Order.find(100)
+
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Order.find(53145)).must_be_nil
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    it "Can find all orders given a customer id" do
+      cust_orders = Order.find_by_customer(30)
+
+      expect(cust_orders.length).must_equal 3
+    end
+
+    it "Returns 0 for empty orders" do
+      expect((Order.find_by_customer(36)).length).must_equal 0
     end
   end
 end
