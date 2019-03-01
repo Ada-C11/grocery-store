@@ -28,7 +28,14 @@ class Customer
     return customer_array
   end
 
-  # self.find(id)
-  # # return something
-  # end
+  def self.find(id)
+    customer_array = Customer.all
+    customer_array.each do |customer|
+      if customer.id == id
+        return customer
+      else
+        return nil
+      end
+    end
+  end
 end
