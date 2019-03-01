@@ -117,7 +117,6 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all order instances" do
-      # TODO: Your test code here!
       orders = Order.all
       expect(orders.length).must_equal 100
       orders.each do |o|
@@ -188,12 +187,10 @@ describe "Order Wave 2" do
     orders = Order.find_by_customer(customer_id)
 
     it "Returns an array" do
-      # check return type is an array
       expect(orders).must_be_instance_of Array
     end
       
     it "returns an array of order instances" do
-      # check the elements are of type Order
       orders.each do |order|
         expect(order).must_be_kind_of Order
       end
