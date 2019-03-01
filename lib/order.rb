@@ -1,4 +1,5 @@
 require "csv"
+require_relative "customer"
 
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
@@ -27,6 +28,15 @@ class Order
       raise ArgumentError, "This product has already been added to the order."
     end
     @products[name] = [price]
+  end
+
+  # optional method to remove product by name
+  def remove_product(product_name)
+    if @products.include?(product_name)
+      @products.delete(product_name)
+    else
+      raise ArgumentError, "There is no product with that name."
+    end
   end
 
   def self.parse_helper(product_string)
