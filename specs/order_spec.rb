@@ -111,6 +111,25 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+
+  describe "#remove_product" do
+    it "Removes a product from an order" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("banana")
+      expect(order.products.include?("banana")).must_equal false
+    end
+
+    it "Raises an ArgumentError if trying to remove a product that doesnt exist" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+
+      expect {
+        order.remove_product("strawberry")
+      }.must_raise ArgumentError
+    end
+  end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
@@ -145,11 +164,9 @@ describe "Order Wave 2" do
       expect(order.customer.id).must_equal customer_id
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
-
+    # TODO: test for empty hash products
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
       id = 100
-      # Amaranth:83.81;Smoked Trout:70.6;Cheddar:5.63
       products = {
         "Amaranth" => 83.81,
         "Smoked Trout" => 70.6,

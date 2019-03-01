@@ -41,6 +41,16 @@ class Order
     end
   end
 
+  def remove_product(product_name)
+    #iterate through @products to check for product_name
+    if @products.keys.include? product_name
+      @products.delete(product_name)
+    else
+      raise ArgumentError, "This item does not exist!"
+    end
+    #if product_name doesn't exist, raise ArgumentError
+  end
+
   def self.all
     all_orders = []
     CSV.open("/Users/angelaoh/documents/grocery-store/data/orders.csv", "r").each do |item_info|
