@@ -45,6 +45,20 @@ class Order
   #   return @products
   # end
 
+  def convert_hash(string)
+    arr_sep = ";"
+    key_sep = ":"
+  
+    new_array = string.split(arr_sep)
+    hash = {}
+  
+    new_array.each do |elem|
+        key_value = elem.split(key_sep)
+        hash[key_value[0]] = key_value[1]
+    end
+    return hash
+  end
+
   def self.all
     all_orders = []
     CSV.open("data/orders.csv", "r").each do |line|
@@ -62,19 +76,7 @@ class Order
 end
 
 
-def convert_hash(string)
-  arr_sep = ";"
-  key_sep = ":"
 
-  new_array = string.split(arr_sep)
-  hash = {}
-
-  new_array.each do |elem|
-      key_value = elem.split(key_sep)
-      hash[key_value[0]] = key_value[1]
-  end
-  return hash
-end
 string = "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
 ap convert_hash(string)
 
