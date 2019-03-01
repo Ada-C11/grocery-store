@@ -181,7 +181,8 @@ describe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      first = Order.all.first
+      expect(first.id).must_equal 1
     end
   end
 
