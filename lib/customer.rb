@@ -12,7 +12,7 @@ class Customer
 
   # Returns an array of customer objects
   def self.all
-    all_orders = []
+    all_customers = []
     CSV.open("data/customers.csv").each do |row|
       row_id = row[0].to_i
       row_email = row[1]
@@ -20,9 +20,9 @@ class Customer
                      city: row[3],
                      state: row[4],
                      zip: row[5] }
-      all_orders << Customer.new(row_id, row_email, row_address)
+      all_customers << Customer.new(row_id, row_email, row_address)
     end
-    return all_orders
+    return all_customers
   end
 
   # Returns a Customer object with matching ID. If no matches are found, returns nil.
