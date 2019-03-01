@@ -53,7 +53,7 @@ class Order
       customer = Customer.find(orders_from_csv[2].to_i)
       fulfillment_status = orders_from_csv[3].to_sym
       
-      order = Order.new(id, products, customer , fulfillment_status)
+      order = Order.new(id, products, customer, fulfillment_status)
       all_orders << order
     end
     return all_orders
@@ -72,5 +72,20 @@ class Order
     raise ArgumentError.new("There is no order for a customer with ID: #{id}") if customer_orders.empty?
     return customer_orders
   end
-end
 
+  def self.save(filename)
+    all_orders = Order.all
+    CSV.open(filename, "a+") do |file|
+      all_orders.each do |order|
+        products_array = []
+        order.products.each do |k,v|
+          products_array << k + ":" + v.to_s
+        end
+        products = products_array.join(';')
+        
+        file << [order.id, products, order.customer.id, order.fulfillment_status.to_s]
+      end
+    end
+  end
+end
+# Order.save('new_order_list.csv')

@@ -1,5 +1,5 @@
 require 'csv'
-require 'pry'
+
 class Customer
   attr_reader :id
   attr_accessor :email, :address
@@ -24,8 +24,15 @@ class Customer
     # raise ArgumentError.new("Customer id doesn't exist.") if customer.nil? 
     return customer 
   end
+
+  def self.save(filename)
+    all_customers = Customer.all
+    CSV.open(filename, "a+") do |file|
+      all_customers.each do |customer|
+        file << [customer.id, customer.email, customer.address[:street], customer.address[:city], customer.address[:state], customer.address[:zip]]
+      end
+    end
+  end
 end
 
 
-# Customer.all
-# binding.pry
