@@ -178,7 +178,7 @@ describe "Order Wave 2" do
     end
 
     it "Returns nil for an order that doesn't exist" do
-      expect(Order.find(999)).must_equal nil
+      expect(Order.find(999)).must_equal
     end
   end
 end

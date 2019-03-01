@@ -76,11 +76,28 @@ class Order
   def self.find(search_id)
     Order.all.find do |product_order|
       product_order.id == search_id
+  end
+end
+
+  def self.find_by_customer_id(cust_id)
+    customer_prod_hx = []
+    Order.all.each do |their_purchase|
+      if their_purchase.customer.id == cust_id
+        customer_prod_hx << their_purchase
+      end
     end
+    return customer_prod_hx
   end
 
 end
 
-check = Order.all.last
+check = Order.find_by_customer_id(25)
+ap check
+# find_by_customer_id => Order.find(1).customer.id
 
-puts check.fulfillment_status
+# def self.find_by_customer_id(cust_id)
+#     Customer.all.find do |lookup|
+#       if lookup.id == cust_id
+#         return Orders
+#     end
+#   end
