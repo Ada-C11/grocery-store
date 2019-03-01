@@ -73,6 +73,11 @@ class Order
     return (self.all).find { |order| order.id == id }
   end
 
+  # Returns an array of all Orders objects where customer ID is equal to the number given.
+  def self.find_by_customer(customer_id)
+    return (self.all).select { |order| order.customer.id == customer_id }
+  end
+
   # creates a file identical to the original csv at the specified filepath
   def self.save(filepath)
     CSV.open(filepath, "w") do |newfile|
