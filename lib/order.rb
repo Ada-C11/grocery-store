@@ -43,7 +43,7 @@ class Order
       products = string_to_hash(order_hash["products"])
       customer = Customer.find(order_hash["customer"].to_i)
       status = order_hash["status"].to_sym
-      @array_of_orders.push(self.new(id, products, customer, status))
+      @array_of_orders.push(Order.new(id, products, customer, status))
     end
     return @array_of_orders
   end
