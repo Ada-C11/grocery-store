@@ -50,7 +50,7 @@ class Order
     key_sep=':'
     new_array = []
     array.each do |element|
-     new_el = element.split(';')
+     new_el = element.split(arr_sep)
      new_array << new_el
     end
     hash = {}
