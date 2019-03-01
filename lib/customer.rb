@@ -19,5 +19,11 @@ class Customer
   end
 
   def self.find(id)
+    Customer.all.each do |customer|
+      if customer.id == id
+        return customer
+      end
+    end
+    return nil
   end
 end
