@@ -193,4 +193,26 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+
+  # def find_by_customer(customer_id)
+  #   customer_orders = []
+  #   Order.all.each do |order|
+  #     if order.customer.id == customer_id
+  #       customer_orders << order
+  #     end
+  #   end
+  #   return customer_orders
+  # end
+
+  describe "self.find_by_customer(customer_id)" do
+    it "Can find all orders for customer 35" do
+      customer_35 = Order.find_by_customer(35)
+      expect(customer_35[1]).must_be_kind_of Order
+      expect(customer_35.length).must_equal 4
+    end
+
+    it "Returns nil for an order that doesn't exist" do
+      expect(Order.find_by_customer(4500)).must_be_nil
+    end
+  end
 end

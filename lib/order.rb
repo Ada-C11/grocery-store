@@ -59,4 +59,14 @@ class Order
       order.id == id
     end
   end
+
+  def self.find_by_customer(customer_id)
+    customer_orders = []
+    Order.all.each do |order|
+      if order.customer.id == customer_id
+        customer_orders << order
+      end
+    end
+    return customer_orders.length > 0 ? customer_orders : nil
+  end
 end
