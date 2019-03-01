@@ -70,7 +70,7 @@ describe "Customer Wave 2" do
       expect(last.id).must_equal 35
     end
 
-    xit "Returns nil for a customer that doesn't exist" do
+    it "Returns nil for a customer that doesn't exist" do
       expect(Customer.find(53145)).must_be_nil
     end
   end
