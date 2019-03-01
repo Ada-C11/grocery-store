@@ -1,11 +1,12 @@
 require 'csv'
+require_relative 'customer'
 
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
 
   def initialize(id, products, customer, fulfillment_status = :pending)
-    @id = id
+    @id = id.to_i
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
@@ -31,30 +32,23 @@ class Order
     @products.store(name, price)
   end
 
-  # def product_string_to_hash(string)
-  #   products = {}
-  #   array = string.split(';')
-  #   array.each do |p|
-  #     p = p.split(':')
-  #     products.store(p[0], p[1].to_f)
-  #   end
-  #   return products
-  # end
+  def self.product_string_to_hash(string)
+    products = {}
+    array = string.split(';')
+    array.each do |p|
+      p = p.split(':')
+      products.store(p[0], p[1].to_f)
+    end
+    return products
+  end
 
-  def Order.all
+  def self.all
     orders = []
     csv_orders = CSV.read('data/orders.csv', headers: true, return_headers: true)
     csv_orders.map do |order|
 
-      @id = order[0].to_i
-      #@products = product_string_to_hash(order[1])
-      @products = {}
-      array = order[1].split(';')
-      array.each do |p|
-        p = p.split(':')
-        @products.store(p[0], p[1].to_f)
-      end
-
+      @id = order[0]
+      @products = product_string_to_hash(order[1])
       @customer = Customer.find(order[2].to_i)
       @fulfillment_status = :"#{order[3]}"
       order = Order.new(@id, @products, @customer, @fulfillment_status)
@@ -63,8 +57,8 @@ class Order
     return orders
   end
 
-  def Order.find(id)
-    (Order.all).find {|order| order.id == id}
+  def self.find(id)
+    (self.all).find {|order| order.id == id}
   end
 
   def Order.find_by_customer(customer_id) 

@@ -10,7 +10,7 @@ class Customer
     @address = address
   end
 
-  def Customer.all
+  def self.all
     customers = []
     csv_customers = CSV.read('data/customers.csv')
     csv_customers.map do |customer| 
@@ -27,11 +27,9 @@ class Customer
     return customers
   end
 
-  def Customer.find(id)
-    (Customer.all).find {|customer| customer.id == id}
+  def self.find(id)
+    (self.all).find {|customer| customer.id == id}
   end
-
-  
 
 end
 
