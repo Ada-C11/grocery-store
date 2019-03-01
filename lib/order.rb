@@ -15,12 +15,15 @@ class Order
     sum = 0
     @products.each_value do |price|
       sum += price
-      puts sum
     end
     sum_with_tax = sum + (sum * 0.075)
     return sum_with_tax.round(2)
   end
 
-  def add_product
+  def add_product(name, price)
+    if @products.include?(name)
+      raise ArgumentError, "This product has already been added to the order."
+    end
+    @products[name] = [price]
   end
 end
