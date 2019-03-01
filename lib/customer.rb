@@ -31,13 +31,6 @@ class Customer
 
   def self.find(id_input)
     array_of_customer_instance = Customer.all
-    last_id_number = array_of_customer_instance.length
-    if id_input <= last_id_number && id_input >= 1
-      return array_of_customer_instance[id_input - 1]
-    else
-      return nil
-    end
+    array_of_customer_instance.find { |customer| customer.id == id_input }
   end
 end
-
-puts Customer.find (10)
