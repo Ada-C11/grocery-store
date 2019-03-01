@@ -1,3 +1,5 @@
+require "csv"
+
 class Customer
   attr_reader :id
   attr_accessor :email, :address
@@ -6,5 +8,25 @@ class Customer
     @id = id
     @email = email
     @address = address
+  end
+
+  # Returns an array of customer objects
+  def self.all
+    all_orders = []
+    CSV.open("data/customers.csv").each do |row|
+      row_id = row[0].to_i
+      row_email = row[1]
+      row_address = { street: row[2],
+                     city: row[3],
+                     state: row[4],
+                     zip: row[5] }
+      all_orders << Customer.new(row_id, row_email, row_address)
+    end
+    return all_orders
+  end
+
+  # Returns a Customer object with matching ID. If no matches are found, returns nil.
+  def self.find(id)
+    return (self.all).find { |customer| customer.id == id }
   end
 end
