@@ -1,38 +1,38 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
+require "minitest/autorun"
+require "minitest/reporters"
+require "minitest/skip_dsl"
 
-require_relative '../lib/customer'
+require_relative "../lib/customer"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-describe "Customer Wave 1" do
-  ID = 123
-  EMAIL = "a@a.co"
-  ADDRESS = {
-    street: "123 Main",
-    city: "Seattle",
-    state: "WA",
-    zip: "98101"
-  }.freeze
+# describe "Customer Wave 1" do
+#   ID = 123
+#   EMAIL = "a@a.co"
+#   ADDRESS = {
+#     street: "123 Main",
+#     city: "Seattle",
+#     state: "WA",
+#     zip: "98101",
+#   }.freeze
 
-  describe "#initialize" do
-    it "Takes an ID, email and address info" do
-      cust = Customer.new(ID, EMAIL, ADDRESS)
+#   describe "#initialize" do
+#     it "Takes an ID, email and address info" do
+#       cust = Customer.new(ID, EMAIL, ADDRESS)
 
-      expect(cust).must_respond_to :id
-      expect(cust.id).must_equal ID
+#       expect(cust).must_respond_to :id
+#       expect(cust.id).must_equal ID
 
-      expect(cust).must_respond_to :email
-      expect(cust.email).must_equal EMAIL
+#       expect(cust).must_respond_to :email
+#       expect(cust.email).must_equal EMAIL
 
-      expect(cust).must_respond_to :address
-      expect(cust.address).must_equal ADDRESS
-    end
-  end
-end
+#       expect(cust).must_respond_to :address
+#       expect(cust.address).must_equal ADDRESS
+#     end
+#   end
+# end
 
-# TODO: remove the 'x' in front of this block when you start wave 2
+# # TODO: remove the 'x' in front of this block when you start wave 2
 describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
