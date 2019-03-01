@@ -26,15 +26,12 @@ class Customer
   end
 
   def self.find(search)
-    not_found = nil
     Customer.all.each do |customer|
-      binding.pry
       if customer.id == search
         return customer
-      elsif customer.id = nil
-        return not_found
       end
     end
+    return nil
   end
 end
 

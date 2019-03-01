@@ -65,7 +65,6 @@ describe "Customer Wave 2" do
 
     it "Can find the last customer from the CSV" do
       last = Customer.find(35)
-
       expect(last).must_be_kind_of Customer
       expect(last.id).must_equal 35
     end
