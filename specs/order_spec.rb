@@ -189,6 +189,10 @@ describe "Order Wave 2" do
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
