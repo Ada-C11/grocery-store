@@ -29,11 +29,29 @@ class Order
     @products[name] = [price]
   end
 
+  def self.parse_helper(product_string)
+    array_strings = product_string.split(";")
+    item_hash = Hash[array_strings.map { |item| item.split ":" }]
+    item_hash.each do |key, value|
+      item_hash[key] = value.to_f
+    end
+  end
+
   def self.all
     order_array = []
+
     CSV.open("data/orders.csv", "r").each do |line|
-      order_array << Order.new(line[0].to_i, line[1], line[2].to_i, line[3].to_sym)
+      order_array << Order.new(line[0].to_i, Order.parse_helper(line[1]), Customer.find(line[2].to_i), line[3].to_sym)
     end
     return order_array
   end
+
+  #   def self.find(id)
+  #     Order.all.each do |order|
+  #         if order.id == id
+  #           return order
+  #         end
+  #       end
+  #       return nil
+  #   end
 end
