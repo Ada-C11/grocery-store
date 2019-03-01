@@ -1,3 +1,6 @@
+require 'csv'
+require 'awesome_print'
+
 class Customer
   attr_accessor(:email, :address, :id)
   # Contains methods pertaining to customers
@@ -6,4 +9,19 @@ class Customer
     @email = email
     @id = id
   end
+
+  def self.all
+    CSV.foreach('data/customers.csv') do |row|
+      Customer.new(row[0].to_i, row[1], %i[street city state zip].zip(row.slice(2..5)).to_h)
+    end
+  end
+  # returns a collection of `Customer` instances, representing all of the Customer described in the CSV fil
+
+  def self.find
+    # uses Customer.all(id)
+    # returns an instance of `Customer` where the value of the id field in the CSV matches the passed parameter
+    # raise ArgumentError if ID does not exist
+  end
 end
+ap Customer.all
+
