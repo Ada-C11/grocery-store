@@ -14,4 +14,13 @@ class Order
       return raise ArgumentError, "You have entered an invalid status"
     end 
 
+    def total
+        total = 0.00
+        @products.each_value do |value|
+          total += value
+        end
+        total += (total * 0.075) #7.5% tax
+        return total.round(2)
+    end
+
 end
