@@ -29,4 +29,13 @@ class Customer
   def self.find(id)
     return (self.all).find { |customer| customer.id == id }
   end
+
+  # creates a file identical to the original csv at the specified filepath
+  def self.save(filepath)
+    CSV.open(filepath, "w") do |newfile|
+      CSV.open("data/customers.csv").each do |row|
+        newfile << row
+      end
+    end
+  end
 end

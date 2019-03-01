@@ -19,11 +19,13 @@ class Order
     @fulfillment_status = fulfillment_status
   end
 
+  # Calculate the total cost of an order
   def total
     total = @products.values.sum
     total = (total + 0.075 * (total)).round(2)
   end
 
+  # Add a product to @products hash
   def add_product(name, price)
     if @products.keys.include?(name.downcase)
       raise ArgumentError, "A product with the same name has already " +
@@ -32,6 +34,7 @@ class Order
     @products[name.downcase] = price.to_f.round(2)
   end
 
+  # Remove a product from @products hash
   def remove_product(name, price)
     if !(@products.keys.include?(name.downcase))
       raise ArgumentError, "Order # #{@id} does not include the product #{name}. "
@@ -39,6 +42,7 @@ class Order
     @products.delete(name.downcase)
   end
 
+  # Helper method to parse string of products into hash
   def self.parse_products(product_string)
     products = product_string.split(";")
     products.map! { |item| item.split(":") }.each do |item|
@@ -47,6 +51,7 @@ class Order
     return products.to_h
   end
 
+  # Returns an array of all Orders from CSV file
   def self.all
     all_orders = []
     CSV.open("data/orders.csv").each do |row|
@@ -62,7 +67,18 @@ class Order
     end
     return all_orders
   end
+
+  # Returns an Order object with matching ID. If no matches are found, returns nil.
   def self.find(id)
     return (self.all).find { |order| order.id == id }
+  end
+
+  # creates a file identical to the original csv at the specified filepath
+  def self.save(filepath)
+    CSV.open(filepath, "w") do |newfile|
+      CSV.open("data/orders.csv").each do |row|
+        newfile << row
+      end
+    end
   end
 end
