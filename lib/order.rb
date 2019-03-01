@@ -1,6 +1,6 @@
 require 'csv'
 require 'awesome_print'
-
+require_relative 'customer.rb'
 
 class Order
   attr_reader :id
@@ -8,12 +8,12 @@ class Order
 
   def initialize(id, products, customer, fulfillment_status = :pending)
 
-    @id = id
+    @id = id.to_i
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
     raise ArgumentError.new("Status not valid") unless fulfillment_status == :pending || fulfillment_status == :paid ||
-     fulfillment_status == :processing || fulfillment_status == :shipped || fulfillment_status == :complete  
+    fulfillment_status == :processing || fulfillment_status == :shipped || fulfillment_status == :complete
   end
 
   def total
@@ -30,39 +30,37 @@ class Order
     @products[product_name] = product_price
     return @products
   end
-end
 
-def Order.all
-  return CSV.read("/Users/ranuseh/workspace/ada/ada_program/grocery-store/data/orders.csv").map do |order|
-    product_id = order.first # returns first line
-    fulfillment_status = order.last # returns last line
-    customer_id = order[-2]
-    puts customer_id
+  def self.ordering(info) # Helper Method
+    prices_list = info[1]
+    products = prices_list.split(";")
+    products_hash = {}
+      parts = products[0].split(":")
+      products_hash[parts[0]] = parts[1].to_f 
+    return products_hash
   end
-  # Order.new(id, products, customer, fulfillment_status)
+
+  def self.all
+    all_order = []
+    CSV.read("/Users/ranuseh/workspace/ada/ada_program/grocery-store/data/orders.csv").each do |order|
+      id = order.first # returns first index
+      fulfillment_status = order.last # returns last index
+      customer_id = Customer.find(order[-2]) # turns customer id into an instance of customer
+      product_hash = Order.ordering(order) # calls that method to return a hash of the products
+      all_order.push(Order.new(id, product_hash, customer_id, fulfillment_status))
+    end
+    return all_order
+  end
+
+  print Order.all
+
+  # def Order.find_by_customer(customer_id)
+  #   order = Order.all.find { |order| order.id == id }
+  #   return order
+  # end
+
+  # puts Order.find_by_customer(25)
+
 end
 
-Order.all
 
-address = [1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete]
-
-def product_ordering(info)
-  prices_list = info[1] #Grabbing prices from array
-  puts prices_list
-  # products = prices_list.split(";") #Splitting by products
-  # products_hash = {}
-  # products.each do |product|
-  #   parts = product.split(":") # splitting by product name and price
-  #   product_name = product[0]
-  #   product_price = product[1]
-  #   products_hash[product_name] = product_price
-end# end
-
-product_ordering(order.all)
-
-# Parse the list of products into a hash
-# This would be a great piece of logic to put into a helper method
-# You might want to look into Ruby's split method
-# We recommend manually copying the first product string from the CSV file and using pry to prototype this logic
-# Turn the customer ID into an instance of Customer
-# Didn't you just write a method to do this?

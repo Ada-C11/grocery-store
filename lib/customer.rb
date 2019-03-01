@@ -27,7 +27,6 @@ def Customer.all
     Customer.new(id, email, address)
   end
 end
-
 # puts Customer.all
 
 # returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
@@ -36,4 +35,4 @@ def Customer.find(id)
   return customer
 end
 
-puts Customer.find(2)
+# puts Customer.find(2)
