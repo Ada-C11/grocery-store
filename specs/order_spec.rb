@@ -184,7 +184,7 @@ describe "Order Wave 2" do
   describe "Order.find_by_customer_id" do
     it "returns an array of a specific customer's orders" do
       lookup = Order.find_by_customer_id(25)
-
+    
       expect(lookup).must_be_kind_of Array
       expect(lookup.size).must_equal 6
     end

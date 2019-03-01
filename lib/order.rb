@@ -36,29 +36,28 @@ class Order
   end
 
   # optional remove a product from a hash
-  # def remove_product name
-  #   if @products.has_key?(name)
-  #     @products.delete(name)
-  #   else
-  #     raise ArgumentError, "Item does not exist"
-  #   end
-  #   return @products
-  # end
+  def remove_product(name)
+    if @products.has_key?(name)
+      @products.delete(name)
+    else
+      raise ArgumentError, "Item does not exist"
+    end
+    return @products
+  end
 
   def self.hashify(string)
     arr_sep = ";"
     key_sep = ":"
-  
+
     new_array = string.split(arr_sep)
     hash = {}
-    
+
     new_array.each do |elem|
-        key_value = elem.split(key_sep)
-        hash[key_value[0]] = key_value[1].to_f
+      key_value = elem.split(key_sep)
+      hash[key_value[0]] = key_value[1].to_f
     end
     return hash
   end
-  
 
   def self.all
     all_orders = []
@@ -76,8 +75,8 @@ class Order
   def self.find(search_id)
     Order.all.find do |product_order|
       product_order.id == search_id
+    end
   end
-end
 
   def self.find_by_customer_id(cust_id)
     customer_prod_hx = []
@@ -88,8 +87,4 @@ end
     end
     return customer_prod_hx
   end
-
 end
-
-check = Order.find_by_customer_id(25)
-ap check
