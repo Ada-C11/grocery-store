@@ -209,4 +209,30 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Returns an array of orders" do
+      orders = Order.find_by_customer(25)
+
+      expect(orders.length).must_equal 6
+
+      orders.each do |o|
+        puts o.customer.id
+        expect(o).must_be_kind_of Order
+      end
+    end
+
+    it "Returns nil if customer id doesn't exist" do
+      # TODO: Your test code here!
+      expect(Order.find_by_customer(53145)).must_be_nil
+    end
+
+    it "Returns accurate orders based on customer id" do
+      orders = Order.find_by_customer(25)
+
+      orders.each do |o|
+        expect(o.customer.id).must_equal 25
+      end
+    end
+  end
 end
