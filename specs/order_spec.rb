@@ -178,7 +178,17 @@ describe "Order Wave 2" do
     end
 
     it "Returns nil for an order that doesn't exist" do
-      expect(Order.find(999)).must_equal
+      expect(Order.find(999)).must_equal nil
+    end
+
+  describe "Order.find_by_customer_id" do
+    it "returns an array of a specific customer's orders" do
+      lookup = Order.find_by_customer_id(25)
+
+      expect(lookup).must_be_kind_of Array
+      expect(lookup.size).must_equal 6
     end
   end
+
+end
 end

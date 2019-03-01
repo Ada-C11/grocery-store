@@ -93,11 +93,3 @@ end
 
 check = Order.find_by_customer_id(25)
 ap check
-# find_by_customer_id => Order.find(1).customer.id
-
-# def self.find_by_customer_id(cust_id)
-#     Customer.all.find do |lookup|
-#       if lookup.id == cust_id
-#         return Orders
-#     end
-#   end
