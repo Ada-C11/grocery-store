@@ -45,17 +45,61 @@ class Order
   #   return @products
   # end
 
+  def convert_to_hash(array)
+    arr_sep=';'
+    key_sep=':'
+    new_array = []
+    array.each do |element|
+     newly = element.split(';')
+     new_array << newly
+    end
+    hash = {}
+  
+    new_array.each do |elem|
+      elem.each do |stringy|
+      key_value = stringy.split(key_sep)
+      hash[key_value[0]] = key_value[1]
+      end
+    end
+    return hash
+  end
+
   def self.all
     all_orders = []
     CSV.open('data/orders.csv', 'r').each do |line|
-      line_no_comma = line.split(',')
-      line_complete = line.split(';')
+      id = line[0].to_i
+      products = convert_to_hash(line[1])
+      customer_id = line[2].to_i
+      fulfillment_status = line[3].to_sym
+      instance_of_order = Order.new(id, products, customer_id, fulfillment_status)
+      all_orders << instance_of_order
     end
   end
+
 end
 
-array = [["1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete"]]
+# array = [["1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete"]]
 
+
+# all_orders = []
+# CSV.open('data/orders.csv', 'r').each do |line|
+  
+#     # puts line
+#     # line_split_by_comma = l_string.split(',')
+#   end
+
+# end
+
+  
+# p "#{all_orders}"
+
+# array.each do |line| #this will be the csv file
+#   line.each do |string|
+#     final_adjustment = string.split(',')
+#     all_orders << final_adjustment
+#     # binding.pry
+#   end
+# end
 
 # array.each do |element|
 #   string = element[0]
@@ -65,15 +109,19 @@ array = [["1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete"]]
 
 # ap array[0][0].split(',')
 
-#helper method?
-all_orders = [] 
-array.each do |line| #this will be the csv file
-  line.each do |string|
-    first_adjustment = string.gsub(';', ',')
-    final_adjustment = first_adjustment.split(',')
-    all_orders << final_adjustment
-    binding.pry
-  end
-end
 
-puts "#{new_array}"
+
+# products = ["Lobster:17.18;Annatto seed:58.38;Camomile:83.21"]
+
+
+
+# end
+
+#parse the list of products
+# def product_hash(array)
+# products.each do |order_item|
+#   newly = order_item.split(';')
+#   newly.each do |ind_prod|
+#     new_stuff = ind_prod.gsub(':', '=>')
+#   end
+# end
