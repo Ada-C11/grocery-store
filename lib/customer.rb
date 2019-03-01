@@ -11,9 +11,12 @@ class Customer
   end
 
   def self.all
+    customers = []
     CSV.foreach('data/customers.csv') do |row|
-      Customer.new(row[0].to_i, row[1], %i[street city state zip].zip(row.slice(2..5)).to_h)
+      new_customer = Customer.new(row[0].to_i, row[1], %i[street city state zip].zip(row.slice(2..5)).to_h)
+      customers << new_customer
     end
+    customers
   end
   # returns a collection of `Customer` instances, representing all of the Customer described in the CSV fil
 
@@ -23,5 +26,3 @@ class Customer
     # raise ArgumentError if ID does not exist
   end
 end
-ap Customer.all
-
