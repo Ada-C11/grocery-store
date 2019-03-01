@@ -12,15 +12,22 @@ class Customer
     @address = address
   end
 
+  # create self method
   def self.all
-    CSV.open('customer.csv','r').each do |customer|
-      customers = []
-      customers << self.csv_customer(customer)
+    # iterate over each row of the csv
+    customers = CSV.open('data/customers.csv','r').map do |field|
+    Customer.new(field[0].to_i, "#{field[1]}", "#{field[2]}, #{field[3]}, #{field[4]}, #{field[5]}")
     end
     return customers
   end
 
   def self.find(id)
-    
+    total_customers = self.all
+    total_customers.length.times do |i|
+      if total_customers[i].id == id
+        return total_customers[i]
+      end
+    end
+    return nil
   end
 end
