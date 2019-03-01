@@ -24,14 +24,12 @@ class Customer
     end
     return all_customers
   end
-
+  
+  # thank you for the hint!
   def self.find(search)
-    Customer.all.each do |customer|
-      if customer.id == search
-        return customer
-      end
+    Customer.all.find do |customer|
+      customer.id == search
     end
-    return nil
   end
 end
 
