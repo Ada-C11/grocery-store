@@ -51,7 +51,14 @@ class Order
 
     CSV.read("data/orders.csv").each do |row|
       id = row[0].to_i
-      products = row[1].to_h
+      products = {}
+      # iterate to split by ; and :
+      # store most nested array into products hash
+      row[1].split(";").each do |item|
+        each_product = item.split(":")
+        products[each_product[0]] = each_product[1].to_f
+      end
+
       customer = row[2].to_i
       fulfillment_status = row[3]
 
