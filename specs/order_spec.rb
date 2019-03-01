@@ -114,13 +114,18 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
-  xdescribe "Order.all" do
+describe "Order Wave 2" do
+  describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
+      orders = Order.all
+      expect(orders.length).must_equal 100
+      orders.each do |o|
+        expect(o).must_be_kind_of Order
+      end
     end
 
-   xit "Returns accurate information about the first order" do
+   it "Returns accurate information about the first order" do
       id = 1
       products = {
         "Lobster" => 17.18,
@@ -140,22 +145,33 @@ xdescribe "Order Wave 2" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
-    xit "Returns accurate information about the last order" do
+    it "Returns accurate information about the last order" do
       # TODO: Your test code here!
+      last = Order.all.last
+      expect(last.id).must_equal 100
     end
   end
 
-  xdescribe "Order.find" do
-    xit "Can find the first order from the CSV" do
+  describe "Order.find" do
+    it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
-    xit "Can find the last order from the CSV" do
+    it "Can find the last order from the CSV" do
       # TODO: Your test code here!
+      last = Order.find(100)
+
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
-    xit "Returns nil for an order that doesn't exist" do
+    it "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
+      expect(Order.find(53145)).must_be_nil
     end
   end
 end
