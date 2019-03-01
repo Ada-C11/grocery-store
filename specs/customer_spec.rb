@@ -36,8 +36,8 @@ end
 describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
+      
       customers = Customer.all
-
       expect(customers.length).must_equal 35
       customers.each do |c|
         expect(c).must_be_kind_of Customer

@@ -36,13 +36,43 @@ class Order
   end
 
   # optional remove a product from a hash
-  def remove_product name
-    if @products.has_key?(name)
-      @products.delete(name)
-    else
-      raise ArgumentError, "Item does not exist"
+  # def remove_product name
+  #   if @products.has_key?(name)
+  #     @products.delete(name)
+  #   else
+  #     raise ArgumentError, "Item does not exist"
+  #   end
+  #   return @products
+  # end
+
+  def self.all
+    all_orders = []
+    CSV.open('data/orders.csv', 'r').each do |line|
+      line_no_comma = line.split(',')
+      line_complete = line.split(';')
     end
-    return @products
   end
 end
 
+array = [["1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete"]]
+
+
+# array.each do |element|
+#   string = element[0]
+#   no_semi = string.gsub(';', ' ')
+#   new_string = no_semi.split(',')
+# end
+
+# ap array[0][0].split(',')
+
+#helper method?
+all_orders = [] 
+array.each do |element|
+  element.each do |string|
+    new_stuff = string.gsub(';', ' ')
+    final_thing = new_stuff.split(',')
+    new_array << final_thing
+  end
+end
+
+puts "#{new_array}"
