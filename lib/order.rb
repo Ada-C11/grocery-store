@@ -1,14 +1,6 @@
 require "csv"
-require_relative "../lib/customer.rb"
-require "pry"
 
-def parse_products(product_string)
-  products = product_string.split(";")
-  products.map! { |item| item.split(":") }.each do |item|
-    item[1] = item[1].to_f.round(2)
-  end
-  return products.to_h
-end
+require_relative "../lib/customer.rb"
 
 class Order
   attr_reader :id
@@ -47,11 +39,19 @@ class Order
     @products.delete(name.downcase)
   end
 
+  def self.parse_products(product_string)
+    products = product_string.split(";")
+    products.map! { |item| item.split(":") }.each do |item|
+      item[1] = item[1].to_f.round(2)
+    end
+    return products.to_h
+  end
+
   def self.all
     all_orders = []
     CSV.open("data/orders.csv").each do |row|
       row_id = row[0].to_i
-      row_products = parse_products(row[1])
+      row_products = Order.parse_products(row[1])
       row_customer = Customer.find(row[2].to_i)
       row_status = row[3] ? row[3].to_sym : nil
       if row_status
