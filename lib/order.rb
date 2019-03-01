@@ -8,7 +8,7 @@ class Order
     @fulfillment_status = fulfillment_status
 
     unless [:pending, :paid, :processing, :shipped, :complete].include?(@fulfillment_status)
-      raise ArgumentError, "Please don't do that."
+      raise ArgumentError, "Invalid fulfillment status: #{@fulfillment_status}"
     end
   end
 
@@ -47,5 +47,33 @@ class Order
     else
       @products.delete(product_name)
     end
+  end
+
+  def self.all
+    orders = []
+    file = CSV.open("data/orders.csv", "r")
+
+    file.each do |line|
+      order_id = line[0].to_i
+
+      products = {}
+      item_and_price = line[1].split(";")
+      item_and_price.each do |item|
+        temp_array = item.split(":")
+        products.store(temp_array.first, temp_array.last.to_f)
+      end
+
+      customer_id = line[2].to_i
+      customer = Customer.find(customer_id)
+
+      fulfillment_status = line[3].to_sym
+
+      order = Order.new(order_id, products, customer, fulfillment_status)
+      orders << order
+    end
+    return orders
+  end
+
+  def self.find(id)
   end
 end
