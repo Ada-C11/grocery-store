@@ -1,12 +1,12 @@
-require_relative 'customer'
-require 'Rake'
-require 'awesome_print'
+require_relative "customer"
+require "Rake"
+require "awesome_print"
 
 class Order
   attr_reader :id
   attr_accessor :products, :fulfillment_status, :customer, :products, :convert_to_hash
 
-  def initialize id, products, customer, fulfillment_status = :pending
+  def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @fulfillment_status = fulfillment_status
     @customer = customer
@@ -20,17 +20,17 @@ class Order
   def total
     pre_tax = 0
     @products.each do |key, value|
-     pre_tax += value
+      pre_tax += value
     end
     total = (pre_tax * 0.075) + pre_tax
-    return total.round(2) 
+    return total.round(2)
   end
 
-  def add_product name, price
+  def add_product(name, price)
     if @products.has_key? name
       raise ArgumentError, "Cannot duplicate extant product"
     else
-    @products[name] = price
+      @products[name] = price
     end
     return @products
   end
@@ -46,19 +46,19 @@ class Order
   # end
 
   def convert_hash(array)
-    arr_sep=';'
-    key_sep=':'
+    arr_sep = ";"
+    key_sep = ":"
     new_array = []
     array.each do |element|
-     new_el = element.split(arr_sep)
-     new_array << new_el
+      new_el = element.split(arr_sep)
+      new_array << new_el
     end
     hash = {}
-  
+
     new_array.each do |elem|
       elem.each do |stringy|
-      key_value = stringy.split(key_sep)
-      hash[key_value[0]] = key_value[1]
+        key_value = stringy.split(key_sep)
+        hash[key_value[0]] = key_value[1]
       end
     end
     return hash
@@ -66,7 +66,7 @@ class Order
 
   def self.all
     all_orders = []
-    CSV.open('data/orders.csv', 'r').each do |line|
+    CSV.open("data/orders.csv", "r").each do |line|
       id = line[0].to_i
       products = convert_hash(line[1])
       customer_id = line[2].to_i
@@ -76,22 +76,19 @@ class Order
     end
     return all_orders
   end
-
 end
 
 # array = [["1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete"]]
 
-
 # all_orders = []
 # CSV.open('data/orders.csv', 'r').each do |line|
-  
+
 #     # puts line
 #     # line_split_by_comma = l_string.split(',')
 #   end
 
 # end
 
-  
 # p "#{all_orders}"
 
 # array.each do |line| #this will be the csv file
@@ -110,11 +107,7 @@ end
 
 # ap array[0][0].split(',')
 
-
-
 # products = ["Lobster:17.18;Annatto seed:58.38;Camomile:83.21"]
-
-
 
 # end
 
