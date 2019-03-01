@@ -25,11 +25,9 @@ class Customer
     return customers
   end
 
-  def self.find(id)
-    # returns an instance of Customer, if id
-    # matches the value in the id field in CSV
-
-    # Doesn't parse through CS.
-    # Invokes .all and parses through the results
+  def self.find(id_number)
+    Customer.all.find do |customer|
+      customer.id == id_number
+    end
   end
 end
