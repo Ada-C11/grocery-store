@@ -17,26 +17,22 @@ class Order
   attr_accessor :fulfillment_status
 
   def total
-    # total is 0 if there's no product
     if @products.length == 0
       total = 0
-    else # Sums up products
+    else
       total = @products.values.inject { |sum, cost| sum + cost }
-      # Adds a 7.5% tax
       tax = total * 7.5 / 100
       total += tax
-      # Rounds the result to two decimal places
       total = "%.2f" % total
     end
-    # Returns total
+
     return total.to_f
   end
 
   def add_product(product_name, product_price)
-    # Raises an argument if product already exists
     if @products.keys.include?(product_name)
-      raise ArgumentError
-    else # add data to product collection
+      raise ArgumentError, "Product already exists: #{product_name}"
+    else
       @products.store(product_name, product_price)
     end
   end
@@ -82,8 +78,6 @@ class Order
   def self.find(id_number)
     Order.all.find do |order|
       order.id == id_number
-      # Returns an instance of Order when the value of the id field
-      # matches the passed parameter
     end
   end
 
