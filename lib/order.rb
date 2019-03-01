@@ -67,11 +67,12 @@ array = [["1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete"]]
 
 #helper method?
 all_orders = [] 
-array.each do |element|
-  element.each do |string|
-    new_stuff = string.gsub(';', ' ')
-    final_thing = new_stuff.split(',')
-    new_array << final_thing
+array.each do |line| #this will be the csv file
+  line.each do |string|
+    first_adjustment = string.gsub(';', ',')
+    final_adjustment = first_adjustment.split(',')
+    all_orders << final_adjustment
+    binding.pry
   end
 end
 
