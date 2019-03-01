@@ -78,4 +78,9 @@ class Order
       product_order.id == search_id
     end
   end
+
 end
+
+check = Order.all.last
+
+puts check.fulfillment_status
