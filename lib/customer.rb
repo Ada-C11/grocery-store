@@ -28,7 +28,7 @@ class Customer
     return customer_array
   end
 
-  # use super cook find enumerable method to return customer if customer.id == id, method returns nil if not.
+  # Use super cool find enumerable method to return customer if customer.id == id, else returns nil.
   def self.find(id)
     Customer.all.find do |customer|
       customer.id == id
