@@ -11,13 +11,14 @@ class Order
     raise ArgumentError, 'Wrong status' if fs_types.none? @fulfillment_status
   end
 
-  def total(products)
-    (products.values.sum * 1.075).round(2)
+  def total
+    (@products.values.sum * 1.075).round(2)
   end
 
   def add_product(name, price)
-    raise ArgumentError if product.key?(name)
+    raise ArgumentError if products.key?(name)
 
-    products[name] = price
+    @products[name] = price
   end
 end
+
