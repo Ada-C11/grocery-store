@@ -28,6 +28,15 @@ class Order
     return orders_array
   end
 
+  def self.find(id)
+    Order.all.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
+  end
+
   def total
     costs = @products.values
     total = (costs.sum + costs.sum * 0.075).round(2)
