@@ -1,9 +1,9 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
+require "minitest/autorun"
+require "minitest/reporters"
+require "minitest/skip_dsl"
 
-require_relative '../lib/customer'
-require_relative '../lib/order'
+require_relative "../lib/customer"
+require_relative "../lib/order"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -13,13 +13,13 @@ describe "Order Wave 1" do
       street: "123 Main",
       city: "Seattle",
       state: "WA",
-      zip: "98101"
+      zip: "98101",
     }
     Customer.new(123, "a@a.co", address)
   end
 
   describe "#initialize" do
-    xit "Takes an ID, collection of products, customer, and fulfillment_status" do
+    it "Takes an ID, collection of products, customer, and fulfillment_status" do
       id = 1337
       fulfillment_status = :shipped
       order = Order.new(id, {}, customer, fulfillment_status)
@@ -37,7 +37,7 @@ describe "Order Wave 1" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
-    xit "Accepts all legal statuses" do
+    it "Accepts all legal statuses" do
       valid_statuses = %i[pending paid processing shipped complete]
 
       valid_statuses.each do |fulfillment_status|
@@ -46,13 +46,13 @@ describe "Order Wave 1" do
       end
     end
 
-    xit "Uses pending if no fulfillment_status is supplied" do
+    it "Uses pending if no fulfillment_status is supplied" do
       order = Order.new(1, {}, customer)
       expect(order.fulfillment_status).must_equal :pending
     end
 
-    xit "Raises an ArgumentError for bogus statuses" do
-      bogus_statuses = [3, :bogus, 'pending', nil]
+    it "Raises an ArgumentError for bogus statuses" do
+      bogus_statuses = [3, :bogus, "pending", nil]
       bogus_statuses.each do |fulfillment_status|
         expect {
           Order.new(1, {}, customer, fulfillment_status)
@@ -62,8 +62,8 @@ describe "Order Wave 1" do
   end
 
   describe "#total" do
-    xit "Returns the total from the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+    it "Returns the total from the collection of products" do
+      products = {"banana" => 1.99, "cracker" => 3.00}
       order = Order.new(1337, products, customer)
 
       expected_total = 5.36
@@ -71,7 +71,7 @@ describe "Order Wave 1" do
       expect(order.total).must_equal expected_total
     end
 
-    xit "Returns a total of zero if there are no products" do
+    it "Returns a total of zero if there are no products" do
       order = Order.new(1337, {}, customer)
 
       expect(order.total).must_equal 0
@@ -79,8 +79,8 @@ describe "Order Wave 1" do
   end
 
   describe "#add_product" do
-    xit "Increases the number of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+    it "Increases the number of products" do
+      products = {"banana" => 1.99, "cracker" => 3.00}
       before_count = products.count
       order = Order.new(1337, products, customer)
 
@@ -89,16 +89,16 @@ describe "Order Wave 1" do
       expect(order.products.count).must_equal expected_count
     end
 
-    xit "Is added to the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+    it "Is added to the collection of products" do
+      products = {"banana" => 1.99, "cracker" => 3.00}
       order = Order.new(1337, products, customer)
 
       order.add_product("sandwich", 4.25)
       expect(order.products.include?("sandwich")).must_equal true
     end
 
-    xit "Raises an ArgumentError if the product is already present" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+    it "Raises an ArgumentError if the product is already present" do
+      products = {"banana" => 1.99, "cracker" => 3.00}
 
       order = Order.new(1337, products, customer)
       before_total = order.total
@@ -116,16 +116,21 @@ end
 # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
-    xit "Returns an array of all orders" do
-      # TODO: Your test code here!
+    it "Returns an array of all orders" do
+      orders = Order.all
+
+      expect(orders.length).must_equal 100
+      orders.each do |order|
+        expect(order).must_be_kind_of Order
+      end
     end
 
-    xit "Returns accurate information about the first order" do
+    it "Returns accurate information about the first order" do
       id = 1
       products = {
         "Lobster" => 17.18,
         "Annatto seed" => 58.38,
-        "Camomile" => 83.21
+        "Camomile" => 83.21,
       }
       customer_id = 25
       fulfillment_status = :complete

@@ -1,3 +1,5 @@
+require "csv"
+
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
 
@@ -25,5 +27,13 @@ class Order
       raise ArgumentError, "This product has already been added to the order."
     end
     @products[name] = [price]
+  end
+
+  def self.all
+    order_array = []
+    CSV.open("data/orders.csv", "r").each do |line|
+      order_array << Order.new(line[0].to_i, line[1], line[2].to_i, line[3].to_sym)
+    end
+    return order_array
   end
 end
