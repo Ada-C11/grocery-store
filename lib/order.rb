@@ -1,6 +1,5 @@
 require 'csv'
 require_relative 'customer.rb'
-require 'pry'
 
 class Order 
   attr_reader :id
@@ -82,10 +81,8 @@ class Order
           products_array << k + ":" + v.to_s
         end
         products = products_array.join(';')
-        
         file << [order.id, products, order.customer.id, order.fulfillment_status.to_s]
       end
     end
   end
 end
-# Order.save('new_order_list.csv')
