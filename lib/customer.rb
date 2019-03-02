@@ -20,13 +20,8 @@ class Customer
     return customers
   end
   def self.find(id)
-    self.all.each do |customer|
-      if customer.id == id
-        return customer
-      end
-    end
-    #raise ArgumentError, "This customer is not in the list."
+    (Customer.all).find { |customer| customer.id == id }
   end
 end
 
-puts Customer.find(4)
+Customer.find(4)

@@ -3,21 +3,18 @@ require "awesome_print"
 
 class Order
   attr_reader :id
-  attr_accessor :products
+  attr_accessor :products, :fulfillment_status, :customer
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
+    #raise ArgumentError.new("This is not a valid fulfillment status")
 
-    def fulfillment_status
-      valid_statuses = [:pending, :paid, :processing, :shipped, :complete]
-      if valid_statuses.include?(@fulfillment_status) == true
-        return @fulfillment_status
-      else
-        raise ArgumentError, "Invalid fullfilment status"
-      end
+    valid_statuses = [:pending, :paid, :processing, :shipped, :complete]
+    if valid_statuses.include?(@fulfillment_status) != true
+      raise ArgumentError, "Invalid fullfilment status"
     end
   end
 
@@ -41,16 +38,21 @@ class Order
   def self.all
     orders = []
     CSV.read("data/orders.csv").each do |line|
-      orders << line
+      id = line[0].to_i
+      products = {}
+
+      products_array = line[1].split(";")
+      products_array.each do |p|
+        product = p.split(":")
+        products[product[0]] = product[1].to_f.round(2)
+      end
+      customer = Customer.find(line[2].to_i)
+      fulfillment_status = line[3].to_sym
+      order = Order.new(id, products, customer, fulfillment_status)
+      orders << order
     end
     return orders
   end
-  # def sort_order
-  #   order = []
-  #   self.all.each do |item|
-  #    order = item[1].split(';')
-
-  #   end
 
   def self.find(id)
     self.all.each do |item|
@@ -62,4 +64,6 @@ class Order
   end
 end
 
-ap Order.all
+#ap Order.all
+#ap Order.sort_order
+#ap Order.all
