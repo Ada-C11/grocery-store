@@ -49,17 +49,5 @@ class Customer
     end
     return found_customer
   end
-
 end # class Customer end
 
-# customer_1 = Customer.new(3, "me@email.com", "123 Main, Seattle, WA, 98011")
-
-# puts "All CUSTOMERS:"
-# ap Customer.all
-# puts "\nFIRST CUSTOMER:"
-# puts Customer.all.first.email
-# puts "\nLAST CUSTOMER:"
-# puts Customer.all.last.email
-
-# puts Customer.find(1)
-# ap Customer.find()
