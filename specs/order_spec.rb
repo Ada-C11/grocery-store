@@ -107,13 +107,11 @@ describe "Order Wave 1" do
         order.add_product("banana", 4.25)
       }.must_raise ArgumentError
 
-      # The list of products should not have been modified
       expect(order.total).must_equal before_total
     end
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
@@ -147,7 +145,6 @@ describe "Order Wave 2" do
 
     it "Returns accurate information about the last order" do
       id = 100
-      #Smoked Trout:70.6;Cheddar:5.63,20,pending
       products = {
         "Amaranth" => 83.81,
         "Smoked Trout" => 70.6,

@@ -1,5 +1,4 @@
 require "csv"
-require "awesome_print"
 
 class Customer
   attr_reader :id
@@ -11,7 +10,7 @@ class Customer
     @address = address
   end
 
-  #returns a collection of Customer instances, representing all of Customer info
+  # returns a collection of Customer instances, representing all of Customer info
   #return info from csv
   def self.all
     customer_info_array = CSV.open("data/customers.csv", "r").map do |customer|
@@ -20,7 +19,7 @@ class Customer
     return customer_info_array
   end
 
-  #returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
+  # returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
   def self.find(id)
     self.all.each do |search_customer|
       if search_customer.id == id

@@ -15,8 +15,8 @@ class Order
     end
   end
 
+  # Calculates total cost of the order by putting the order price into a new array and adds 7.5% tax to the sum of the order.
   def total
-    #total cost of order + 7.5% tax.round(2)
     array_of_prices = @products.map do |_, price|
       price
     end
@@ -32,6 +32,7 @@ class Order
     end
   end
 
+  # helper method that splits the order name and price into a seperate hash for each individual name/price in the order.
   def self.hash(products)
     products_hash = {}
     split_products = products.split(";")
