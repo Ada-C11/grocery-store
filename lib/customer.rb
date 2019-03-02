@@ -25,6 +25,8 @@ class Customer
     return @customers
   end
 
+   # returns customer object with matching ID else returns nil
   def self.find(id)
+    return (self.all).bsearch { |customer| id <=> customer.id }
   end
-end
+
