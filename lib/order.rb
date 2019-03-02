@@ -1,5 +1,5 @@
 require_relative "customer.rb"
-require "orders.csv"
+require "csv"
 
 class Order
   attr_accessor :products, :customer, :fulfillment_status
@@ -30,5 +30,31 @@ class Order
     else
       @products[name] = price
     end
+  end
+
+  def self.hash(products)
+    products_hash = {}
+    split_products = products.split(";")
+    split_products.each do |pair_product|
+      split_products = pair_product.split(":")
+      products_hash[split_products[0]] = split_products[1].to_f
+    end
+    return products_hash
+  end
+
+  def self.all
+    order_info_array = CSV.open("data/orders.csv", "r").map do |order|
+      Order.new(order[0].to_i, self.hash(order[1]), Customer.find(order[2].to_i), order[3].to_sym)
+    end
+    return order_info_array
+  end
+
+  def self.find(id)
+    self.all.each do |search_order|
+      if search_order.id == id
+        return search_order
+      end
+    end
+    return nil
   end
 end

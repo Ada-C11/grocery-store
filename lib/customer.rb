@@ -1,4 +1,5 @@
-require "customers.csv"
+require "csv"
+require "awesome_print"
 
 class Customer
   attr_reader :id
@@ -10,21 +11,22 @@ class Customer
     @address = address
   end
 
-  # def self.all
-  #   #returns a collection of Customer instances, representing all of Customer info
-  #   result = "Customers:"
-  #   @planets.each_with_index do |planet, index|
-  #     result += "#{index + 1}. #{customer}\n"
-  #   end
-  #   return result
-  # end
+  #returns a collection of Customer instances, representing all of Customer info
+  #return info from csv
+  def self.all
+    customer_info_array = CSV.open("data/customers.csv", "r").map do |customer|
+      Customer.new(customer[0].to_i, "#{customer[1]}", "#{customer[2]}, #{customer[3]}, #{customer[4]}, #{customer[5]}")
+    end
+    return customer_info_array
+  end
 
-  # def self.find(id)
-  #   #returns an instance of Customer where the value of
-  #   #the id field in the CSV matches the passed parameter
-  #     return @planets.find do |planet|
-  #              planet.name.downcase == name.downcase
-  #            end
-  #   end
-  # end
+  #returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
+  def self.find(id)
+    self.all.each do |search_customer|
+      if search_customer.id == id
+        return search_customer
+      end
+    end
+    return nil
+  end
 end
