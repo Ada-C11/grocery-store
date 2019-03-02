@@ -21,19 +21,28 @@ class Order
     end
   end
 
+  def self.products_hash(products_string)
+    items_with_prices = products_string.split(";")
+    products_hash = {}
+    items_with_prices.each do |item_with_price|
+      array = item_with_price.split(":")
+      item = array[0]
+      price = array[1].to_f
+      products_hash[item] = price
+    end
+    return products_hash
+  end
+
   def self.all
     orders_array = []
     CSV.open("data/orders.csv", "r").each do |line|
-      pairs = line[1].split(";")
-      hash = {}
-      pairs.each do |i|
-        pair = i.split(":")
-        hash[pair[0]] = pair[1].to_f
-      end
-      orders_array << Order.new(line[0].to_i,
-                                hash,
-                                Customer.find(line[2].to_i),
-                                line[3].to_sym)
+      id = line[0].to_i
+      products_string = line[1]
+      products = products_hash(products_string)
+      customer_id = line[2].to_i
+      customer = Customer.find(customer_id)
+      fulfillment_status = line[3].to_sym
+      orders_array << Order.new(id, products, customer, fulfillment_status)
     end
 
     return orders_array
