@@ -1,3 +1,6 @@
+require "csv"
+require "awesome_print"
+
 # class that creates an instance of an order
 class Order
 
@@ -19,13 +22,13 @@ class Order
 
   # method that returns a hash containing the id, products, customer, and fulfillment status for an order
   def new_order
-    @order_hash = {
+    order_hash = {
       id: @id,
       products: @products,
       customer: @customer,
       fulfillment_status: @fulfillment_status,
     }
-    return @order_hash
+    return order_hash
   end
 
   # method that returns the total value, plus 7.5% tax of all products in an order
@@ -40,5 +43,19 @@ class Order
     end
 
     @products[product_name] = price
+  end
+
+  # method that returns an array of all order instances using data pulled from the orders.csv file
+  def self.all
+    all_orders = []
+
+    CSV.open("data/orders.csv", "r").each do |line|
+      products_array = line[1].split(/[;:]/)
+      products_hash = Hash[*products_array]
+
+      all_orders << Order.new(line[0].to_i, products_hash, Customer.find(line[2]), line[3].to_sym)
+    end
+
+    return all_orders
   end
 end
