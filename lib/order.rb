@@ -5,11 +5,12 @@ class Order
   attr_reader :id
   attr_accessor :products, :fulfillment_status, :customer
   
-  ORDER_ID_INDEX = 0
-  PRODUCT_INDEX = 1
-  CUSTOMER_ID_INDEX = 2
-  FULFILLMENT_STATUS_INDEX = 3
-  CSV_FILE_PATH = "/Users/elisepham/Ada/grocery-store/data/orders.csv"
+  ORDER_ID_INDEX = 0.freeze
+  PRODUCT_INDEX = 1.freeze
+  CUSTOMER_ID_INDEX = 2.freeze
+  FULFILLMENT_STATUS_INDEX = 3.freeze
+  CSV_FILE_PATH = "../grocery-store/data/orders.csv".freeze
+  private_constant :ORDER_ID_INDEX, :PRODUCT_INDEX, :CUSTOMER_ID_INDEX, :CSV_FILE_PATH
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
@@ -29,18 +30,18 @@ class Order
   end
 
   def add_product(name, price)
-    if @products.has_key?(name.downcase)
+    if @products.has_key?(name)
       raise ArgumentError.new("Product name already existed")
     end
-    @products[name.downcase] = price
+    @products[name] = price
   end
 
   def remove_product(name)
-    if !@products.has_key?(name.downcase)
+    if !@products.has_key?(name)
       raise ArgumentError.new("The product you want to remove does not exist")
     end
 
-    @products.delete(name.downcase)
+    @products.delete(name)
   end
 
   def self.all

@@ -5,13 +5,14 @@ class Customer
   attr_accessor :email, :address
   attr_reader :id
 
-  CUSTOMER_ID_INDEX = 0
-  EMAIL_INDEX = 1
-  STREET_INDEX = 2
-  CITY_INDEX = 3
-  STATE_INDEX = 4
-  ZIP_INDEX = 5
-  CSV_FILE_PATH = "/Users/elisepham/Ada/grocery-store/data/customers.csv"
+  CUSTOMER_ID_INDEX = 0.freeze
+  EMAIL_INDEX = 1.freeze
+  STREET_INDEX = 2.freeze
+  CITY_INDEX = 3.freeze
+  STATE_INDEX = 4.freeze
+  ZIP_INDEX = 5.freeze
+  CSV_FILE_PATH = "../grocery-store/data/customers.csv".freeze
+  private_constant :CUSTOMER_ID_INDEX, :EMAIL_INDEX, :CITY_INDEX, :STATE_INDEX, :ZIP_INDEX, :CSV_FILE_PATH
 
   def initialize(id, email, address)
     @id = id
