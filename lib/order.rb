@@ -31,9 +31,9 @@ class Order
     end
   end
 
-  def remove_product(name)
-    @products.delete_if { |product| product[:key] == name }
-  end
+  # def remove_product(name)
+  #   @products.delete_if { |product| product[:key] == name }
+  # end
 
   def self.all
     orders = []
