@@ -14,7 +14,7 @@ class Order
     if valid_statuses.include?(fulfillment_status)
       @fulfillment_status = fulfillment_status
     else
-      raise ArgumentError, "There is already an item by that name"
+      raise ArgumentError, "Invalid status"
     end
   end
 
