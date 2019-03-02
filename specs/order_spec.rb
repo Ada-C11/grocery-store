@@ -166,16 +166,33 @@ describe "Order Wave 2" do
     end
   end
 
-  xdescribe "Order.find" do
+  describe "Order.find" do
+    # def self.find(id)
+    #   return Order.all.find { |order| id == order.id }
+    # end
     it "Can find the first order from the CSV" do
+      id = 1
+      products = {
+        "Lobster" => 17.18,
+        "Annatto seed" => 58.38,
+        "Camomile" => 83.21,
+      }
+      customer_id = 25
+      fulfillment_status = :complete
+
+      order = Order.find(1)
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal 25
+      expect(order.fulfillment_status).must_equal fulfillment_status
+    end
+
+    xit "Can find the last order from the CSV" do
       # TODO: Your test code here!
     end
 
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Returns nil for an order that doesn't exist" do
+    xit "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
     end
   end
