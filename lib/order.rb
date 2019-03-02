@@ -1,6 +1,6 @@
+require 'csv'
 require 'awesome_print'
-require_relative '../lib/customer'
-
+require_relative 'customer'
 
 class Order
   attr_reader :id
@@ -14,7 +14,7 @@ class Order
     if valid_statuses.include?(fulfillment_status)
       @fulfillment_status = fulfillment_status
     else
-      raise ArgumentError
+      raise ArgumentError, "There is already an item by that name"
     end
   end
 
@@ -32,31 +32,40 @@ class Order
     @products.delete_if {|k, v| k >= name}
   end
 
-  def load_data(filename)
-    # data = []
-    # CSV.read('../data/orders.csv').each do |line|
-    #   data << line.to_a
-    # end
-    # return data
-  end  
-
   def self.all
-    # Return collection of Order instances
-    # represents all Orders in CSV
+    orders = []
+    CSV.read('data/orders.csv').each do |line|
+      products = line[1].split(";")
+      product_hash = {}
+      products.each do |item|
+        product = item.split(":")
+        product_hash[product[0]] = product[1].to_f
+      end
+      order = Order.new(line[0].to_i, product_hash, Customer.find(line[2].to_i), line[3].to_sym)
+      orders << order
+    end
+    return orders
   end
 
-  def self.find(id)
-    # Returns instance of Order
-    # id matches the passed param
-    # should call order.all
+  def self.find_by_customer(customer_id)
+    orders = self.all
+    matching_customer = Customer.find(customer_id)
+    matching_orders = orders.select { |order| matching_customer.id == order.customer.id }
+    return matching_orders
   end
 
-  # Optional
-  def find_by_customer(customer_id)
-    # Returns list of Order instances for matching cust ID
-  end
-
-  def save(filename)
-    # outputs 
+  def self.save(filename)
+    orders = self.all
+    CSV.open(filename, "w") do |file|
+      orders.each do |order|
+        each_order = [order.id.to_s]
+        prod_strings_arr = []
+        order.products.each do |prod_name, prod_price|
+          prod_strings_arr << "#{prod_name}:#{prod_price}"
+        end
+        each_order << prod_strings_arr.join(";") << order.customer.id.to_s << order.fulfillment_status.to_s
+        file << each_order
+      end
+    end
   end
 end
