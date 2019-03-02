@@ -1,4 +1,6 @@
 class Customer
+  include Comparable
+
   attr_reader :id
   attr_accessor :email, :address
 
