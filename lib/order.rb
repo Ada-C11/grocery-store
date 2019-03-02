@@ -46,10 +46,48 @@ class Order
     end
   end
 
-  #   # if product name already exists in hash, raise error
-  # end
+  def self.products_hash(string)
+    products = {}
+    product_thing = string.split(";")
+    product_thing.each do |line|
+      product_thing = line.split(':')
+      products[product_thing[0]] = product_thing[1].to_f
+    end
+    return products
+  end
+
+  def self.all
+    orders = CSV.open("data/orders.csv",'r').map do |row|
+      Order.new(row[0].to_i, self.products_hash(row[1]), Customer.find(row[2].to_i), row[3].to_sym)
+    end
+    return orders
+  end
+
+  def self.find(id)
+    self.all.each do |search|
+      if search.id == id
+        return search
+      end
+    end
+    return nil
+  end
+
+  # Order.find_by_customer(customer_id) - returns a list of Order instances where the value of the customer's ID matches the passed parameter.
+
+  def self.find_by_customer(customer_id)
+    orders = []
+    self.all.each do |search|
+      if search.customer == Customer.find(20)
+        orders << search
+      end
+      if orders.length > 0
+        return orders
+      else
+        raise ArgumentError, "There are no Orders for this Customer ID."
+      end
+    end
+  end
+
 
 
 end
-
-
