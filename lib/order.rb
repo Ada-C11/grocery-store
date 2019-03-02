@@ -67,4 +67,15 @@ class Order
     end
     return nil
   end
+
+  def self.find_by_customer(customer_id)
+    orders = Order.all
+    order_list = []
+    orders.each do |order|
+      if order.customer.id == customer_id
+        order_list << order
+      end
+    end
+    return order_list.empty? ? nil : order_list
+  end
 end
