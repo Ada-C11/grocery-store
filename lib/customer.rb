@@ -23,5 +23,3 @@ class Customer
     (Customer.all).find { |customer| customer.id == id }
   end
 end
-
-Customer.find(4)

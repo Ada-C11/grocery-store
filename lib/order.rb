@@ -55,15 +55,6 @@ class Order
   end
 
   def self.find(id)
-    self.all.each do |item|
-      if item[0] == "#{id}"
-        return item
-      end
-    end
-    raise ArgumentError, "This order is not in the list."
+    (Order.all).find { |order| order.id == id }
   end
 end
-
-#ap Order.all
-#ap Order.sort_order
-#ap Order.all
