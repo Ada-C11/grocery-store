@@ -38,6 +38,7 @@ class Order
     end
   end
 
+  # Optional
   def remove_product(product_name)
     unless @products.keys.include?(product_name)
       raise ArgumentError, "Product not found!"
