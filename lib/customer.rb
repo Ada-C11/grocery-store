@@ -2,7 +2,7 @@ require "csv"
 require "awesome_print"
 
 class Customer
-  attr_accessor :email, :address, :id
+  attr_reader :email, :address, :id
 
   def initialize(id, email, address)
     @id = id.to_i
