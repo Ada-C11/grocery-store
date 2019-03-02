@@ -27,8 +27,7 @@ class Order
 
   # Calculate the total cost of an order
   def total
-    total = @products.values.sum
-    total = (total + 0.075 * (total)).round(2)
+    total = ((@products.values.sum) * 1.075).round(2)
   end
 
   # Add a product to @products hash
