@@ -1,4 +1,5 @@
 require_relative "customer.rb"
+require "csv"
 
 class Order
   attr_reader :id
@@ -6,7 +7,7 @@ class Order
 
   def initialize(new_id, new_products, new_customer, new_fulfillment_status = :pending)
     @id = new_id
-    @products = {}
+    @products = new_products
     @customer = new_customer
 
     case new_fulfillment_status
@@ -18,23 +19,21 @@ class Order
   end
 
   def total
-
-    #   def add_customer
-    #     Customer.new(id, email, address)
-    #   end
+    grocery_total = (@products.values.sum * 1.075).round(2)
+    return grocery_total
   end
-end
 
-# def calculate_price(extra_shots: 0, is_cold: false) #don't need type and size because an instance of coffee already has a type and size
-#     case @type
-#     when :drip
-#       price = 1.5
-#     when :latte
-#       price = 3.7
-#     when :cappuccino
-#       price = 3.2
-#     else
-#       puts "Invalid coffee type: #{type}"
-#       return
-#     end
-# test = Order.new(4, 4, 6, :sandwich)
+  def add_product(name, price)
+    if @products.keys.include?(name) == true
+      raise ArgumentError, "This product is already in the hash"
+    else
+      @products[name] = price
+    end
+  end
+
+  #   def self.all
+  #     CSV.open("data/orders.csv", "r").each do |instance|
+  #         instance
+
+  #   end
+end
