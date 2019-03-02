@@ -11,7 +11,7 @@ class Customer
   CITY_INDEX = 3.freeze
   STATE_INDEX = 4.freeze
   ZIP_INDEX = 5.freeze
-  CSV_FILE_PATH = "../grocery-store/data/customers.csv".freeze
+  CSV_FILE_PATH = "data/customers.csv".freeze
   private_constant :CUSTOMER_ID_INDEX, :EMAIL_INDEX, :CITY_INDEX, :STATE_INDEX, :ZIP_INDEX, :CSV_FILE_PATH
 
   def initialize(id, email, address)

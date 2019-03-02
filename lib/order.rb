@@ -9,7 +9,7 @@ class Order
   PRODUCT_INDEX = 1.freeze
   CUSTOMER_ID_INDEX = 2.freeze
   FULFILLMENT_STATUS_INDEX = 3.freeze
-  CSV_FILE_PATH = "../grocery-store/data/orders.csv".freeze
+  CSV_FILE_PATH = "data/orders.csv".freeze
   private_constant :ORDER_ID_INDEX, :PRODUCT_INDEX, :CUSTOMER_ID_INDEX, :CSV_FILE_PATH
 
   def initialize(id, products, customer, fulfillment_status = :pending)
