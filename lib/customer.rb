@@ -5,12 +5,13 @@ class Customer
   attr_accessor :email, :address
   attr_reader :id
 
-  @@customer_id_index = 0
-  @@email_index = 1
-  @@street_index = 2
-  @@city_index = 3
-  @@state_index = 4
-  @@zip_index = 5
+  CUSTOMER_ID_INDEX = 0
+  EMAIL_INDEX = 1
+  STREET_INDEX = 2
+  CITY_INDEX = 3
+  STATE_INDEX = 4
+  ZIP_INDEX = 5
+  CSV_FILE_PATH = "/Users/elisepham/Ada/grocery-store/data/customers.csv"
 
   def initialize(id, email, address)
     @id = id
@@ -20,23 +21,23 @@ class Customer
 
   def self.all
     customers = []
-    CSV.open("/Users/elisepham/Ada/grocery-store/data/customers.csv", 'r').each do |row|
+    CSV.open(CSV_FILE_PATH, 'r').each do |row|
       address = {
-        :street => row[@@street_index],
-        :city => row[@@city_index], 
-        :state => row[@@state_index], 
-        :zip => row[@@zip_index]
+        :street => row[STREET_INDEX],
+        :city => row[CITY_INDEX], 
+        :state => row[STATE_INDEX], 
+        :zip => row[ZIP_INDEX]
       }
-      customer = Customer.new(row[@@customer_id_index].to_i, row[@@email_index], address)
+      customer = Customer.new(row[CUSTOMER_ID_INDEX].to_i, row[EMAIL_INDEX], address)
       customers << customer
     end
     return customers
   end
 
-  def self.find(look_up_value)
+  def self.find(id)
     customers = Customer.all
     customers.each do |customer|
-      if customer.id == look_up_value
+      if customer.id == id
           return customer
       end
     end
@@ -53,5 +54,3 @@ class Customer
     end
   end
 end
-
-# Customer.save("../data/customers_wave3.csv")

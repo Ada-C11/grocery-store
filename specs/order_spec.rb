@@ -210,7 +210,10 @@ describe "Order Wave 2" do
     end
 
     it "Returns nil for an order that doesn't exist" do
-      expect(Order.find(3333333)).must_be_nil
+      order_ids = [-1, 0, 333333]
+      order_ids.each do |id|
+        expect(Order.find(id)).must_be_nil
+      end
     end
   end
 
@@ -228,6 +231,4 @@ describe "Order Wave 2" do
       end
     end
   end
-
-  
 end

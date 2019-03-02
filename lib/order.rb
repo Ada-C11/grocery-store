@@ -5,10 +5,11 @@ class Order
   attr_reader :id
   attr_accessor :products, :fulfillment_status, :customer
   
-  @@order_id_index = 0
-  @@product_index = 1
-  @@customer_id_index = 2
-  @@fulfillment_status_index = 3
+  ORDER_ID_INDEX = 0
+  PRODUCT_INDEX = 1
+  CUSTOMER_ID_INDEX = 2
+  FULFILLMENT_STATUS_INDEX = 3
+  CSV_FILE_PATH = "/Users/elisepham/Ada/grocery-store/data/orders.csv"
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
@@ -28,26 +29,24 @@ class Order
   end
 
   def add_product(name, price)
-    if @products.has_key?(name)
+    if @products.has_key?(name.downcase)
       raise ArgumentError.new("Product name already existed")
     end
-    @products[name] = price
+    @products[name.downcase] = price
   end
 
   def remove_product(name)
-    if !@products.has_key?(name)
+    if !@products.has_key?(name.downcase)
       raise ArgumentError.new("The product you want to remove does not exist")
     end
 
-    @products.delete_if {|product|
-      product.casecmp(name) == 0
-    }
+    @products.delete(name.downcase)
   end
 
   def self.all
     orders = []
-    CSV.open("/Users/elisepham/Ada/grocery-store/data/orders.csv", 'r').each do |row|
-      array = row[@@product_index].split /:|;/
+    CSV.open(CSV_FILE_PATH, 'r').each do |row|
+      array = row[PRODUCT_INDEX].split /:|;/
       products = Hash.new
 
       (0...array.length - 1).step(2) do |i|
@@ -55,18 +54,18 @@ class Order
       end
 
       order = Order.new(
-        row[@@order_id_index].to_i, products,
-        Customer.find(row[@@customer_id_index].to_i), 
-        row[@@fulfillment_status_index].to_sym)
+        row[ORDER_ID_INDEX].to_i, products,
+        Customer.find(row[CUSTOMER_ID_INDEX].to_i), 
+        row[FULFILLMENT_STATUS_INDEX].to_sym)
       orders << order
     end
     return orders
   end
 
-  def self.find(look_up_value)
+  def self.find(id)
     orders = Order.all
     orders.each do |order|
-      if order.id == look_up_value
+      if order.id == id
         return order
       end
     end
@@ -98,5 +97,3 @@ class Order
     end
   end
 end
-
-# Order.save("../data/orders_wave3.csv", orders)
