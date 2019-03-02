@@ -80,5 +80,16 @@ class Order
       raise ArgumentError.new("A product with this name does not exist.")
     end
   end
+
+  def self.find_by_customer(customer_id)
+    single_order = Order.all.select do |find_order|
+      find_order.customer.id == customer_id
+    end
+      if single_order.length == 0
+        return nil
+      else
+        return single_order
+      end
+  end
 end # class Order
 
