@@ -32,10 +32,3 @@ class Customer
     # returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
   end
 end
-
-# poop = Customer.new(5, "poop@mailinator", 820)
-# puts poop.id_num
-# puts poop.email_address
-# puts poop.delivery_address
-
-# Customer.all

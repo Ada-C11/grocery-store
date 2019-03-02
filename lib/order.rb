@@ -61,12 +61,3 @@ class Order
     Order.all.detect { |order| order.id == id }
   end
 end
-
-# Kasey = Order.new(5, "poop@mailinator.com")
-# puts Kasey.id_num
-# puts Kasey.products
-# puts Kasey.customer
-# puts Kasey.fulfillment_status
-# puts Kasey.total
-# puts Kasey.add_product("poop", 2.22)
-# puts Kasey.products
