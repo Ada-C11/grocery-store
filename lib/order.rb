@@ -1,4 +1,4 @@
-require_relative "customer"
+require "csv"
 
 class Order
   attr_accessor :products, :customer, :fulfillment_status
@@ -28,6 +28,11 @@ class Order
     @products[product_name] = price
   end
 
+  def remove_product(product)
+    raise ArgumentError if !@products.include?(product)
+    @products.delete(product)
+  end
+
   def self.make_product_hash(csv_string)
     product_hash = {}
     csv_string.split(";").each do |item|
@@ -45,5 +50,35 @@ class Order
       orders_array << new_order
     end
     return orders_array
+  end
+
+  def self.find(id)
+    orders_array = Order.all
+    found_order = orders_array.find do |order|
+      order.id == id
+    end
+    return found_order
+  end
+
+  def self.find_by_customer(customer_id)
+    orders_array = Order.all
+    customer_orders = orders_array.select do |order|
+      order.customer.id == customer_id
+    end
+    return nil if customer_orders.count == 0
+    return customer_orders
+  end
+
+  def self.save(new_filename)
+    orders = Order.all
+    CSV.open(new_filename, "w") do |line|
+      orders.each do |order|
+        product_array = order.products.map do |product, price|
+          "#{product}:#{price}"
+        end
+        product_string = product_array.join(";")
+        line << [order.id, product_string, order.customer.id, order.fulfillment_status]
+      end
+    end
   end
 end
