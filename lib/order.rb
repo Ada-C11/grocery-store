@@ -53,8 +53,9 @@ class Order
     CSV.open("data/orders.csv", "r").each do |line|
       products_array = line[1].split(/[;:]/)
       products_hash = Hash[*products_array]
+      products_hash.each { |product, price| products_hash[product] = price.to_f }
 
-      all_orders << Order.new(line[0].to_i, products_hash, Customer.find(line[2]), line[3].to_sym)
+      all_orders << Order.new(line[0].to_i, products_hash, Customer.find(line[2].to_i), line[3].to_sym)
     end
 
     return all_orders
