@@ -63,20 +63,6 @@ class Order
   # method that returns an instance of an order where the value of the id field in the CSV
   # matches the passed parameter
   def self.find(id)
-    found_order = Order.all.find { |order| id == order.id }
-
-    if found_order == nil
-      raise ArgumentError, "ID number does not exist!"
-    else
-      return found_order
-    end
-
-    # why you no work ternary??
-    # found_order == nil ? raise ArgumentError, "ID number does not exist." : return found_order
+    return Order.all.find { |order| id == order.id }
   end
-  # def self.find(id)
-  #   Order.all.each do |order|
-  #     return order if order.id == id
-  #   end
-  # end
 end

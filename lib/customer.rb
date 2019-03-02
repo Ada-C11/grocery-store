@@ -44,10 +44,19 @@ class Customer
 
   # returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
   def self.find(id)
-    found_customer = nil
-    Customer.all.each do |customer|
-      found_customer = customer if customer.id == id
-    end
-    return found_customer
+    return Customer.all.find { |customer| id == customer.id }
+
+    #   if found_customer == nil
+    #     raise ArgumentError, "Customer ID numer does not exist!"
+    #   else
+    #     return found_customer
+    #   end
   end
+  #   found_customer = nil
+
+  #   Customer.all.each do |customer|
+  #     found_customer = customer if customer.id == id
+  #   end
+  #   return found_customer
+  # end
 end
