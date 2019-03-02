@@ -31,6 +31,16 @@ class Order
           new_item = {item => price}
           @products = @products.merge(new_item)
         end
-      end
+    end
+
+    def remove_product(item)
+        if @products.has_key?(item) == false
+          return raise ArgumentError, "You are trying to remove an item that doesn't exist."
+        else
+          @products = @products.delete_if { |key, value| key == item }
+        end
+    end
+    
+
 
 end
