@@ -1,5 +1,6 @@
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
+  @@tax_rate = 0.075
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
@@ -36,9 +37,12 @@ class Order
     return nil
   end
 
-  def total
+  def costs
     costs = @products.values
-    total = (costs.sum + costs.sum * 0.075).round(2)
+  end
+
+  def total
+    total = (costs.sum + costs.sum * @@tax_rate).round(2)
   end
 
   def add_product(product_name, price)
