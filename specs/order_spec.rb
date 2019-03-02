@@ -188,7 +188,6 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
       first = Order.find(1)
 
       expect(first).must_be_kind_of Order
@@ -196,8 +195,6 @@ describe "Order Wave 2" do
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-
       last = Order.find(100)
 
       expect(last).must_be_kind_of Order
@@ -205,7 +202,6 @@ describe "Order Wave 2" do
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
       expect(Order.find(53145)).must_be_nil
     end
   end
@@ -223,7 +219,6 @@ describe "Order Wave 2" do
     end
 
     it "Returns nil if customer id doesn't exist" do
-      # TODO: Your test code here!
       expect(Order.find_by_customer(53145)).must_be_nil
     end
 
