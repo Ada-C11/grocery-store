@@ -59,11 +59,7 @@ customer = Customer.new(123, "a@a.co", { street: "123 Main",
                                          state: "WA",
                                          zip: "98101" })
 # order = Order.new(id, { "orange" => 5.5 }, customer, fulfillment_status)
-# p order.products
 # order.add_product("banana", 5.5)
-# puts "products are #{order.products}"
-# p Order.get_products_from_csv("Lobster:17.18;Annatto seed:58.38;Camomile:83.21;banana:3.4")
-# p Order.all
 
 products = { "banana" => 1.99, "cracker" => 3.00 }
 order = Order.new(1337, products, customer)

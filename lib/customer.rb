@@ -29,4 +29,3 @@ class Customer
 end
 
 # customer = Customer.new(123, "sophearychiv@gmail.com", { home: "210", st: "169th St" })
-# p Customer.find(2)
