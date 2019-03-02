@@ -3,10 +3,7 @@ class Order
 
   @@tax_rate = 0.075
 
-  def initialize(id,
-                 products,
-                 customer,
-                 fulfillment_status = :pending)
+  def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products
     @customer = customer
@@ -21,20 +18,31 @@ class Order
     end
   end
 
+  # ?
+  def tax_rate
+    tax_rate = @@tax_rate
+  end
+
   def self.products_hash(products_string)
     items_with_prices = products_string.split(";")
+
     products_hash = {}
+
     items_with_prices.each do |item_with_price|
       array = item_with_price.split(":")
+
       item = array[0]
       price = array[1].to_f
+
       products_hash[item] = price
     end
+
     return products_hash
   end
 
   def self.all
     orders_array = []
+
     CSV.open("data/orders.csv", "r").each do |line|
       id = line[0].to_i
       products_string = line[1]
@@ -49,32 +57,29 @@ class Order
   end
 
   def self.find(id)
-    Order.all.each do |order|
-      if order.id == id
-        return order
-      end
-    end
+    Order.all.each { |order| return order if order.id == id }
     return nil
   end
 
   def costs
-    costs = @products.values
+    costs = products.values
   end
 
   def total
-    total = (costs.sum + costs.sum * @@tax_rate).round(2)
+    total = (costs.sum + costs.sum * tax_rate).round(2)
   end
 
   def add_product(product_name, price)
-    if @products.keys.include?(product_name)
+    if products.keys.include?(product_name)
       raise ArgumentError, "product already exists"
     end
-    @products[product_name] = price
+
+    products[product_name] = price
   end
 
   def remove_product(product_name)
-    if @products.keys.include?(product_name)
-      @products.delete(product_name)
+    if products.keys.include?(product_name)
+      products.delete(product_name)
     else
       raise ArgumentError, "you cannot remove a product that" \
             "does not exist"

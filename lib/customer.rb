@@ -10,12 +10,9 @@ class Customer
     @address = address
   end
 
-  def self
-  end
-
-  # returns a collection of `Customer` instances, representing all of the Customer described in the CSV file
   def self.all
     customers_array = []
+
     CSV.open("data/customers.csv", "r").each do |line|
       id = line[0].to_i
       email = line[1]
@@ -23,25 +20,22 @@ class Customer
       city = line[3]
       state = line[4]
       zip = line[5]
+
       address = {
-        :street => street,
-        :city => city,
-        :state => state,
-        :zip => zip,
+        street: street,
+        city: city,
+        state: state,
+        zip: zip,
       }
+
       customers_array << Customer.new(id, email, address)
     end
 
     return customers_array
   end
 
-  # returns an instance of `Customer` where the value of the id field in the CSV matches the passed parameter
   def self.find(id)
-    Customer.all.each do |customer|
-      if customer.id == id
-        return customer
-      end
-    end
+    Customer.all.each { |customer| return customer if customer.id == id }
     return nil
   end
 end
