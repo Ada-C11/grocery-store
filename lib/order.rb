@@ -1,4 +1,6 @@
+require "csv"
 require_relative "./customer.rb"
+require "pry"
 
 class Order
   attr_reader :id
@@ -42,5 +44,34 @@ class Order
     end
     @products[product_name] = price
     return @products
+  end
+
+  def self.all
+    orders = []
+    CSV.open("data/orders.csv") do |file|
+      file.each do |row|
+        customer = Customer.find(row[2].to_i)
+        items_string = row[1]
+        items_array = items_string.split(";")
+        products = {}
+        items_array.each do |item|
+          product_array = item.split(":")
+          products[product_array[0]] = product_array[1].to_f
+        end
+        order = Order.new(row[0].to_i, products, customer, row[3].to_sym)
+        orders << order
+      end
+    end
+    return orders
+  end
+
+  def self.find(id)
+    orders = self.all
+    orders.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
   end
 end
