@@ -17,7 +17,19 @@ class Customer
   def self.all
     customers_array = []
     CSV.open("data/customers.csv", "r").each do |line|
-      customers_array << Customer.new(line[0].to_i, line[1], line[2])
+      id = line[0].to_i
+      email = line[1]
+      street = line[2]
+      city = line[3]
+      state = line[4]
+      zip = line[5]
+      address = {
+        :street => street,
+        :city => city,
+        :state => state,
+        :zip => zip,
+      }
+      customers_array << Customer.new(id, email, address)
     end
 
     return customers_array
