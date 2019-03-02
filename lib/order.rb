@@ -18,9 +18,8 @@ class Order
     end
   end
 
-  # ?
   def tax_rate
-    tax_rate = @@tax_rate
+    @@tax_rate
   end
 
   def self.products_hash(products_string)
