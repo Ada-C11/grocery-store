@@ -18,10 +18,6 @@ class Order
     end
   end
 
-  def tax_rate
-    @@tax_rate
-  end
-
   def self.products_hash(products_string)
     items_with_prices = products_string.split(";")
 
@@ -58,6 +54,10 @@ class Order
   def self.find(id)
     Order.all.each { |order| return order if order.id == id }
     return nil
+  end
+
+  def tax_rate
+    @@tax_rate
   end
 
   def costs
