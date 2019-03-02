@@ -30,4 +30,4 @@ class Customer
   end
 end
 
-puts Customer.all
+puts Customer.all.last
