@@ -71,7 +71,7 @@ describe "Order Wave 1" do
       expect(order.total).must_equal expected_total
     end
 
-    xit "Returns a total of zero if there are no products" do
+    it "Returns a total of zero if there are no products" do
       order = Order.new(1337, {}, customer)
 
       expect(order.total).must_equal 0
@@ -86,6 +86,16 @@ describe "Order Wave 1" do
 
       order.add_product("salad", 4.25)
       expected_count = before_count + 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("banana")
+      expected_count = before_count -1
       expect(order.products.count).must_equal expected_count
     end
 
@@ -184,6 +194,20 @@ describe "Order Wave 2" do
 
     it "Returns nil for an order that doesn't exist" do
       expect(Order.find(53145)).must_be_nil
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    it "Returns Order instances of specified customer" do
+    customer_order = Order.find_by_customer(25)
+
+    expect(customer_order.length).must_equal 6
+    end
+
+    it "Returns nil when 0 orders are found under specified customer" do
+      customer_order = Order.find_by_customer(1000)
+
+      expect(customer_order).must_be_nil
     end
   end
 end

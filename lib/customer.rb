@@ -28,6 +28,20 @@ class Customer
     end
     return nil
   end
+
+  def self.save(file_name)
+    customer_list = Customer.all
+    CSV.open(file_name, "w") do |line|
+      customer_list.each do |customer|
+        indiv_customer = [customer.id.to_s, customer.email, customer.address[:street], customer.address[:city], customer.address[:state], customer.address[:zip]]
+        line << indiv_customer
+      end
+    end    
+  end
 end
 
-puts Customer.all.last
+# Customer.all.each do |cust|
+#   puts cust.id
+# end
+
+Customer.save("new_data.csv")
