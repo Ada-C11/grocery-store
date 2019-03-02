@@ -1,3 +1,6 @@
+require "csv"
+require_relative "../lib/customer.rb"
+
 class Customer
   include Comparable
 
