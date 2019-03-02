@@ -35,13 +35,13 @@ class Order
     all_orders = []
     CSV.read("/Users/karlaguadron/Documents/ada/03_week/grocery-store/data/orders.csv").each do |order|
       product_array = order[1].split(";")
-      new_array =
+      float_price_array =
         product_array.map do |product|
           entry = product.split(":")
           entry[1] = entry[1].to_f
           entry
         end
-      product_hash = Hash[new_array]
+      product_hash = Hash[float_price_array]
       all_orders << Order.new(order[0].to_i, product_hash, Customer.find(order[2].to_i), order[3].to_sym)
     end
     return all_orders
@@ -49,9 +49,7 @@ class Order
 
   def self.find(id)
     Order.all.each do |order|
-      if order.id == id
-        return order
-      end
+      return order if order.id == id
     end
     return nil
   end
@@ -82,5 +80,3 @@ class Order
     end
   end    
 end
-
-Order.save("hi.csv")
