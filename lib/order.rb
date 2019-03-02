@@ -3,6 +3,7 @@ require 'awesome_print'
 require_relative 'customer'
 
 ORDER_FILEPATH = 'data/orders.csv'
+
 # WAVE 2
 class Order
   
@@ -10,7 +11,6 @@ class Order
   attr_accessor :products, :customer, :fulfillment_status
   # Constructor
   def initialize(id, products, customer, fulfillment_status = :pending)
-    # THIS WORKED BEFORE THE SELF.LOAD AND SELF.ALL METHODS WERE CREATED!
     if (fulfillment_status != :pending) && (fulfillment_status != :paid) && (fulfillment_status != :processing) && (fulfillment_status != :shipped) && (fulfillment_status != :complete)
       raise ArgumentError.new("This is not a real status")
     end
@@ -25,10 +25,6 @@ class Order
     @fulfillment_status = fulfillment_status
   end
 
-  # A total method which will calculate the total cost of the order by:
-  #   Summing up the products
-  #   Adding a 7.5% tax
-  #   Rounding the result to two decimal places
   def total
     sum = 0
     taxed_sum = 0
@@ -39,9 +35,6 @@ class Order
     return taxed_sum.round(2)
   end
 
-  # An add_product method which will take in two parameters, product name and price, and add the data to the product collection
-  #   If a product with the same name has already been added to the order, an ArgumentError should be raised
-
   def add_product(name, price)
     if @products.include?(name)
       raise ArgumentError.new("A product with this name already exists")
@@ -51,9 +44,6 @@ class Order
 
   def self.load(filepath)
     orders = Array.new
-
-    puts filepath
-
     CSV.open(filepath, 'r').each do |csv_row|
       id = csv_row[0]
       products_arr = csv_row[1].split(";")
@@ -73,7 +63,6 @@ class Order
     return orders_data
   end
 
-  # returns an instance of Order where the value of the id field in the CSV matches the passed parameter
   def self.find(id)
     found_order = nil
     Order.all.each do |find_order|
@@ -84,14 +73,12 @@ class Order
     return found_order
   end
 
-
+  def remove_product(order_name)
+    if @products.include?(order_name)
+      @products.delete(order_name)
+    else
+      raise ArgumentError.new("A product with this name does not exist.")
+    end
+  end
 end # class Order
 
-puts "All orders:"
-ap Order.all
-puts "First order:"
-ap Order.all.first
-puts "Last order:"
-ap Order.all.last
-puts "Find order:"
-puts Order.find(1)
