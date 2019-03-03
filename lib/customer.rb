@@ -31,18 +31,7 @@ class Customer
   end
 
   def self.find(id)
-    customers = Customer.all
-    check = true
-    customers.each do |c|
-      if c.id == id
-        return c
-      else
-        check = false
-      end
-    end
-    if check == false
-      return nil
-    end
+    return (Customer.all).find { |cust| cust.id == id }
   end
 
   def self.save(filename)

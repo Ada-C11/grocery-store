@@ -54,18 +54,7 @@ class Order
   end
 
   def self.find(id)
-    orders = Order.all
-    check = true
-    orders.each do |o|
-      if o.id == id
-        return o
-      else
-        check = false
-      end
-    end
-    if check == false
-      return nil
-    end
+    return (Order.all).find { |order| order.id == id }
   end
 
   def self.save(filename)
