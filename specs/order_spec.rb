@@ -1,9 +1,10 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
+require "pry"
+require "minitest/autorun"
+require "minitest/reporters"
+require "minitest/skip_dsl"
 
-require_relative '../lib/customer'
-require_relative '../lib/order'
+require_relative "../lib/customer"
+require_relative "../lib/order"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -13,7 +14,7 @@ describe "Order Wave 1" do
       street: "123 Main",
       city: "Seattle",
       state: "WA",
-      zip: "98101"
+      zip: "98101",
     }
     Customer.new(123, "a@a.co", address)
   end
@@ -23,7 +24,7 @@ describe "Order Wave 1" do
       id = 1337
       fulfillment_status = :shipped
       order = Order.new(id, {}, customer, fulfillment_status)
-
+      # puts "#{order.fulfillment_status}" # Myriam
       expect(order).must_respond_to :id
       expect(order.id).must_equal id
 
@@ -52,7 +53,7 @@ describe "Order Wave 1" do
     end
 
     it "Raises an ArgumentError for bogus statuses" do
-      bogus_statuses = [3, :bogus, 'pending', nil]
+      bogus_statuses = [3, :bogus, "pending", nil]
       bogus_statuses.each do |fulfillment_status|
         expect {
           Order.new(1, {}, customer, fulfillment_status)
@@ -63,7 +64,7 @@ describe "Order Wave 1" do
 
   describe "#total" do
     it "Returns the total from the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = {"banana" => 1.99, "cracker" => 3.00}
       order = Order.new(1337, products, customer)
 
       expected_total = 5.36
@@ -80,7 +81,7 @@ describe "Order Wave 1" do
 
   describe "#add_product" do
     it "Increases the number of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = {"banana" => 1.99, "cracker" => 3.00}
       before_count = products.count
       order = Order.new(1337, products, customer)
 
@@ -90,7 +91,7 @@ describe "Order Wave 1" do
     end
 
     it "Is added to the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = {"banana" => 1.99, "cracker" => 3.00}
       order = Order.new(1337, products, customer)
 
       order.add_product("sandwich", 4.25)
@@ -98,7 +99,7 @@ describe "Order Wave 1" do
     end
 
     it "Raises an ArgumentError if the product is already present" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = {"banana" => 1.99, "cracker" => 3.00}
 
       order = Order.new(1337, products, customer)
       before_total = order.total
@@ -117,6 +118,14 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
+      ###############################
+
+      orders = Order.all
+      expect(orders).must_be_kind_of Array
+
+      # puts "#{orders}"
+
+      # binding.pry
       # TODO: Your test code here!
     end
 
@@ -125,12 +134,13 @@ describe "Order Wave 2" do
       products = {
         "Lobster" => 17.18,
         "Annatto seed" => 58.38,
-        "Camomile" => 83.21
+        "Camomile" => 83.21,
       }
       customer_id = 25
       fulfillment_status = :complete
 
       order = Order.all.first
+      # puts "This is order#{order}"
 
       # Check that all data was loaded as expected
       expect(order.id).must_equal id
@@ -142,19 +152,22 @@ describe "Order Wave 2" do
 
     it "Returns accurate information about the last order" do
       # TODO: Your test code here!
+      last = Order.all.last
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
   end
 
   describe "Order.find" do
-    it "Can find the first order from the CSV" do
+    xit "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end
 
-    it "Can find the last order from the CSV" do
+    xit "Can find the last order from the CSV" do
       # TODO: Your test code here!
     end
 
-    it "Returns nil for an order that doesn't exist" do
+    xit "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
     end
   end
