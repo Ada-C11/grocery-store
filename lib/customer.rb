@@ -35,4 +35,4 @@ def Customer.find(id)
   return customer
 end
 
-# puts Customer.find(2)
+puts Customer.find(2)

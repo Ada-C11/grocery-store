@@ -31,36 +31,31 @@ class Order
     return @products
   end
 
-  def self.ordering(info) # Helper Method
-    prices_list = info[1]
-    products = prices_list.split(";")
-    products_hash = {}
-      parts = products[0].split(":")
-      products_hash[parts[0]] = parts[1].to_f 
+  def self.ordering(order)
+      products = order[1].split(";")
+      products_hash = {}
+      products.each do |key|
+        product_list = key.split(":")
+        products_hash[product_list[0]] = product_list[1].to_f
+    end
     return products_hash
   end
 
   def self.all
-    all_order = []
-    CSV.read("/Users/ranuseh/workspace/ada/ada_program/grocery-store/data/orders.csv").each do |order|
+    return CSV.read("/Users/ranuseh/workspace/ada/ada_program/grocery-store/data/orders.csv").map do  |order|
       id = order.first # returns first index
       fulfillment_status = order.last # returns last index
-      customer_id = Customer.find(order[-2]) # turns customer id into an instance of customer
-      product_hash = Order.ordering(order) # calls that method to return a hash of the products
-      all_order.push(Order.new(id, product_hash, customer_id, fulfillment_status))
+      customer = Customer.find(order[-2].to_i) # turns customer id into an instance of customer
+      products_hash = self.ordering(order) # calls that method to return a hash of the products
+      Order.new(id, products_hash, customer, fulfillment_status.to_sym)
     end
-    return all_order
   end
 
-  print Order.all
+  self.all
 
-  # def Order.find_by_customer(customer_id)
-  #   order = Order.all.find { |order| order.id == id }
-  #   return order
-  # end
-
-  # puts Order.find_by_customer(25)
-
+  # returns an instance of Order where the value of the id field in the CSV matches the passed parameter
+  def self.find(id)  
+    order = Order.all.find { |order| order.id == id }
+    return order
+  end
 end
-
-
