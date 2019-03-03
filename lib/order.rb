@@ -27,7 +27,7 @@ class Order
   end
 
   def remove_product(product_name)
-    @products.key?(product_name) ? @products.delete(product_name) : (raise ArgumentError, "This product is already in the collection.")
+    @products.key?(product_name) ? @products.delete(product_name) : (raise ArgumentError, "Invalid product - does not exist in current collection.")
   end
 
   def self.products_to_hash(product_info)
