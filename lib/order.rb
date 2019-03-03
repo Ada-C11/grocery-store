@@ -56,4 +56,9 @@ class Order
 
     return array_of_order_instance
   end
+
+  def self.find(id_input)
+    array_of_order_instance = Order.all
+    array_of_order_instance.find { |order| order.id == id_input }
+  end
 end
