@@ -78,4 +78,18 @@ class Order
     end
     return order_list.empty? ? nil : order_list
   end
+
+  def self.save(file_name)
+    orders = Order.all
+    CSV.open(file_name, "w") do |csv|
+      orders.each do |order|
+        product_hash = order.products
+        products = ""
+        product_hash.each do |k, v|
+          products << "#{k}:#{v};"
+        end
+        csv << [order.id, products.chomp(";"), order.customer.id, order.fulfillment_status]
+      end
+    end
+  end
 end

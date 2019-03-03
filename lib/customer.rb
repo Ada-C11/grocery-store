@@ -30,4 +30,14 @@ class Customer
     end
     return nil
   end
+
+  def self.save(file_name)
+    customers = Customer.all
+    CSV.open(file_name, "w") do |csv|
+      customers.each do |customer|
+        customer_address = customer.address.split(", ")
+        csv << [customer.id, customer.email, customer_address[0], customer_address[1], customer_address[2], customer_address[3]]
+      end
+    end
+  end
 end
