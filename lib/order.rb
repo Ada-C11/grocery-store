@@ -47,10 +47,19 @@ class Order
     return orders
   end
 
+  def self.find(id)
+    orders = self.all
+    matching_orders = orders.find do |order|
+      order.id == id
+    end
+    return matching_orders
+  end
+
   def self.find_by_customer(customer_id)
     orders = self.all
     matching_customer = Customer.find(customer_id)
     matching_orders = orders.select { |order| matching_customer.id == order.customer.id }
+    return nil if customer_orders.count == 0
     return matching_orders
   end
 
