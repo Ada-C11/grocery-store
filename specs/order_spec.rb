@@ -2,6 +2,7 @@ require "minitest/autorun"
 require "minitest/reporters"
 require "minitest/skip_dsl"
 require "colorize"
+require "awesome_print"
 
 require_relative "../lib/customer"
 require_relative "../lib/order"
@@ -111,6 +112,39 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+  # Optional: tests for optional method in wave 1
+  describe "#remove_product" do
+    it "reduces the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+      order.remove_product("cracker")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("banana")
+      expect(order.products.include?("sandwich")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product is not in the list" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+      expect {
+        order.remove_product("sandwich")
+      }.must_raise ArgumentError
+
+      # The list of products should not have been modified
+      expect(order.total).must_equal before_total
+    end
+  end
 end
 
 # TODO: change 'xdescribe' to 'xdescribe' to run these tests
@@ -187,6 +221,71 @@ describe "Order Wave 2" do
     it "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
       expect(Order.find(53145)).must_be_nil
+    end
+  end
+
+  # Tests for optional in Wave 2
+  describe "Order.find_by_customer" do
+    it "Can find the first order in the list of order from customer's id 25 " do
+      list = Order.find_by_customer(25)
+      expect(list[0].id.to_i).must_equal 1
+    end
+
+    it "Can find order # 20 in the list of order from customer's id 25 " do
+      list = Order.find_by_customer(25)
+      expect(list[1].id.to_i).must_equal 20
+    end
+
+    it "Can find order # 28 in the list of order from customer's id 25 " do
+      list = Order.find_by_customer(25)
+      expect(list[2].id.to_i).must_equal 28
+    end
+
+    it "Can find order # 51 in the list of order from customer's id 25 " do
+      list = Order.find_by_customer(25)
+      expect(list[3].id.to_i).must_equal 51
+    end
+
+    it "Can find order # 72 in the list of order from customer's id 25 " do
+      list = Order.find_by_customer(25)
+      expect(list[4].id.to_i).must_equal 72
+    end
+
+    it "Can find order # 95 in the list of order from customer's id 25 " do
+      list = Order.find_by_customer(25)
+      expect(list[5].id.to_i).must_equal 95
+    end
+  end
+end
+
+# tests for Optional Order Wave 3
+describe "Optional: Order Wave 3" do
+  describe "Order.save" do
+    it "saves the first order from the data/orders.csv file" do
+      Order.save("test_orders.csv")
+      test_first_order = CSV.read("test_orders.csv")[0]
+      test_first_order_customer = test_first_order[2]
+      expect(test_first_order_customer.to_i).must_equal 25
+    end
+
+    it "saves the last order from the data/orders.csv file" do
+      Order.save("test_orders.csv")
+      test_last_order = CSV.read("test_orders.csv").last
+      test_last_order_customer = test_last_order[2]
+      expect(test_last_order_customer.to_i).must_equal 20
+    end
+
+    it "saves the same format as the original file" do
+      Order.save("test_orders.csv")
+      test_array = CSV.open("test_orders.csv", "r").map do |test_file_line|
+        test_file_line
+      end
+
+      file_array = CSV.open("data/orders.csv", "r").map do |file_line|
+        file_line
+      end
+
+      expect(test_array).must_equal file_array
     end
   end
 end
