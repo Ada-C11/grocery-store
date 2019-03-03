@@ -2,8 +2,8 @@ require_relative "customer.rb"
 require "csv"
 
 class Order
-  attr_reader :id
-  attr_accessor :products, :customer, :fulfillment_status
+  attr_reader :id, :fulfillment_status
+  attr_accessor :products, :customer
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
@@ -33,7 +33,6 @@ class Order
 
   def self.string_to_hash(string_products)
     array_string_products = string_products.split(";")
-    # ap array_string_products
 
     product_hash = {}
     array_string_products.each do |products|
@@ -57,7 +56,6 @@ class Order
 
       orders << instance_order
     end
-    # ap orders
     return orders
   end
 
