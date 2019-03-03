@@ -24,15 +24,24 @@ class Order
     return (array_of_prices.sum + tax).round(2)
   end
 
+  # Adds a product
   def add_product(name, price)
-    if @products.keys.include?(name)
-      raise ArgumentError, "product is already present"
+    if @products.keys.include?(name.downcase)
+      raise ArgumentError, "product is already in order"
     else
       @products[name] = price
     end
   end
 
-  # helper method that splits the order name and price into a seperate hash for each individual name/price in the order.
+  # Removes a product
+  def remove_product(name, price)
+    if !(@products.keys.include?(name.downcase))
+      raise ArgumentError, "product #{name} is not in order"
+    end
+    @products.delete(name.downcase)
+  end
+
+  # splits the order name and price into a seperate hash.
   def self.hash(products)
     products_hash = {}
     split_products = products.split(";")
@@ -43,13 +52,14 @@ class Order
     return products_hash
   end
 
+  # Creates an array of orders from orders.csv
   def self.all
     order_info_array = CSV.open("data/orders.csv", "r").map do |order|
       Order.new(order[0].to_i, self.hash(order[1]), Customer.find(order[2].to_i), order[3].to_sym)
     end
     return order_info_array
   end
-
+  # returns an instance of Order with matching id
   def self.find(id)
     self.all.each do |search_order|
       if search_order.id == id
