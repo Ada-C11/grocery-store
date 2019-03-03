@@ -27,6 +27,7 @@ class Customer
   def self.find(id)
     self.all.find { |customer| customer.id == id }
   end
+
   # Optional Wave 3
   def self.save(file_name)
     CSV.open(file_name, "w") do |file|
