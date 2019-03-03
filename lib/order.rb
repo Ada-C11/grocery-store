@@ -95,6 +95,5 @@ class Order
       end
     end
     return customer_order
-    #return list of order instances associated with that id
   end
 end

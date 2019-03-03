@@ -13,10 +13,7 @@ class Customer
   def self.all
     all_customer_info = []
     CSV.open("/Users/angelaoh/documents/grocery-store/data/customers.csv", "r").each do |info|
-      info[0] = info[0].to_i
-
-      customer_info_instance = Customer.new(info[0], info[1], info[2])
-      all_customer_info << customer_info_instance
+      all_customer_info << Customer.new(info[0].to_i, info[1], info[2])
     end
 
     return all_customer_info

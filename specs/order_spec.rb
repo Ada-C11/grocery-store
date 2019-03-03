@@ -144,11 +144,9 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
       orders = Order.all
 
       expect(orders.length).must_equal 100
@@ -176,7 +174,7 @@ describe "Order Wave 2" do
       expect(order.customer.id).must_equal customer_id
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
-    # TODO: test for empty hash products
+
     it "Returns accurate information about the last order" do
       id = 100
       products = {
@@ -199,7 +197,6 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
       first = Order.find(1)
 
       expect(first).must_be_kind_of Order
@@ -207,7 +204,6 @@ describe "Order Wave 2" do
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
       last = Order.find(100)
 
       expect(last).must_be_kind_of Order
@@ -215,7 +211,6 @@ describe "Order Wave 2" do
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
       expect(Order.find(53145)).must_be_nil
     end
   end
