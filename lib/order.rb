@@ -37,14 +37,15 @@ class Order
     end
   end
 
+  # Products and prices are all one string in the CSV file, us .split method and split by ; and ; to split into an array with price and product, add those to a hash for products.
   def self.all
     order_array = []
 
     CSV.read("data/orders.csv", "r").each do |order_line|
       id = order_line[0].to_i
       products = {}
-      order_line[1].split(";").each do |split_product|
-        product_price_array = split_product.split(":")
+      order_line[1].split(";").each do |split_order_line|
+        product_price_array = split_order_line.split(":")
         products[product_price_array[0]] = product_price_array[1].to_f
       end
       customer = Customer.find(order_line[2].to_i)
