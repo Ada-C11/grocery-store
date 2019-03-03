@@ -1,4 +1,5 @@
 require "csv"
+require "pry"
 
 class Customer
   attr_reader :id
@@ -26,6 +27,15 @@ class Customer
   def self.find(id)
     self.all.find { |customer| customer.id == id }
   end
+  # Optional Wave 3
+  def self.save(file_name)
+    CSV.open(file_name, "w") do |file|
+      CSV.read("data/customers.csv").each do |line|
+        file << line
+      end
+    end
+  end
 end
 
-# customer = Customer.new(123, "sophearychiv@gmail.com", { home: "210", st: "169th St" })
+# p customer = Customer.new(1, "sophearychiv@gmail.com", { street: "169th St", city: "bothell", state: "WA", zip: "98012" })
+# Customer.save("/Users/sophearychiv/Desktop/ada/projects/grocery-store/data/new_customer_list.csv")
