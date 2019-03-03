@@ -5,9 +5,8 @@ class Order
   attr_reader :id
 
   def initialize(id, products, customer, fulfillment_status = :pending)
-    # def initialize(id, products, customer, fulfillment_status: :pending)
     @id = id
-    @products = products #hash
+    @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
     until [:pending, :paid, :processing, :shipped, :complete].include?(fulfillment_status)
@@ -35,16 +34,6 @@ class Order
   end
 
   def self.all
-    # Return a collection of order instances (represents all the orders from the file)
-    # 1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete
-    # order ID -> Integer
-    # Products -> String list of products foloowing the format name: price
-    #       Make the list of products into a HASH -> Great piece to put into a helper method
-    #       USE SPLIT IN HELPER METHOD :)
-    #       Look into split method
-    #       Use pry to prototype the logic?
-    # Customer ID -> Integer after the products and before status
-    # Status -> String fulfillment status is a symbol in the array -> [:pending, :paid, :processing, :shipped, :complete]
     @orders = []
     CSV.open("data/orders.csv", "r").each do |line|
       order_id = line[0]
@@ -72,9 +61,12 @@ class Order
     return products_hash
   end
 
-  # def self.find(id)
-  #   # Return an instance of order when the id matches that given as a parameter
-  #   orders = Order.all
-  # end
-  # Turn the customer ID into an instance of customer .... did you just write a method for this? invoke Customer.find?
+  def self.find(id)
+    orders = Order.all
+    orders.find do |order|
+      if order.id == id.to_i
+        return order
+      end
+    end
+  end
 end

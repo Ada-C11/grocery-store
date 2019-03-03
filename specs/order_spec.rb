@@ -24,7 +24,6 @@ describe "Order Wave 1" do
       id = 1337
       fulfillment_status = :shipped
       order = Order.new(id, {}, customer, fulfillment_status)
-      # puts "#{order.fulfillment_status}" # Myriam
       expect(order).must_respond_to :id
       expect(order.id).must_equal id
 
@@ -118,15 +117,8 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      ###############################
-
       orders = Order.all
       expect(orders).must_be_kind_of Array
-
-      # puts "#{orders}"
-
-      # binding.pry
-      # TODO: Your test code here!
     end
 
     it "Returns accurate information about the first order" do
@@ -140,7 +132,6 @@ describe "Order Wave 2" do
       fulfillment_status = :complete
 
       order = Order.all.first
-      # puts "This is order#{order}"
 
       # Check that all data was loaded as expected
       expect(order.id).must_equal id
@@ -151,24 +142,30 @@ describe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
       last = Order.all.last
+
       expect(last).must_be_kind_of Order
       expect(last.id).must_equal 100
     end
   end
 
   describe "Order.find" do
-    xit "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+    it "Can find the first order from the CSV" do
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
-    xit "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+    it "Can find the last order from the CSV" do
+      last = Order.find(100)
+
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
-    xit "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+    it "Returns nil for an order that doesn't exist" do
+      expect(Order.find(53145)).must_be_nil
     end
   end
 end
