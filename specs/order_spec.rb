@@ -132,7 +132,7 @@ describe "Order Wave 1" do
       expect(order.products.include?("cracker")).must_equal false
     end
 
-    it "Raises an ArgumentError if the product is present" do
+    it "Raises an ArgumentError if the product is not present" do
       products = {"banana" => 1.99, "cracker" => 3.00, "orange" => 1.15}
 
       order = Order.new(1337, products, customer)
