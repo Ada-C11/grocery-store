@@ -11,7 +11,7 @@ class Customer
   end
 
   def self.all
-    customer_array_csv = CSV.read("../data/customers.csv")
+    customer_array_csv = CSV.read("data/customers.csv")
 
     array_of_customer_instance = []
     customer_array_csv.each do |customer|

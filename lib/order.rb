@@ -1,3 +1,5 @@
+require "csv"
+
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
@@ -41,7 +43,7 @@ class Order
   end
 
   def self.all
-    order_array_csv = CSV.read("../data/orders.csv")
+    order_array_csv = CSV.read("data/orders.csv")
 
     array_of_order_instance = []
     order_array_csv.each do |order|
