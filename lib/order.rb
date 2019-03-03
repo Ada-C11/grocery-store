@@ -37,8 +37,8 @@ class Order
 
     product_hash = {}
     array_string_products.each do |products|
-      test_split = products.split(":")
-      product_hash[test_split[0]] = test_split[1].to_f
+      product_string_split = products.split(":")
+      product_hash[product_string_split[0]] = product_string_split[1].to_f
     end
     return product_hash
   end
