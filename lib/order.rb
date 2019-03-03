@@ -24,4 +24,36 @@ class Order
     products[product_name] = price
     return products
   end
+
+  def self.get_order_product(order_string)
+    product_hash = {}
+    product_array = []
+
+    product_array = order_string.split(/:|;/)
+    i = 0
+    n = (product_array.length) / 2
+    n.times do
+      product_hash[product_array[i]] = product_array[i + 1]
+      i += 2
+    end
+
+    return product_hash
+  end
+
+  def self.all
+    order_array_csv = CSV.read("../data/orders.csv")
+
+    array_of_order_instance = []
+    order_array_csv.each do |order|
+      id = order[0].to_i
+      products = self.get_order_product(order[1])
+      customer = order[2].to_i
+      fulfillment_status = order[3].to_sym
+
+      order_instance = Order.new(id, products, customer, fulfillment_status)
+      array_of_order_instance << order_instance
+    end
+
+    return array_of_order_instance
+  end
 end
