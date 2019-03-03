@@ -48,17 +48,15 @@ class Order
 
     def self.all
       @orders = []
-      CSV.open("./data/orders.csv", "r").each do |row|
+      CSV.open("./data/orders.csv").each do |row|
         order_id = row[0].to_i
-
-        # go through CSV product list for the current customer, split each for processing into a hash to meet initialization requirement
-        #   order_products = {}
-        #   row_products = row[1]
-        #   row_products = row_products.split(';')
-        #   row_products.each do |row_product|
-        #   row_product = row_product.split(':')
-        #   product = { raw_product[0] => row_product[1].to_f }
-        #   order_products = order_products.merge(product)
+          order_products = {}
+          row_products = row[1]
+          row_products = row_products.split(';')
+          row_products.each do |row_product|
+          row_product = row_product.split(':')
+          product = { row_product[0] => row_product[1].to_f }
+          order_products = order_products.merge(product)
       end
 
       # here replace CSV customer id w/customer object

@@ -1,9 +1,9 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
+require "minitest/autorun"
+require "minitest/reporters"
+require "minitest/skip_dsl"
 
-require_relative '../lib/customer'
-require_relative '../lib/order'
+require_relative "../lib/customer.rb"
+require_relative "../lib/order.rb"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -13,7 +13,7 @@ describe "Order Wave 1" do
       street: "123 Main",
       city: "Seattle",
       state: "WA",
-      zip: "98101"
+      zip: "98101",
     }
     Customer.new(123, "a@a.co", address)
   end
@@ -52,7 +52,7 @@ describe "Order Wave 1" do
     end
 
     it "Raises an ArgumentError for bogus statuses" do
-      bogus_statuses = [3, :bogus, 'pending', nil]
+      bogus_statuses = [3, :bogus, "pending", nil]
       bogus_statuses.each do |fulfillment_status|
         expect {
           Order.new(1, {}, customer, fulfillment_status)
@@ -125,7 +125,7 @@ describe "Order Wave 2" do
       products = {
         "Lobster" => 17.18,
         "Annatto seed" => 58.38,
-        "Camomile" => 83.21
+        "Camomile" => 83.21,
       }
       customer_id = 25
       fulfillment_status = :complete
