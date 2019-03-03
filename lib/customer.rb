@@ -37,6 +37,3 @@ class Customer
     end
   end
 end
-
-# p customer = Customer.new(1, "sophearychiv@gmail.com", { street: "169th St", city: "bothell", state: "WA", zip: "98012" })
-# Customer.save("/Users/sophearychiv/Desktop/ada/projects/grocery-store/data/new_customer_list.csv")

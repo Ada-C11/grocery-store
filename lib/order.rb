@@ -28,6 +28,15 @@ class Order
     @products[product_name] = price
   end
 
+  # Optional in Wave 1:
+  def remove_product(product_name)
+    if !@products.has_key?(product_name)
+      raise ArgumentError, "Product is not in the list!"
+    else
+      @products.delete_if { |name, price| name == product_name }
+    end
+  end
+
   def count
     return @products.length
   end
@@ -67,18 +76,3 @@ class Order
     end
   end
 end
-
-# id = 1337
-# fulfillment_status = :shipped
-# customer = Customer.new(123, "a@a.co", { street: "123 Main",
-#  city: "Seattle",
-#  state: "WA",
-#  zip: "98101" })
-# order = Order.new(id, { "orange" => 5.5 }, customer, fulfillment_status)
-# order.add_product("banana", 5.5)
-
-# products = { "banana" => 1.99, "cracker" => 3.00 }
-# order = Order.new(1337, products, customer)
-# p order.total
-# Order.save("data/new_order_list.csv")
-ap Order.find_by_customer(2)
