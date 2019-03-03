@@ -6,19 +6,21 @@ class Order
   # read-only ID number
   attr_reader :id, :products, :customer, :fulfillment_status
 
-  # collection of products and their cost. given as a hash
+  
   def initialize(id, products_hash, customer, fulfillment_status = :pending)
     @id = id
     @products = products_hash
     @customer = customer
     @fulfillment_status = fulfillment_status
    
+    # raises ArgumentError if condition isn't met
     unless [:pending, :paid, :processing, :shipped, :complete].include?(fulfillment_status)
       raise ArgumentError, "Fulfillment status must be valid."
       @fulfillment_status = fulfillment_status
     end
   end
 
+  # if hash has elements in it, calculate total. Else total = 0 
   def total
     if @products.length > 0
       expected_total = (@products.values.map.reduce(:+)) + (@products.values.map.reduce(:+) *(0.075)).round(2)
@@ -28,6 +30,7 @@ class Order
       return expected_total
   end
 
+  # add elements to the products hash
   def add_product(product_name, price)
     if @products.include?(product_name)
       raise ArgumentError, "This product already exists in the inventory."
@@ -46,6 +49,7 @@ class Order
     end
   end
 
+  # helper method to split string into hash 
   def self.products_hash(string)
     products = {}
     product_thing = string.split(";")
@@ -72,21 +76,21 @@ class Order
     return nil
   end
 
-  # Order.find_by_customer(customer_id) - returns a list of Order instances where the value of the customer's ID matches the passed parameter.
+  # couldn't get this optional to work. Find Order istance by Customer ID
 
-  def self.find_by_customer(customer_id)
-    orders = []
-    self.all.each do |search|
-      if search.customer == Customer.find(20)
-        orders << search
-      end
-      if orders.length > 0
-        return orders
-      else
-        raise ArgumentError, "There are no Orders for this Customer ID."
-      end
-    end
-  end
+  # def self.find_by_customer(customer_id)
+  #   orders = []
+  #   self.all.each do |search|
+  #     if search.customer == Customer.find(20)
+  #       orders << search
+  #     end
+  #     if orders.length > 0
+  #       return orders
+  #     else
+  #       raise ArgumentError, "There are no Orders for this Customer ID."
+  #     end
+  #   end
+  # end
 
 
 
