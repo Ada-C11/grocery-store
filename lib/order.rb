@@ -8,6 +8,8 @@ class Order
   attr_reader :id
   attr_accessor :customer, :fulfillment_status, :products
 
+  @@FILEPATH = "data/orders.csv"
+
   def <=>(other)
     self.id <=> other.id
   end
@@ -59,7 +61,7 @@ class Order
   # Returns an array of all Orders from CSV file
   def self.all
     all_orders = []
-    CSV.open("data/orders.csv").each do |row|
+    CSV.open(@@FILEPATH).each do |row|
       row_id = row[0].to_i
       row_products = Order.parse_products(row[1])
       row_customer = Customer.find(row[2].to_i)
@@ -86,7 +88,7 @@ class Order
   # creates a file identical to the original csv at the specified filepath
   def self.save(filepath)
     CSV.open(filepath, "w") do |newfile|
-      CSV.open("data/orders.csv").each do |row|
+      CSV.open(@@FILEPATH).each do |row|
         newfile << row
       end
     end

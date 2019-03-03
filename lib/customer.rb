@@ -6,6 +6,8 @@ class Customer
   attr_reader :id
   attr_accessor :email, :address
 
+  @@FILEPATH = "data/customers.csv"
+
   def <=>(other)
     self.id <=> other.id
   end
@@ -19,7 +21,7 @@ class Customer
   # Returns an array of customer objects
   def self.all
     all_customers = []
-    CSV.open("data/customers.csv").each do |row|
+    CSV.open(@@FILEPATH).each do |row|
       row_id = row[0].to_i
       row_email = row[1]
       row_address = { street: row[2],
@@ -39,7 +41,7 @@ class Customer
   # creates a file identical to the original csv at the specified filepath
   def self.save(filepath)
     CSV.open(filepath, "w") do |newfile|
-      CSV.open("data/customers.csv").each do |row|
+      CSV.open(@@FILEPATH).each do |row|
         newfile << row
       end
     end
