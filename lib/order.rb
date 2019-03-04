@@ -42,4 +42,27 @@ class Order
       @products.delete_if { |key, value| key == product_name }
     end
   end
+
+  def self.all
+    all = CSV.open("../data/orders.csv", "r").map do |order|
+      products = {}
+      product_array = order[1].split(",")
+      product_array[0].split(";").each do |item|
+        products[item.split(":")[0]] = item.split(":")[1].to_f
+      end
+      customer = Customer.find(order[2].to_i)
+      Order.new(order[0].to_i, products, customer, order[3].to_sym)
+    end
+    return all
+  end
+
+  def self.find(id)
+    find = Order.all
+    find.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
+  end
 end
