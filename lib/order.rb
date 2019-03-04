@@ -63,4 +63,21 @@ class Order
     array_of_order_instance = Order.all
     array_of_order_instance.find { |order| order.id == id_input }
   end
+
+  def remove_product(product_name)
+    if @products.delete(product_name) == nil
+      raise ArgumentError
+    end
+  end
+
+  def self.find_by_customer(customer_id)
+    customer_orders = []
+    orders = Order.all
+    orders.each do |order|
+      if order.customer == customer_id
+        customer_orders << order
+      end
+    end
+    return customer_orders
+  end
 end

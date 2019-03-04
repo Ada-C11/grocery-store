@@ -3,6 +3,7 @@ require "minitest/reporters"
 require "minitest/skip_dsl"
 
 require_relative "../lib/customer"
+require "csv"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 

@@ -4,10 +4,11 @@ require "minitest/skip_dsl"
 
 require_relative "../lib/customer"
 require_relative "../lib/order"
+require "csv"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-xdescribe "Order Wave 1" do
+describe "Order Wave 1" do
   let(:customer) do
     address = {
       street: "123 Main",
@@ -61,7 +62,7 @@ xdescribe "Order Wave 1" do
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Returns the total from the collection of products" do
       products = {"banana" => 1.99, "cracker" => 3.00}
       order = Order.new(1337, products, customer)
@@ -78,7 +79,7 @@ xdescribe "Order Wave 1" do
     end
   end
 
-  xdescribe "#add_product" do
+  describe "#add_product" do
     it "Increases the number of products" do
       products = {"banana" => 1.99, "cracker" => 3.00}
       before_count = products.count
@@ -155,7 +156,7 @@ describe "Order Wave 2" do
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
 
-      last = Order.find(100)
+      last = Order.find(100) #100,Amaranth:83.81;Smoked Trout:70.6;Cheddar:5.63,20,pending
 
       expect(last).must_be_kind_of Order
       expect(last.id).must_equal 100
@@ -164,6 +165,29 @@ describe "Order Wave 2" do
     it "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
       expect(Order.find(34326)).must_be_nil
+    end
+  end
+
+  describe "Order.remove_product" do
+    it "remove the product from the order" do
+      order = Order.find(39) #order: 39,Beans:78.89;Mangosteens:35.01,31,paid
+
+      expect(order.products.length).must_equal 2
+
+      expect { order.remove_product("Tofu") }.must_raise ArgumentError
+      expect(order.products.length).must_equal 2
+
+      order.remove_product("Beans")
+      expect(order.products.length).must_equal 1
+    end
+  end
+
+  describe "Find orders by customer's id" do
+    it "find orders with the same customer's id" do
+      customer_orders = Order.find_by_customer(33) #53,Vegetable Stock:32.51,33,complete | 49,Bay Leaves:51.02;Sea Salt:56.44;Macadamia Nut:73.3,33,complete
+      first_customer_order = customer_orders[0]
+      expect(customer_orders.length).must_equal 4
+      expect(first_customer_order.id).must_equal 49
     end
   end
 end
