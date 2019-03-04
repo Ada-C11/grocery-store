@@ -1,4 +1,7 @@
 require "pry"
+require "csv"
+require "awesome_print"
+require_relative "../lib/customer"
 
 class Order
   attr_reader :id
@@ -34,5 +37,34 @@ class Order
       products[product] = price
     end
     puts products
+  end
+
+  def self.make_hash(order_products)
+    array = order_products.split(";")
+    product_hash = {}
+
+    array.each do |product|
+      name_cost = product.split(":")
+      product_hash[name_cost[0]] = name_cost[1].to_f
+    end
+    return product_hash
+  end
+
+  def self.all
+    order_collection = []
+    CSV.open("../data/orders.csv", "r").each do |row|
+      id = row[0].to_i
+      products = Order.make_hash(row[1])
+      customer_id = Customer.find(row[2].to_i)
+      fulfillment_status = row[3].to_sym
+      order_collection << Order.new(id, products, customer_id, fulfillment_status)
+    end
+    return order_collection
+  end
+
+  def self.find(id)
+    Order.all.find do |order|
+      order.id == id
+    end
   end
 end
