@@ -31,27 +31,27 @@ class Order
     return @products
   end
 
+  # creates a hash of the products and prices from the order of products
   def self.ordering(order)
       products = order[1].split(";")
       products_hash = {}
       products.each do |key|
-        product_list = key.split(":")
-        products_hash[product_list[0]] = product_list[1].to_f
+        products_list = key.split(":")
+        products_hash[products_list[0]] = products_list[1].to_f
     end
     return products_hash
   end
 
+  # reads order file and creates instances of the orders
   def self.all
     return CSV.read("/Users/ranuseh/workspace/ada/ada_program/grocery-store/data/orders.csv").map do  |order|
       id = order.first # returns first index
       fulfillment_status = order.last # returns last index
-      customer = Customer.find(order[-2].to_i) # turns customer id into an instance of customer
+      customer = Customer.find(order[-2].to_i) # calls method which takes customer id and returns an instance of customer
       products_hash = self.ordering(order) # calls that method to return a hash of the products
       Order.new(id, products_hash, customer, fulfillment_status.to_sym)
     end
   end
-
-  self.all
 
   # returns an instance of Order where the value of the id field in the CSV matches the passed parameter
   def self.find(id)  
