@@ -177,8 +177,8 @@ describe "Order Wave 2" do
     it "Can find the last order from the CSV" do
       last = Order.find(100)
 
-      expect(first).must_be_kind_of Order
-      expect(first.id).must_equal 100
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do

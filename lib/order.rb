@@ -43,4 +43,13 @@ class Order
     end
     return orders
   end
+
+  def self.find(id)
+    self.all.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
+  end
 end
