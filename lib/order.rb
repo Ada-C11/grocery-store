@@ -9,9 +9,7 @@ class Order
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
-    raise ArgumentError if @fulfillment_status != :pending && @fulfillment_status != :paid &&
-                           @fulfillment_status != :processing && @fulfillment_status != :shipped &&
-                           @fulfillment_status != :complete
+    raise ArgumentError if ![:pending, :paid, :processing, :shipped, :complete].include?(@fulfillment_status)
   end
 
   # collects data into an order
