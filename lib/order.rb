@@ -1,6 +1,5 @@
 require "csv"
 require_relative "./customer.rb"
-require "pry"
 
 class Order
   attr_reader :id
