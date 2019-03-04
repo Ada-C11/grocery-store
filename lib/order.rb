@@ -1,6 +1,5 @@
 require "csv"
 require "awesome_print"
-require_relative "customer"
 
 # class that creates an instance of an order
 class Order
@@ -37,13 +36,22 @@ class Order
     return @products.sum { |product, value| ("%.2f" % (value * 1.075)).to_f }
   end
 
-  # method that adds a product and price to the existing products hash of an order
+  # method that adds a product and price to the existing products hash for an order
   def add_product(product_name, price)
     if @products.keys.include?(product_name)
       raise ArgumentError, "A product with this name has already been added to the order!"
     end
 
     @products[product_name] = price
+  end
+
+  # method that removes a product and price from the existing products hash for an order
+  def remove_product(product_name)
+    unless @products.keys.include?(product_name)
+      raise ArgumentError, "A product of this name does not exist in the order!"
+    end
+
+    @products.delete_if { |product, cost| product == product_name }
   end
 
   # method that returns an array of all order instances using data pulled from the orders.csv file
