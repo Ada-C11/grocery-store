@@ -38,11 +38,10 @@ class Order
   def self.all
     @array_of_orders = []
     CSV.open("data/orders.csv", headers: true).each do |order|
-      order_hash = order.to_hash
-      id = order_hash["id"].to_i
-      products = string_to_hash(order_hash["products"])
-      customer = Customer.find(order_hash["customer"].to_i)
-      status = order_hash["status"].to_sym
+      id = order["id"].to_i
+      products = string_to_hash(order["products"])
+      customer = Customer.find(order["customer"].to_i)
+      status = order["status"].to_sym
       @array_of_orders.push(Order.new(id, products, customer, status))
     end
     return @array_of_orders

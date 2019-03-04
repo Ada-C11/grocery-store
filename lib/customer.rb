@@ -17,10 +17,9 @@ class Customer
   def self.all
     @array_of_customers = []
     CSV.open("data/customers.csv", headers: true).each do |customer|
-      customer_hash = customer.to_hash
-      id = customer_hash["id"].to_i
-      email = customer_hash["email"]
-      address = combine_address(customer_hash)
+      id = customer["id"].to_i
+      email = customer["email"]
+      address = combine_address(customer)
       @array_of_customers.push(self.new(id, email, address))
     end
     return @array_of_customers
