@@ -132,6 +132,16 @@ describe "Order Wave 1" do
     end
 
     it "Raises an ArgumentError if the product is not present" do
+      products = {"banana" => 1.99, "cracker" => 3.00, "salad" => 4.25}
+      before_count = 3
+      order = Order.new(450, products, customer)
+
+      expect {
+        order.remove_product("orange")
+      }.must_raise ArgumentError
+
+      # the list of products should not be modified
+      products.count.must_equal before_count
     end
   end
 end
