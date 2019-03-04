@@ -1,8 +1,9 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
+require "pry"
+require "minitest/autorun"
+require "minitest/reporters"
+require "minitest/skip_dsl"
 
-require_relative '../lib/customer'
+require_relative "../lib/customer"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -13,7 +14,7 @@ describe "Customer Wave 1" do
     street: "123 Main",
     city: "Seattle",
     state: "WA",
-    zip: "98101"
+    zip: "98101",
   }.freeze
 
   describe "#initialize" do
