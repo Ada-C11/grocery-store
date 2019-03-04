@@ -48,31 +48,32 @@ class Order
 
     def self.all
       @orders = []
-      CSV.open("./data/orders.csv").each do |row|
+      CSV.open("../data/orders.csv").each do |row|
         order_id = row[0].to_i
-          order_products = {}
-          row_products = row[1]
-          row_products = row_products.split(';')
-          row_products.each do |row_product|
-          row_product = row_product.split(':')
+        order_products = {}
+        row_products = row[1]
+        row_products = row_products.split(";")
+        row_products.each do |row_product|
+          row_product = row_product.split(":")
           product = { row_product[0] => row_product[1].to_f }
           order_products = order_products.merge(product)
-      end
-
-      # here replace CSV customer id w/customer object
-      customer_id = row[2].to_i
-      customer = Customer.find(customer_id)
-
-      order_status = row[3].to_s
-      final_status = ""
-      FULLFILLMENT_STATUS.each do |status|
-        if order_status.to_sym == status
-          final_status = status
         end
+
+        # here replace CSV customer id w/customer object
+        customer_id = row[2].to_i
+        customer = Customer.find(customer_id)
+
+        order_status = row[3].to_s
+        final_status = ""
+        FULLFILLMENT_STATUS.each do |status|
+          if order_status.to_sym == status
+            final_status = status
+          end
+        end
+        order = Order.new(order_id, order_products, customer, final_status)
+        @orders << order
       end
-      order = Order.new(order_id, order_products, customer, final_status)
-      @orders << order
+      return @orders
     end
-    return @orders
   end
 end

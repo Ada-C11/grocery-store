@@ -15,7 +15,7 @@ class Customer
 
   def self.all
     @customers = []
-    CSV.open("./data/customers.csv", "r").each do |row|
+    CSV.open("../data/customers.csv").each do |row|
       id = row[0].to_i
       email = row[1].to_s
       address = {

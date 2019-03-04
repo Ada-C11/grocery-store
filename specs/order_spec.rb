@@ -1,7 +1,7 @@
 require "minitest/autorun"
 require "minitest/reporters"
 require "minitest/skip_dsl"
-
+require "csv"
 require_relative "../lib/customer.rb"
 require_relative "../lib/order.rb"
 
