@@ -33,7 +33,7 @@ class Order
       id = line[0].to_i
       products = helper_csv_hash(line[1])
       customer = Customer.find(line[2].to_i)
-      fulfillment_status = line[3].to_sym
+      fulfillment_status = line[3] ? line[3].to_sym : line[3]
       orders_all << self.new(id, products, customer, fulfillment_status)
     end
     orders_all
