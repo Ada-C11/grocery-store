@@ -31,6 +31,14 @@ class Order
     end
   end
 
+  def remove_product(name)
+    if @products.keys.include?(name) == true
+      @products.delete(name)
+    else
+      raise ArgumentError, "This product not in the hash"
+    end
+  end
+
   def self.string_to_hash(string_products)
     array_string_products = string_products.split(";")
 
@@ -67,4 +75,13 @@ class Order
     end
     return nil
   end
+
+  #   def self.find_by_customer(customer_id)
+  #     self.all.each do |order_by_cust_id|
+  #       if order_by_cust_id.customer == customer_id
+  #         return order_by_cust_id
+  #       end
+  #       return nil
+  #     end
+  #   end
 end
