@@ -10,7 +10,7 @@ class Order
     @products = {}
     products.each { |product_name, price| @products[product_name] = price }
     @customer = customer
-    if fulfillment_status == :pending || fulfillment_status == :paid || fulfillment_status == :processing || fulfillment_status == :shipped || fulfillment_status == :complete
+    if [:pending, :paid, :processing, :shipped, :complete].any? { |status| status == fulfillment_status }
       @fulfillment_status = fulfillment_status
     else
       raise ArgumentError, "Fulfillment_status must be pending, paid, processing, shipped or complete."
