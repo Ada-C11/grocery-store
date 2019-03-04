@@ -4,14 +4,13 @@ class Order
   attr_accessor :products, :customer, :fulfillment_status
   attr_reader :id
 
-  FULLFILLMENT_STATUS = [:pending, :paid, :processing, :shipped, :complete]
-
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
-    if !FULLFILLMENT_STATUS.include?(@fulfillment_status)
+    fulfillment_status_array = [:pending, :paid, :processing, :shipped, :complete]
+    if !fulfillment_status_array.include?(@fulfillment_status)
       raise ArgumentError, "Invalid fulfillment_status"
     end
   end
