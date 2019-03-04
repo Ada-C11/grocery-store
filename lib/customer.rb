@@ -47,4 +47,20 @@ class Customer
     end
     return nil
   end
+
+  def self.save(filename)
+    customers = self.all
+    CSV.open(filename, "w") do |file|
+      customers.each do |customer|
+        row = []
+        row << customer.id.to_s
+        row << customer.email
+        row << customer.address[:street]
+        row << customer.address[:city]
+        row << customer.address[:state]
+        row << customer.address[:zip]
+        file << row
+      end
+    end
+  end
 end
