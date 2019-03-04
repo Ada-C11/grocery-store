@@ -30,7 +30,6 @@ class Order
   def add_product(name, price)
     # If a product with the same name has already been added to the order, an ArgumentError should be raised
     raise ArgumentError, "product already here" if @products.has_key?(name)
-    # || (price.is_a? Integer != true)
     @products[name] = price
   end
 
@@ -59,5 +58,10 @@ class Order
   def self.find(id)
     # returns an instance of Order where the value of the id field in the CSV matches the passed parameter
     Order.all.detect { |order| order.id == id }
+  end
+
+  def Order.find_by_customer(customer_id)
+    # returns a list of Order instances where the value of the customer's ID matches the passed parameter.
+    Order.all.select { |order| order.customer.id == customer_id }
   end
 end
