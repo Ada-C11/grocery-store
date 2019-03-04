@@ -1,9 +1,10 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
+require "minitest/autorun"
+require "minitest/reporters"
+require "minitest/skip_dsl"
+require "minitest/pride"
 
-require_relative '../lib/customer'
-require_relative '../lib/order'
+require_relative "../lib/customer"
+require_relative "../lib/order"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -13,7 +14,7 @@ describe "Order Wave 1" do
       street: "123 Main",
       city: "Seattle",
       state: "WA",
-      zip: "98101"
+      zip: "98101",
     }
     Customer.new(123, "a@a.co", address)
   end
@@ -52,7 +53,7 @@ describe "Order Wave 1" do
     end
 
     it "Raises an ArgumentError for bogus statuses" do
-      bogus_statuses = [3, :bogus, 'pending', nil]
+      bogus_statuses = [3, :bogus, "pending", nil]
       bogus_statuses.each do |fulfillment_status|
         expect {
           Order.new(1, {}, customer, fulfillment_status)
@@ -115,47 +116,72 @@ end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
+  let(:order) {
+    Order.all
+  }
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      expect(order).must_be_kind_of Array
     end
 
     it "Returns accurate information about the first order" do
-      id = 1
-      products = {
+      id1 = 1
+      products1 = {
         "Lobster" => 17.18,
         "Annatto seed" => 58.38,
-        "Camomile" => 83.21
+        "Camomile" => 83.21,
       }
-      customer_id = 25
-      fulfillment_status = :complete
+      customer_id1 = 25
+      fulfillment_status1 = :complete
 
-      order = Order.all.first
+      order_first = order.first
 
       # Check that all data was loaded as expected
-      expect(order.id).must_equal id
-      expect(order.products).must_equal products
-      expect(order.customer).must_be_kind_of Customer
-      expect(order.customer.id).must_equal customer_id
-      expect(order.fulfillment_status).must_equal fulfillment_status
+      expect(order_first.id).must_equal id1
+      expect(order_first.products).must_equal products1
+      expect(order_first.customer).must_be_kind_of Customer
+      expect(order_first.customer.id).must_equal customer_id1
+      expect(order_first.fulfillment_status).must_equal fulfillment_status1
     end
 
     it "Returns accurate information about the last order" do
       # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63,
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+      order_last = order.last
+      # Check that all data was loaded as expected
+      expect(order_last.id).must_equal id
+      expect(order_last.products).must_equal products
+      expect(order_last.customer).must_be_kind_of Customer
+      expect(order_last.customer.id).must_equal customer_id
+      expect(order_last.fulfillment_status).must_equal fulfillment_status
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+      first = Order.find(1)
+      expect(first).must_be_instance_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
+      last = Order.find(100)
+      expect(last).must_be_instance_of Order
+      expect(last.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
+      expect(Order.find(234234)).must_be_nil
     end
   end
 end
