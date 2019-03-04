@@ -116,10 +116,8 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      #Arrange
       orders = Order.all
 
-      #Act
       expect(orders).must_be_kind_of Array
       expect(orders.length).must_equal 100
       orders.each do |order|
