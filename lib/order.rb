@@ -74,4 +74,28 @@ class Order
     end
     return nil
   end
+
+  def self.save(filename)
+    orders = self.all
+    CSV.open(filename, "w") do |file|
+      orders.each do |order|
+        row = []
+        row << order.id
+        product_string = ""
+        i = 1
+        order.products.keys.each do |product|
+          if order.products.keys.length == i
+            product_string << "#{product}:" + "#{order.products[product]}"
+          else # Avoids adding semicolon to last item
+            product_string << "#{product}:" + "#{order.products[product]};"
+            i += 1
+          end
+        end
+        row << product_string
+        row << order.customer.id
+        row << order.fulfillment_status.to_s
+        file << row
+      end
+    end
+  end
 end
