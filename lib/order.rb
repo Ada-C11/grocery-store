@@ -12,7 +12,7 @@ class Order
         @customer = customer
         @fulfillment_status = fulfillment_status
 
-        status = [:paid, :processing, :shippped, :complete, :pending]
+        status = [:paid, :processing, :shipped, :complete, :pending]
         if !status.include?(fulfillment_status)
             raise ArgumentError, "No valid fulfillment status given."
         end
