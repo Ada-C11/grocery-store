@@ -49,4 +49,10 @@ class Order
     end
     return hash
   end
+
+  def self.find(id, orders = Order.all)
+    return orders.find(ifnone = nil) do |order|
+             order.id == id
+           end
+  end
 end

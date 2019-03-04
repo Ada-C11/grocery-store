@@ -26,8 +26,7 @@ class Customer
     return customers_all
   end
 
-  def self.find(id)
-    customers = self.all
+  def self.find(id, customers = self.all)
     return customers.find(ifnone = nil) do |customer|
              customer.id == id
            end
