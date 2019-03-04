@@ -214,4 +214,14 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Can return list of orders" do
+      found = Order.find_by_customer(20)
+
+      expect(found.last).must_be_kind_of Order
+      expect(found.first).must_be_kind_of Order
+      expect(found).must_be_kind_of Array
+    end
+  end
 end

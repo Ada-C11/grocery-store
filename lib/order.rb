@@ -84,16 +84,16 @@ class Order
     return nil
   end
 
-  def self.find_by_customer
+  def self.find_by_customer(customer_id)
     all_order_info = Order.all
-    return all_order_info
 
+    customer_order = []
     all_order_info.each do |order|
-      customer_order = []
-      if order.customer == customer_id
-        customer_order << order.products
+      if order.customer.id == customer_id
+        customer_order.push(order)
       end
     end
+    # What are lists? Is an array considered a list?
     return customer_order
   end
 end
