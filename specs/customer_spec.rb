@@ -1,8 +1,9 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
+require "minitest/autorun"
+require "minitest/reporters"
+require "minitest/skip_dsl"
+require "awesome_print"
 
-require_relative '../lib/customer'
+require_relative "../lib/customer"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -13,7 +14,7 @@ describe "Customer Wave 1" do
     street: "123 Main",
     city: "Seattle",
     state: "WA",
-    zip: "98101"
+    zip: "98101",
   }.freeze
 
   describe "#initialize" do
@@ -32,7 +33,6 @@ describe "Customer Wave 1" do
   end
 end
 
-# TODO: remove the 'x' in front of this block when you start wave 2
 describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
@@ -72,6 +72,37 @@ describe "Customer Wave 2" do
 
     it "Returns nil for a customer that doesn't exist" do
       expect(Customer.find(53145)).must_be_nil
+    end
+  end
+end
+# tests for Optional Customer Wave 3
+describe "Optional: Customer Wave 3" do
+  describe "Customer.save" do
+    it "saves the first customer from the data/customers.csv file" do
+      Customer.save("test_customer_file.csv")
+      test_first_customer = CSV.read("test_customer_file.csv")[0]
+      test_first_customer_email = test_first_customer[1]
+      expect(test_first_customer_email).must_equal "leonard.rogahn@hagenes.org"
+    end
+
+    it "saves the last customer from the data/customers.csv file" do
+      Customer.save("test_customer_file.csv")
+      test_last_customer = CSV.read("test_customer_file.csv").last
+      test_last_customer_email = test_last_customer[1]
+      expect(test_last_customer_email).must_equal "rogers_koelpin@oconnell.org"
+    end
+
+    it "saves the same format as the original file" do
+      Customer.save("test_customer_file.csv")
+      test_array = CSV.open("test_customer_file.csv", "r").map do |test_file_line|
+        test_file_line
+      end
+
+      file_array = CSV.open("data/customers.csv", "r").map do |file_line|
+        file_line
+      end
+
+      expect(test_array).must_equal file_array
     end
   end
 end
