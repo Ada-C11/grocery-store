@@ -47,16 +47,6 @@ class Order
            end
   end
 
-  def self.get_products_from_csv(product_column) # product_column is a string. Ex: "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
-    products_hash = {}
-    products = product_column.split(";") # products is an array: ["Lobster:17.18", "Annatto seed:58.38", "Camomile:83.21"]
-    products.each do |product| # product is a string: "Lobster:17.18"
-      each_product = product.split(":") # each_product is an array: ["Lobster", "17.18"]
-      products_hash[each_product[0]] = each_product[1].to_f
-    end
-    return products_hash
-  end
-
   def self.find(id)
     self.all.find { |order| order.id == id }
   end
@@ -67,6 +57,7 @@ class Order
              order.customer.id == customer_id
            end
   end
+
   # Optional Wave 3
   def self.save(file_name)
     CSV.open(file_name, "w") do |file|
@@ -74,5 +65,17 @@ class Order
         file << line
       end
     end
+  end
+
+  private
+
+  def self.get_products_from_csv(product_column) # product_column is a string. Ex: "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
+    products_hash = {}
+    products = product_column.split(";") # products is an array: ["Lobster:17.18", "Annatto seed:58.38", "Camomile:83.21"]
+    products.each do |product| # product is a string: "Lobster:17.18"
+      each_product = product.split(":") # each_product is an array: ["Lobster", "17.18"]
+      products_hash[each_product[0]] = each_product[1].to_f
+    end
+    return products_hash
   end
 end
