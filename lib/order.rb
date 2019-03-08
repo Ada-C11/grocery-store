@@ -1,5 +1,3 @@
-require "pry"
-
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
