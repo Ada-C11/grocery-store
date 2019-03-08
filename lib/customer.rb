@@ -1,6 +1,5 @@
 # customer.rb
 require "csv"
-require "pry"
 
 # Create a class called Customer.
 class Customer
