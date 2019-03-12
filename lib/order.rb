@@ -1,5 +1,5 @@
 require "csv"
-require_relative "../lib/customer.rb"
+require_relative "customer"
 
 class Order
   include Comparable
@@ -50,7 +50,7 @@ class Order
   def self.all
     @orders = []
 
-    CSV.open("../data/orders.csv").each do |row|
+    CSV.open("data/orders.csv").each do |row|
       order_id = row[0].to_i
       order_products = {}
       row_products = row[1]
