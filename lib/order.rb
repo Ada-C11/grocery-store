@@ -77,4 +77,32 @@ class Order
     end
     return @orders
   end
+
+  # added helper methods
+  def self.find_order(id)
+    @orders = Order.all
+    @orders.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
+  end
+
+  def self.find_order_by_customer(customer_id)
+    @customer_orders = []
+    @orders = Order.all
+    customer_id = Order.find_order(customer_id)
+    @orders.each do |order|
+      if order.customer.id == customer_id.id
+        @customer_orders << order
+      end
+    end
+    puts "Customer \##{customer_id.id}, Order IDs:\n"
+    count = 1
+    @customer_orders.each do |order|
+      puts "#{count}. #{order.id}"
+      count += 1
+    end
+  end
 end
