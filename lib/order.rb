@@ -78,7 +78,7 @@ class Order
     return @orders
   end
 
-  # added helper methods
+  # method to find order
   def self.find_order(id)
     @orders = Order.all
     @orders.each do |order|
@@ -89,6 +89,7 @@ class Order
     return nil
   end
 
+  # method to find order by customer id
   def self.find_order_by_customer(customer_id)
     @customer_orders = []
     @orders = Order.all
