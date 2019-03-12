@@ -117,7 +117,12 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      orders = Order.all
+
+      expect(orders.length).must_equal 100
+      orders.each do |x|
+        expect(x).must_be_kind_of Order
+      end
     end
 
     it "Returns accurate information about the first order" do
