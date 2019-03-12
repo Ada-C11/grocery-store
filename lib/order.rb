@@ -64,9 +64,9 @@ class Order
     CSV.open("data/orders.csv", "r").each do |line|
       id = line[0].to_i
       products = Order.hashify(line[1])
-      customer_id = Customer.find(line[2].to_i)
+      customer = Customer.find(line[2].to_i)
       fulfillment_status = line[3].to_sym
-      instance_of_order = Order.new(id, products, customer_id, fulfillment_status)
+      instance_of_order = Order.new(id, products, customer, fulfillment_status)
       all_orders << instance_of_order
     end
     return all_orders

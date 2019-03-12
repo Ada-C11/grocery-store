@@ -117,7 +117,9 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      @orders = Order.all
+
+      expect(@orders).must_be_kind_of Array
     end
 
     it "Returns accurate information about the first order" do
@@ -127,7 +129,7 @@ describe "Order Wave 2" do
         "Annatto seed" => 58.38,
         "Camomile" => 83.21
       }
-      customer_id = 25
+      customer = 25
       fulfillment_status = :complete
 
 
@@ -137,7 +139,7 @@ describe "Order Wave 2" do
       expect(order.id).must_equal id
       expect(order.products).must_equal products
       expect(order.customer).must_be_kind_of Customer
-      expect(order.customer.id).must_equal customer_id
+      expect(order.customer.id).must_equal customer
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
@@ -148,7 +150,7 @@ describe "Order Wave 2" do
         "Smoked Trout"=>70.6, 
         "Cheddar"=>5.63
       }
-      customer_id = 20
+      customer = 20
       fulfillment_status = :pending
 
       order = Order.all.last
@@ -157,7 +159,7 @@ describe "Order Wave 2" do
       expect(order.id).must_equal id
       expect(order.products).must_equal products
       expect(order.customer).must_be_kind_of Customer
-      expect(order.customer.id).must_equal customer_id
+      expect(order.customer.id).must_equal customer
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
   end
