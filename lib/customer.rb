@@ -1,8 +1,6 @@
 require "csv"
 
 class Customer
-  include Comparable
-
   attr_reader :id
   attr_accessor :email, :address
 
@@ -30,7 +28,7 @@ class Customer
                      zip: row[5] }
       all_customers << Customer.new(row_id, row_email, row_address)
     end
-    return all_customers
+    return all_customers.sort
   end
 
   # Returns a Customer object with matching ID. If no matches are found, returns nil.

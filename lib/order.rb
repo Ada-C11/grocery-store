@@ -3,8 +3,6 @@ require "csv"
 require_relative "../lib/customer.rb"
 
 class Order
-  include Comparable
-
   attr_reader :id
   attr_accessor :customer, :fulfillment_status, :products
 
@@ -66,13 +64,9 @@ class Order
       row_products = Order.parse_products(row[1])
       row_customer = Customer.find(row[2].to_i)
       row_status = row[3] ? row[3].to_sym : nil
-      if row_status
-        all_orders << Order.new(row_id, row_products, row_customer, row_status)
-      else
-        all_orders << Order.new(row_id, row_products, row_customer)
-      end
+      all_orders << Order.new(row_id, row_products, row_customer, row_status)
     end
-    return all_orders
+    return all_orders.sort
   end
 
   # Returns an Order object with matching ID. If no matches are found, returns nil.
